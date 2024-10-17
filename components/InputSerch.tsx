@@ -34,13 +34,13 @@ const InputSearch = () => {
     }
 
     return (
-        <div className="bg-primary px-2 py-4">
+        <div className="bg-primary px-2 py-4 border-b">
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="flex items-center">
                     <div className="flex w-full gap-2">
                         <Sheet>
                             <SheetTrigger asChild>
-                                <Button size={"icon"} variant={"link"} className="rounded-none text-background" asChild>
+                                <Button size={"icon"} variant={"link"} className="rounded-none text-secondary-foreground" asChild>
                                     <MenuIcon />
                                 </Button>
                             </SheetTrigger>
@@ -55,7 +55,7 @@ const InputSearch = () => {
                             render={({ field }) => (
                                 <FormItem className="w-full">
                                     <FormControl>
-                                        <Input className="bg-background rounded-sm"
+                                        <Input className="bg-background rounded-xl"
                                             placeholder="Buscar por serviços"
                                             {...field}
                                         />
@@ -64,7 +64,7 @@ const InputSearch = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button className="p-3 rounded-sm bg-background">
+                        <Button className="p-3 rounded-xl bg-background">
                             <SearchIcon className="text-muted-foreground" />
                         </Button>
                     </div>

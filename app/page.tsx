@@ -13,8 +13,8 @@ const Home = async () => {
     <div>
       <InputSearch />
 
-      <div className="p-5">
-        <h2 className="text-lg font-semibold text-primary">
+      <div className="p-5 border-b">
+        <h2 className="text-lg font-semibold">
           Olá, Seja bem vindo!
         </h2>
         <p className="text-sm">
@@ -22,13 +22,9 @@ const Home = async () => {
         </p>
       </div>
 
-      <div className="border-b border-primary flex justify-center">
-
-      </div>
-
-      <div className="px-14 p-5 space-y-7">
+      <div className="px-10 p-5 space-y-7">
         {categorys.map((category) => (
-          <CategoryItem category={category} />
+          <CategoryItem key={category.id} category={category} />
         ))}
       </div>
     </div>
