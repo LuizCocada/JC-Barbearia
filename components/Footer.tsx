@@ -4,9 +4,9 @@ import { Card, CardContent } from "./ui/card"
 const Footer = () => {
     return (
         <footer>
-            <Card className="rounded-none border-t">
+            <Card className="rounded-none border-t bg-popover border-none">
                 <CardContent className="ritems-center px-2 py-3">
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-sm text-muted">
                         © 2024 Copyright <span className="font-semibold">AncoSystem</span>
                     </p>
                 </CardContent>

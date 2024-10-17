@@ -11,7 +11,7 @@ const CategoryItem = ({ category }: CategoryItemProps) => {
     return (
         <div>
             <Link href={`/services/${category.id}`}>
-                <Card className="rounded-3xl border-none shadow-xl">
+                <Card className="rounded-3xl border-none shadow-2xl">
                     <CardContent className="bg-primary rounded-3xl py-0">
                         <div className="flex flex-col justify-center items-center h-[160px] ">
                             <Image src={"/cabelo.svg"} width={150} height={150} alt={"icone de cabelo"} />

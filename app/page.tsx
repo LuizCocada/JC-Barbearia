@@ -1,5 +1,5 @@
 import CategoryItem from "@/components/CategoryItem";
-import InputSearch from "@/components/InputSerch";
+import HeaderInputSearch from "@/components/HeaderInputSerch";
 import { Card, CardContent } from "@/components/ui/card";
 import { db } from "@/lib/prisma";
 import Image from "next/image";
@@ -11,16 +11,7 @@ const Home = async () => {
 
   return (
     <div>
-      <InputSearch />
-
-      <div className="p-5 border-b">
-        <h2 className="text-lg font-semibold">
-          Olá, Seja bem vindo!
-        </h2>
-        <p className="text-sm">
-          Quarta, 16 de Outubro
-        </p>
-      </div>
+      <HeaderInputSearch />
 
       <div className="px-10 p-5 space-y-7">
         {categorys.map((category) => (

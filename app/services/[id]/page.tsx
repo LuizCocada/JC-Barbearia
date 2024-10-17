@@ -1,36 +1,28 @@
 
-
-import InputSearch from "@/components/InputSerch";
+import SheetComponent from "@/components/SheetComponent";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft } from "lucide-react";
-import Image from "next/image";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { ChevronLeft, MenuIcon } from "lucide-react";
 import Link from "next/link";
 
 const Services = () => {
     return (
         <div>
-            <InputSearch />
-            <div className="flex flex-col min-h-screen bg-muted">
-                <div className="absolute top-20 left-4">
+            <Card className="rounded-none border-none text-background bg-foreground">
+                <CardContent className="flex items-center justify-between p-5">
                     <Link href={"/"}>
-                        <Button size={"icon"} className="bg-muted">
+                        <Button size={"icon"} className="bg-popover text-secondary rounded-lg p-1" asChild>
                             <ChevronLeft />
                         </Button>
                     </Link>
-                </div>
-                <div className="bg-primary w-full flex justify-center">
-                    <Image
-                        src={"/cabelo.svg"} width={260} height={260} className="object-cover"
-                        alt={"imagem cabelo"}
-                    />
-                </div>
+                    <h2 className="text-xl font-semibold">Cortes</h2>
+                    <SheetComponent />
+                </CardContent>
+            </Card>
 
-                <Card className="flex flex-1 rounded-none mt-2 rounded-t-xl border-t">
-                    <CardContent>
-                        
-                    </CardContent>
-                </Card>
+            <div className="">
+
             </div>
         </div>
     );

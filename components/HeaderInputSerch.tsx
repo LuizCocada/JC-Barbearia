@@ -3,12 +3,13 @@
 import { z } from "zod";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
-import { MenuIcon, SearchIcon } from "lucide-react";
+import { Calendar, MenuIcon, SearchIcon, SearchXIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
 import { Sheet, SheetContent, SheetTrigger } from "./ui/sheet";
+import SheetComponent from "./SheetComponent";
 
 
 const formSchema = z.object({
@@ -18,7 +19,7 @@ const formSchema = z.object({
 })
 
 
-const InputSearch = () => {
+const HeaderInputSearch = () => {
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -34,28 +35,29 @@ const InputSearch = () => {
     }
 
     return (
-        <div className="bg-primary px-2 py-4 border-b">
+        <div className="p-3 pb-6 text-background bg-foreground">
+            <div className="py-3 px-2 flex justify-between">
+                <div>
+                    <h2 className="text-lg font-semibold">
+                        Olá, Seja bem vindo!
+                    </h2>
+                    <p className="text-sm flex gap-2 items-center">
+                        <Calendar size={15} className="text-primary" />
+                        Quarta, 16 de Outubro
+                    </p>
+                </div>
+                <SheetComponent />
+            </div>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(handleSubmit)} className="flex items-center">
-                    <div className="flex w-full gap-2">
-                        <Sheet>
-                            <SheetTrigger asChild>
-                                <Button size={"icon"} variant={"link"} className="rounded-none text-secondary-foreground" asChild>
-                                    <MenuIcon />
-                                </Button>
-                            </SheetTrigger>
-                            <SheetContent side={"left"}>
-
-                            </SheetContent>
-                            {/* Criar component MenuContent */}
-                        </Sheet>
+                    <div className="flex w-full mx-5 rounded-xl">
                         <FormField
                             control={form.control}
                             name="title"
                             render={({ field }) => (
                                 <FormItem className="w-full">
                                     <FormControl>
-                                        <Input className="bg-background rounded-xl"
+                                        <Input className="bg-popover border-none p-6 rounded-xl rounded-r-none"
                                             placeholder="Buscar por serviços"
                                             {...field}
                                         />
@@ -64,7 +66,7 @@ const InputSearch = () => {
                                 </FormItem>
                             )}
                         />
-                        <Button className="p-3 rounded-xl bg-background">
+                        <Button className="p-6 rounded-xl bg-popover border-none rounded-l-none">
                             <SearchIcon className="text-muted-foreground" />
                         </Button>
                     </div>
@@ -74,6 +76,6 @@ const InputSearch = () => {
     );
 }
 
-export default InputSearch;
+export default HeaderInputSearch;
 
 
