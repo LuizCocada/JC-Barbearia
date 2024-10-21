@@ -4,24 +4,34 @@ import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "@/constants/search";
+import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
+import DialogContentLogin from "./DialogContentLogin";
 
 const MenuSheetContent = () => {
     return (
-        <SheetContent side={"right"} className="bg-background">
-                <SheetHeader>
-                    <SheetTitle className="text-left">
-                        Menu
-                    </SheetTitle>
-                </SheetHeader>
+        <SheetContent side={"right"} className="bg-background rounded-l-3xl">
+            <SheetHeader>
+                <SheetTitle className="text-left">
+                    Menu
+                </SheetTitle>
+            </SheetHeader>
 
-                <div className="flex justify-between items-center border-b-[0.1px] py-5">
-                    <h2 className="font-bold text-lg ">
-                        Faça seu login!
-                    </h2>
-                    <Button className="rounded-xl" size="icon">
-                        <LogInIcon style={{ width: '24px', height: '24px' }} />
-                    </Button>
-                </div>
+            <div className="flex justify-between items-center border-b-[0.1px] py-5">
+                <h2 className="font-bold text-lg ">
+                    Faça seu login!
+                </h2>
+
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button className="rounded-xl" size="icon">
+                            <LogInIcon style={{ width: '24px', height: '24px' }} />
+                        </Button>
+                    </DialogTrigger>
+                    <DialogContent className="w-[90%] rounded-2xl">
+                        <DialogContentLogin />
+                    </DialogContent>
+                </Dialog>
+            </div>
 
 
             <div className="p-5 flex flex-col gap-5 border-b-[0.1px]">
