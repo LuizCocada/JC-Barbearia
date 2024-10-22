@@ -30,7 +30,7 @@ const Services = async ({ params }: ServicesParams) => {
     return (
         <div>
             {services.length > 0 &&
-                <HeaderPageServices category={services[0].category}
+                <HeaderPageServices category={services[0].category} //se quebrar use o .map()
                 />
             }
             <div className="relative w-full h-[250px]">

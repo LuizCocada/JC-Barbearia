@@ -1,36 +1,59 @@
-import { CalendarIcon, HomeIcon, LogInIcon } from "lucide-react";
+'use client'
+
+import { CalendarIcon, HomeIcon, LogInIcon, LogOutIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "@/constants/search";
 import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
-import DialogContentLogin from "./DialogContentLogin";
+import DialogContentLogin from "./LoginDialog";
+import { signOut, useSession } from "next-auth/react";
+import { Avatar, AvatarImage } from "./ui/avatar";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 
 const MenuSheetContent = () => {
+
+    const { data } = useSession()
+    const handleLogOutGoogle = () => signOut()
+
     return (
-        <SheetContent side={"right"} className="bg-background rounded-l-3xl">
+        <SheetContent side={"right"} className="bg-background rounded-l-3xl overflow-y-auto">
             <SheetHeader>
                 <SheetTitle className="text-left">
                     Menu
                 </SheetTitle>
             </SheetHeader>
 
-            <div className="flex justify-between items-center border-b-[0.1px] py-5">
-                <h2 className="font-bold text-lg ">
-                    Faça seu login!
-                </h2>
+            <div className="flex items-center justify-between gap-3 border-b py-5">
+                {/* se existir usuario logado rederiza o componente de cima, senao o componente d`baixo */}
+                {data?.user ? (
+                    <div className="flex items-center gap-2">
+                        <Avatar className="items-center border-2 border-primary">
+                            <AvatarImage src={data.user.image ?? ""} />
+                        </Avatar>
 
-                <Dialog>
-                    <DialogTrigger asChild>
-                        <Button className="rounded-xl" size="icon">
-                            <LogInIcon style={{ width: '24px', height: '24px' }} />
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent className="w-[90%] rounded-2xl">
-                        <DialogContentLogin />
-                    </DialogContent>
-                </Dialog>
+                        <div>
+                            <h2 className="font-bold">{data.user.name}</h2>
+                            <p>{data.user.email}</p>
+                        </div>
+                    </div>
+                ) : (
+                    <>
+                        <h2 className="font-bold text-lg">Ola. Faça seu login!</h2>
+
+                        <Dialog>
+                            <DialogTrigger asChild>
+                                <Button className="rounded" size="icon">
+                                    <LogInIcon />
+                                </Button>
+                            </DialogTrigger>
+                            <DialogContent className="w-[90%]">
+                                <DialogContentLogin />
+                            </DialogContent>
+                        </Dialog>
+                    </>
+                )}
             </div>
 
 
@@ -44,12 +67,14 @@ const MenuSheetContent = () => {
                         </Link>
                     </Button>
                 </SheetClose>
-                <Button className="rounded-xl justify-start gap-2" variant="secondary" asChild>
-                    <Link href={""} className="font-semibold">
-                        <CalendarIcon style={{ width: '18px', height: '18px' }} />
-                        Agendamentos
-                    </Link>
-                </Button>
+                <SheetClose asChild>
+                    <Button className="rounded-xl justify-start gap-2" variant="secondary" asChild>
+                        <Link href={""} className="font-semibold">
+                            <CalendarIcon style={{ width: '18px', height: '18px' }} />
+                            Meus Agendamentos
+                        </Link>
+                    </Button>
+                </SheetClose>
             </div>
 
             <div className="p-5 flex flex-col gap-5 border-b-[0.1px]">
@@ -64,6 +89,32 @@ const MenuSheetContent = () => {
                     </SheetClose>
                 ))}
             </div>
+
+            {data?.user && (
+                <div className="pt-7 px-5">
+                    <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                            <Button className="rounded-xl flex gap-2 border-none shadow-none" variant="outline">
+                                <LogOutIcon />
+                                Sair da conta
+                            </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent className="w-[90%]">
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Sair da Plataforma</AlertDialogTitle>
+                                <AlertDialogDescription>Deseja mesmo sair da plataforma?</AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className="rounded-xl">Cancelar</AlertDialogCancel>
+                                <AlertDialogAction
+                                    className="rounded-xl bg-destructive" onClick={handleLogOutGoogle}>
+                                    Sair
+                                </AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </div>
+            )}
         </SheetContent>
     );
 }

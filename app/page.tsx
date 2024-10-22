@@ -10,14 +10,6 @@ const Home = async () => {
   return (
     <div className="">
       <HeaderInputSearch />
-      <div className="relative w-full h-[250px]">
-                <Image
-                    src="/banner.jpg"
-                    alt="banner"
-                    fill
-                    className="object-cover"
-                />
-            </div>
       <div className="px-10 p-5 space-y-7">
         {categorys.map((category) => (
           <CategoryItem key={category.id} category={category} />

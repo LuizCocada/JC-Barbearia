@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google"
 import "./globals.css";
 import Footer from "@/components/Footer";
+import AuthProvider from "@/providers/auth";
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -18,12 +19,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className} antialiased`}>
-        {/* authprovider */}
-        <div className="h-full flex flex-col">
-          <div className="flex-1">{children}</div>
-          <Footer />
-        </div>
-        {/* authprovider */}
+        <AuthProvider>
+          <div className="h-full flex flex-col">
+            <div className="flex-1">{children}</div>
+            <Footer />
+          </div>
+        </AuthProvider>
         {/* Toaster */}
       </body>
     </html>
