@@ -33,18 +33,18 @@ const Services = async ({ params }: ServicesParams) => {
                 <HeaderPageServices category={services[0].category} //se quebrar use o .map()
                 />
             }
-            <div className="relative w-full h-[250px]">
+            {/* <div className="relative w-full h-[250px]">
                 <Image
                     src="/banner.jpg"
                     alt="banner"
                     fill
                     className="object-cover"
                 />
-            </div>
+            </div> */}
 
             <div className="p-5 border-b-[0.1px] space-y-3">
                 <h3 className="text- font-semibold">Observações</h3>
-                <p className="text-sm text-justify">Trabalhamos com horários fixos, porém, dependendo do estilo de corte e/ou problemas externos, pode ocorrer variações de hórarios</p>
+                <p className="text-sm text-justify">Trabalhamos com horários fixos, porém, dependendo do estilo de corte e/ou problemas externos, podem ocorrer variações de hórarios</p>
             </div>
 
             <div className="p-5 border-b-[0.1px] space-y-3">

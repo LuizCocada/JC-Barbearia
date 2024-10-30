@@ -1,0 +1,95 @@
+'use client'
+
+import Image from "next/image";
+import { Card, CardContent } from "./ui/card";
+import { Button } from "./ui/button";
+import { Service } from "@prisma/client";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
+import { ptBR } from "date-fns/locale";
+import { Calendar } from "./ui/calendar";
+
+interface ServiceItemProps {
+    service: Service
+}
+
+
+const ServiceItem = ({ service }: ServiceItemProps) => {
+    return (
+        <Card className="rounded-xl bg-muted-foreground">
+            <CardContent className="flex items-center gap-3 p-3">
+                <div className="relative max-h-[110px] min-h-[110px] max-w-[110px] min-w-[110px]">
+                    <Image alt={"alt"} src={"/bannerYellow.png"} fill className="object-cover rounded-lg" />
+                </div>
+
+                <div className="space-y-2 flex-1">
+                    <div>
+                        <h3 className="font-semibold text-sm text-background">{service.name}</h3>
+                        <p className="text-sm text-gray-300">{service.description}</p>
+                    </div>
+
+                    <div className="space-y-2">
+                        <p className="text-sm font-bold text-primary">
+                            {Intl.NumberFormat("pt-BR", {
+                                style: 'currency',
+                                currency: 'BRL'
+                            }).format(Number(service.price))}
+                        </p>
+                        <Sheet>
+                            <Button className="rounded-xl" variant="secondary" size="sm"
+                            >
+                                Reservar
+                            </Button>
+                            <SheetContent className="overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                                <SheetHeader>
+                                    <SheetTitle>Fazer Reserva</SheetTitle>
+                                </SheetHeader>
+
+                                <div className="border-b border-solid py-5">
+                                    <Calendar
+                                        mode={"single"}
+                                        locale={ptBR}
+                                        // selected={selectedDay}
+                                        // onSelect={handleSelectDay}
+                                        fromDate={new Date()}//nao permite agendar no dia anterior à o presente. 
+                                        styles={{
+                                            head_cell: {
+                                                width: "100%",
+                                                textTransform: "capitalize",
+                                            },
+                                            cell: {
+                                                width: "100%",
+                                            },
+                                            button: {
+                                                width: "100%",
+                                            },
+                                            nav_button_previous: {
+                                                width: "32px",
+                                                height: "32px",
+                                            },
+                                            nav_button_next: {
+                                                width: "32px",
+                                                height: "32px",
+                                            },
+                                            caption: {
+                                                textTransform: "capitalize",
+                                            },
+                                        }}
+                                    //STYLES NESTE CASO APENAS PARA TELAS PEQUENAS, ONDE OCUPA 100% DO ESPAÇO, EM TELAS GRANDES ELE QUEBRA, `POSTERIORMENTE FAZER PARA TELAS GRANDES.`
+                                    />
+                                </div>
+                            </SheetContent>
+                        </Sheet>
+
+                    </div>
+                </div>
+            </CardContent>
+        </Card>
+    );
+}
+
+export default ServiceItem;
+
+
+<Button className="rounded-xl font-semibold w-full" size="sm">
+                            Reservar
+                        </Button>

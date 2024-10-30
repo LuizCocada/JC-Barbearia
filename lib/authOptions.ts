@@ -27,10 +27,10 @@ export const authOptions: AuthOptions = {
     },
     async session({ session, token }) {
       session.user.id = token.id;
-      return session; // retornando o id do usuario (que é um token) para a sessao permitindo tratar os agendamentos em lados do client e servidor.
+      return session;
     },
   },
-  secret: process.env.NEXT_AUTH_SECRET, //isto para validação em produção
+  secret: process.env.AUTH_SECRET, //isto para validação em produção
 };
 
 //Geralmente precisariamos setar o id do usuario que vem de SESSION como ANY para burlar a typagem do typescript, mas como fizemos a tipagem no arquivo types/next-auth.d.ts, não precisamos fazer isso.
