@@ -114,7 +114,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
     const handleCreateBooking = async () => {
         try {
-            if (!selectedDate) return
+            if (!selectedDate || !data?.user) return
 
             selectedDate //retorna o dia selecionado e seta o horario escolhido.
 

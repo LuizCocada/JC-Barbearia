@@ -17,6 +17,8 @@ const MenuSheetContent = () => {
     const { data } = useSession()
     const handleLogOutGoogle = () => signOut()
 
+    console.log(data)
+
     return (
         <SheetContent side={"right"} className="bg-background rounded-l-3xl overflow-y-auto">
             <SheetHeader>
@@ -28,19 +30,21 @@ const MenuSheetContent = () => {
             <div className="flex items-center justify-between gap-3 border-b py-5">
                 {/* se existir usuario logado rederiza o componente de cima, senao o componente d`baixo */}
                 {data?.user ? (
-                    <div className="flex items-center gap-2">
-                        <Avatar className="items-center border-2 border-primary">
-                            <AvatarImage src={data.user.image ?? ""} />
-                        </Avatar>
-
+                    <div className="flex items-center gap-2 px-3">
+                        {data.user.image && (
+                            <Avatar className="items-center border-2 border-primary">
+                                <AvatarImage src={data.user.image ?? ""} />
+                            </Avatar>
+                        )}
                         <div>
                             <h2 className="font-bold">{data.user.name}</h2>
                             <p>{data.user.email}</p>
+                            {data?.user.telephone && <p>Telefone: {data.user.telephone}</p>}
                         </div>
                     </div>
                 ) : (
                     <>
-                        <h2 className="font-bold text-lg">Ola. Faça seu login!</h2>
+                        <h2 className="font-bold text-lg">Faça seu login e agende conosco!</h2>
 
                         <Dialog>
                             <DialogTrigger asChild>
@@ -69,7 +73,7 @@ const MenuSheetContent = () => {
                 </SheetClose>
                 <SheetClose asChild>
                     <Button className="rounded-xl justify-start gap-2" variant="secondary" asChild>
-                        <Link href={""} className="font-semibold">
+                        <Link href={"/bookings"} className="font-semibold">
                             <CalendarIcon style={{ width: '18px', height: '18px' }} />
                             Meus Agendamentos
                         </Link>
@@ -107,7 +111,7 @@ const MenuSheetContent = () => {
                             <AlertDialogFooter>
                                 <AlertDialogCancel className="rounded-xl">Cancelar</AlertDialogCancel>
                                 <AlertDialogAction
-                                    className="rounded-xl bg-destructive" onClick={handleLogOutGoogle}>
+                                    className="rounded-xl bg-destructive text-background" onClick={handleLogOutGoogle}>
                                     Sair
                                 </AlertDialogAction>
                             </AlertDialogFooter>

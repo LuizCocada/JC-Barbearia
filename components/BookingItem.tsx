@@ -48,7 +48,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         <>
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger className="cursor-pointer" asChild>
-                    <div className="min-w-[90%]">
+                    <div className="min-w-[80%]">
                         <Card className="rounded-3xl bg-primary border-none">
                             <CardContent className="flex justify-between p-0">
                                 <div className="flex flex-col gap-2 py-5 pl-5">
@@ -73,7 +73,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                         </Card>
                     </div>
                 </SheetTrigger>
-                <SheetContent className="min-w-[90%] bg-background p-0" side={"bottom"}>
+                <SheetContent className="min-w-[90%] bg-background p-0 rounded-t-3xl" side={"bottom"}>
                     <SheetHeader className="border-b">
                         <SheetTitle className="p-5 items-center">Informações da Reserva</SheetTitle>
                     </SheetHeader>
@@ -108,7 +108,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                                                 Cancelar Reserva
                                             </Button>
                                         </AlertDialogTrigger>
-                                        <AlertDialogContent className="w-[90%] flex flex-col">
+                                        <AlertDialogContent className="w-[90%] flex flex-col rounded-xl">
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Cancelar Reserva</AlertDialogTitle>
                                                 <AlertDialogDescription>
@@ -121,7 +121,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                                                         Voltar
                                                     </AlertDialogCancel>
                                                     <AlertDialogAction
-                                                        className="m-0 w-full rounded-xl"
+                                                        className="m-0 w-full rounded-xl bg-destructive text-background"
                                                         onClick={handleCancelBooking}
                                                     >
                                                         Confirmar

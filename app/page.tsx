@@ -9,12 +9,10 @@ import Image from "next/image";
 
 const Home = async () => {
 
-  const session = await getServerSession(authOptions) 
-
+  const session = await getServerSession(authOptions)
   const categorys = await db.category.findMany({})
 
   const ConfirmedBookings = await GetConfirmedBookings()
-
 
   return (
     <div>
@@ -46,9 +44,11 @@ const Home = async () => {
         }
       </div>
 
-      <h2 className="text-xs font-bold mt-6 px-5 ">
-        CATEGORIAS
-      </h2>
+      <div className="flex justify-center">
+        <h2 className="font-bold mt-6 px-5">
+          CATEGORIAS
+        </h2>
+      </div>
 
       <div className="px-10 p-5 space-y-7">
         {categorys.map((category) => (
