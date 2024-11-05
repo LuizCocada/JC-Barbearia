@@ -1,4 +1,3 @@
-// types/next-auth.d.ts
 import NextAuth from "next-auth";
 
 declare module "next-auth" {
@@ -6,24 +5,21 @@ declare module "next-auth" {
     user: {
       id: string;
       name?: string | null;
-      email?: string | null;
-      image?: string | null;
-      telephone?: string | null; // Adicione esta linha
+      telephone?: string | null;
     };
   }
 
   interface User {
     id: string;
     name?: string | null;
-    email?: string | null;
-    image?: string | null;
-    telephone?: string | null; // Adicione esta linha
+    telephone?: string | null;
+    password?: string | null;
   }
 }
 
 declare module "next-auth/jwt" {
   interface JWT {
     id: string;
-    telephone?: string | null; // Adicione esta linha
+    telephone?: string | null;
   }
 }

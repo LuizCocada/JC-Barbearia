@@ -6,18 +6,17 @@ import { SheetClose, SheetContent, SheetHeader, SheetTitle } from "./ui/sheet";
 import Link from "next/link";
 import Image from "next/image";
 import { quickSearchOptions } from "@/constants/search";
-import { Dialog, DialogContent, DialogTrigger } from "./ui/dialog";
 import DialogContentLogin from "./LoginDialog";
 import { signOut, useSession } from "next-auth/react";
-import { Avatar, AvatarImage } from "./ui/avatar";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+
 
 const MenuSheetContent = () => {
 
     const { data } = useSession()
-    const handleLogOutGoogle = () => signOut()
 
-    console.log(data)
+    const handleLogOut = () => signOut()
+
 
     return (
         <SheetContent side={"right"} className="bg-background rounded-l-3xl overflow-y-auto">
@@ -31,31 +30,16 @@ const MenuSheetContent = () => {
                 {/* se existir usuario logado rederiza o componente de cima, senao o componente d`baixo */}
                 {data?.user ? (
                     <div className="flex items-center gap-2 px-3">
-                        {data.user.image && (
-                            <Avatar className="items-center border-2 border-primary">
-                                <AvatarImage src={data.user.image ?? ""} />
-                            </Avatar>
-                        )}
                         <div>
                             <h2 className="font-bold">{data.user.name}</h2>
-                            <p>{data.user.email}</p>
-                            {data?.user.telephone && <p>Telefone: {data.user.telephone}</p>}
+                            <p>Telefone: {data.user.telephone}</p>
                         </div>
                     </div>
                 ) : (
                     <>
-                        <h2 className="font-bold text-lg">Faça seu login e agende conosco!</h2>
+                        <h2 className="font-bold text-lg">Faça seu login para agendar conosco!</h2>
 
-                        <Dialog>
-                            <DialogTrigger asChild>
-                                <Button className="rounded" size="icon">
-                                    <LogInIcon />
-                                </Button>
-                            </DialogTrigger>
-                            <DialogContent className="w-[90%]">
-                                <DialogContentLogin />
-                            </DialogContent>
-                        </Dialog>
+                        <DialogContentLogin />
                     </>
                 )}
             </div>
@@ -111,7 +95,7 @@ const MenuSheetContent = () => {
                             <AlertDialogFooter>
                                 <AlertDialogCancel className="rounded-xl">Cancelar</AlertDialogCancel>
                                 <AlertDialogAction
-                                    className="rounded-xl bg-destructive text-background" onClick={handleLogOutGoogle}>
+                                    className="rounded-xl bg-destructive text-background" onClick={handleLogOut}>
                                     Sair
                                 </AlertDialogAction>
                             </AlertDialogFooter>

@@ -56,10 +56,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                                         {isConfirmed ? 'Confirmado' : 'Finalizado'}
                                     </Badge>
 
-                                    <div className="flex items-center gap-2">
-                                        {/* <Avatar className="h-6 w-6">
-                                            <AvatarImage src={booking.service.imageUrl} />
-                                        </Avatar> */}
+                                    <div className="flex items-center gap-2 px-2">
                                         <h3 className="font-semibold">{booking.service.name}</h3>
                                     </div>
                                 </div>
