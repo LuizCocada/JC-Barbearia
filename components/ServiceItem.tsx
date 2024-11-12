@@ -8,7 +8,6 @@ import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, 
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { useEffect, useMemo, useState } from "react";
-import { db } from "@/lib/prisma";
 import { GetAvailableTimes } from "@/actions/GetAvailableTimes";
 import { useSession } from "next-auth/react";
 import { Dialog, DialogContent } from "./ui/dialog";
@@ -19,7 +18,8 @@ import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/createBooking";
 import BookingSummary from "./BookingSummary";
 import { GetBookings } from "@/actions/BookingAlreadyMade";
-import { time } from "console";
+import DialogContentLogin from "./LoginDialog";
+
 
 
 interface ServiceItemProps {
@@ -138,7 +138,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
     return (
         <>
-            <Card className="rounded-xl bg-muted-foreground">
+            <Card className="rounded-xl bg-popover">
                 <CardContent className="flex items-center gap-3 p-3">
                     <div className="relative max-h-[110px] min-h-[110px] max-w-[110px] min-w-[110px]">
                         <Image alt={"alt"} src={"/bannerYellow.png"} fill className="object-cover rounded-lg" />
@@ -204,18 +204,18 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                                         <div className="flex gap-1.5 border-b border-solid py-3 overflow-y-auto [&::-webkit-scrollbar]:hidden">
                                             {filterTimeListValidhour.length > 0 ? (
                                                 filterTimeListValidhour.map((time) => //listTimeString filtrando do array timeList apenas as datas que estao no futuro.
-                                                <Button key={time} className="rounded-full"
-                                                size={"sm"}
-                                                variant={selectedTime == time ? "default" : "outline"}
-                                                onClick={() => handleSelectTime(time)}
-                                                disabled={horaDiaAgendamento.includes(time)}//se haver agendamento no banco deixa a hora indisponivel
-                                                >
+                                                    <Button key={time} className="rounded-full"
+                                                        size={"sm"}
+                                                        variant={selectedTime == time ? "default" : "outline"}
+                                                        onClick={() => handleSelectTime(time)}
+                                                        disabled={horaDiaAgendamento.includes(time)}//se haver agendamento no banco deixa a hora indisponivel
+                                                    >
                                                         {time}
                                                     </Button>
                                                 )
-                                                
+
                                             ) : <p className="text-sm font-semibold text-destructive">Não há horários disponiveis para hoje</p>
-                                        }
+                                            }
                                         </div>
                                     )}
 
@@ -253,14 +253,26 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                     </div>
                 </CardContent>
             </Card>
-            <Dialog
+            {/* <Dialog
                 open={signInDialogItsOpen}
                 onOpenChange={(open) => setSignInDialogItsOpen(open)} //atualiza o estado de 'signInDialogItsOpen'
             >
                 <DialogContent className="w-[90%]">
                     <LoginDialog />
                 </DialogContent>
+            </Dialog> */}
+
+            <Dialog
+                open={signInDialogItsOpen}
+                onOpenChange={(open) => setSignInDialogItsOpen(open)} //atualiza o estado de 'signInDialogItsOpen'
+            >
+                <DialogContent className="w-[30%]">
+                    <LoginDialog />
+                </DialogContent>
             </Dialog>
+
+
+
         </>
     );
 }

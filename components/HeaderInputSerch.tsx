@@ -17,11 +17,11 @@ const HeaderInputSearch = () => {
     const CapitalizeFirstStringOfDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
 
     return (
-        <Card className="pt-3 text-background bg-foreground rounded-none">
+        <Card className="pt-3 text-background bg-foreground rounded-none rounded-b-3xl">
             <CardContent className="p-2 pb-5">
-                <div className="py-3 flex justify-between mb-4">
+                <div className="py-3 px-2 flex justify-between mb-4">
                     <div>
-                        <h2 className="text-xl font-bold">{data?.user ? `Olá, ${data.user.name}!` : `Olá, seja bem vindo!`}</h2>
+                        <h2 className="text-xl font-bold">{data?.user ? `Seja bem vindo, ${data.user.name}!` : `Olá, seja bem vindo!`}</h2>
                         <p className="text-sm flex gap-2 items-center pt-2">
                             <Calendar size={15} className="text-primary" />
                             {CapitalizeFirstStringOfDate}

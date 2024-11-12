@@ -9,6 +9,10 @@ import { quickSearchOptions } from "@/constants/search";
 import DialogContentLogin from "./LoginDialog";
 import { signOut, useSession } from "next-auth/react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
+import { useEffect, useState } from "react";
+import { Category } from "@prisma/client";
+import { GetCategorys } from "@/actions/GetCategorys";
+import { set } from "date-fns";
 
 
 const MenuSheetContent = () => {
@@ -16,6 +20,16 @@ const MenuSheetContent = () => {
     const { data } = useSession()
 
     const handleLogOut = () => signOut()
+
+    const [categorys, setCategorys] = useState<Category[]>([])
+
+    useEffect(() => {
+        const fetch = async () => {
+            const category = await GetCategorys()
+            setCategorys(category)
+        }
+        fetch()
+    }, [])
 
 
     return (
@@ -38,7 +52,6 @@ const MenuSheetContent = () => {
                 ) : (
                     <>
                         <h2 className="font-bold text-lg">Faça seu login para agendar conosco!</h2>
-
                         <DialogContentLogin />
                     </>
                 )}
@@ -66,16 +79,16 @@ const MenuSheetContent = () => {
             </div>
 
             <div className="p-5 flex flex-col gap-5 border-b-[0.1px]">
-                {quickSearchOptions.map((option) => (
-                    <SheetClose key={option.title} asChild>
+                {(categorys.map((category) => (
+                    <SheetClose key={category.id} asChild>
                         <Button className="rounded-xl justify-start border-none gap-2 shadow-none text-foreground" variant="secondary" asChild>
-                            <Link href={``}>
-                                <Image src={option.imageUrl} alt={option.title} width={18} height={18} />
-                                {option.title}
+                            <Link href={`/services/${category.id}`}>
+                                <Image src={category.imageUrl} alt={category.name} width={18} height={18} />
+                                {category.name}
                             </Link>
                         </Button>
                     </SheetClose>
-                ))}
+                )))}
             </div>
 
             {data?.user && (

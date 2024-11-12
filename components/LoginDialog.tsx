@@ -49,6 +49,7 @@ const LoginDialog = () => {
             <Dialog onOpenChange={resetDialogLogin}>
                 <DialogTrigger asChild>
                     <Button className="rounded" size="sm" onClick={() => setIsDialogOpen(true)}>
+                        Entrar
                         <LogInIcon />
                     </Button>
                 </DialogTrigger>

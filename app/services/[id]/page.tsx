@@ -49,10 +49,11 @@ const Services = async ({ params }: ServicesParams) => {
 
             <div className="p-5 border-b-[0.1px] space-y-3">
                 <h3 className="text-lg font-semibold pb-3">Serviços</h3>
-
-                {services.map((service) => (
-                    <ServiceItem key={service.id} service={service} />
-                ))}
+                <div className="flex flex-col md:grid grid-cols-2 gap-4">
+                    {services.map((service) => (
+                        <ServiceItem key={service.id} service={service} />
+                    ))}
+                </div>
 
             </div>
         </div>

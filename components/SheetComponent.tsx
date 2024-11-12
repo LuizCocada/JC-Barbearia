@@ -11,8 +11,6 @@ const SheetComponent = () => {
 
     const { data } = useSession()
 
-    console.log(data)
-
     const [isOpen, setIsOpen] = useState(false)
 
     useEffect(() => {

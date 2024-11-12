@@ -8,22 +8,29 @@ interface CategoryItemProps {
 }
 
 const CategoryItem = ({ category }: CategoryItemProps) => {
+
+
+    const svgDataUrl = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(category.imageUrl)}`;
+
     return (
-        <div>
+        <div className="flex flex-col items-center justify-center w-[300px]">
             <Link href={`/services/${category.id}`}>
-                <Card className="rounded-3xl border-none shadow-2xl">
-                    <CardContent className="rounded-3xl py-0 bg-gradient-to-r from-yellow-500 via-yellow-300 to-yellow-500 ... p-2">
-                        <div className="flex flex-col justify-center items-center h-[160px]">
-                            <Image src={"/cabeloCategory.svg"} width={180} height={150} alt={"icone de cabelo"} />
-                        </div>
-                        <div className="flex justify-center">
-                            <p className="text-2xl font-semibold border-t-[0.1px] border-primary-foreground p-2">{category.name}</p>
+                <Card className="rounded-full border-none shadow-2xl">
+                    <CardContent className="rounded-full bg-primary p-0">
+                        <div className="flex items-center justify-center p-3">
+                            <Image src={svgDataUrl} alt={`${category.name} icon`} width={35} height={40} />
                         </div>
                     </CardContent>
                 </Card>
             </Link>
+            <p className="text-xs font-bold pt-1 md:text-sm">
+                {category.name}
+            </p>
         </div>
     );
+
+
 }
 
 export default CategoryItem;
+
