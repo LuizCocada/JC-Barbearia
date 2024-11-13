@@ -15,6 +15,8 @@ export const createBooking = async (params: createBookingParams) => {
 
   const user = await getServerSession(authOptions);
 
+  //user?.user.telephone {{mandar mensagem para o usuario ao marcar ou desmarcar um agendamento}}
+
   if (!user) {
     throw new Error("Usuário não autenticado");
   }

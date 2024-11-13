@@ -18,7 +18,7 @@ import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/createBooking";
 import BookingSummary from "./BookingSummary";
 import { GetBookings } from "@/actions/BookingAlreadyMade";
-import DialogContentLogin from "./LoginDialog";
+import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 
 
 
@@ -40,6 +40,12 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         }
         return setSignInDialogItsOpen(true)
     }
+
+    useEffect(() => {
+        if (data?.user) {
+            setSignInDialogItsOpen(false)
+        }
+    }, [data]);
 
     //reseta ao fechar a sheet
     const HandleBookingSheetOpenChange = () => {
@@ -110,6 +116,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             return `${hours}:${minutes}`;// tempo disponivel ara reserva à partir da hora e minuto do dia atual.
         }
         );
+
 
 
     const handleCreateBooking = async () => {
@@ -253,26 +260,13 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                     </div>
                 </CardContent>
             </Card>
-            {/* <Dialog
-                open={signInDialogItsOpen}
-                onOpenChange={(open) => setSignInDialogItsOpen(open)} //atualiza o estado de 'signInDialogItsOpen'
-            >
-                <DialogContent className="w-[90%]">
-                    <LoginDialog />
-                </DialogContent>
-            </Dialog> */}
 
             <Dialog
                 open={signInDialogItsOpen}
                 onOpenChange={(open) => setSignInDialogItsOpen(open)} //atualiza o estado de 'signInDialogItsOpen'
             >
-                <DialogContent className="w-[30%]">
-                    <LoginDialog />
-                </DialogContent>
+                <TesteOnlyContentLogin />
             </Dialog>
-
-
-
         </>
     );
 }

@@ -24,7 +24,7 @@ const Home = async () => {
     <div className="bg-secondary">
       <HeaderInputSearch />
 
-      <div className="border-b-[0.1px] border-muted-foreground pb-5">
+      <div className="border-b-[0.1px] border-muted-foreground pb-1">
         {session?.user &&
           (
             <>
@@ -35,8 +35,10 @@ const Home = async () => {
               </div>
 
               {ConfirmedBookings.length > 0 ? (
-                <div className="flex overflow-x-auto gap-3 [&::-webkit-scrollbar]:hidden p-5">
-                  {ConfirmedBookings.map(booking => <BookingItem key={booking.id} booking={JSON.parse(JSON.stringify(booking))} />)}  {/*JSON para evitar error de DECIMAL */}
+                <div className="flex overflow-x-auto gap-3 p-5">
+                  {ConfirmedBookings.map(booking => (
+                    <BookingItem key={booking.id} booking={JSON.parse(JSON.stringify(booking))} />
+                  ))}
                 </div>
               )
                 :
