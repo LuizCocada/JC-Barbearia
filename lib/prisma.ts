@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client";
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-declare global {                                        //armazena instancia do prismaClient em ambientes que suportam o hotloading(geralmente em desenvolvimento)
+declare global {                                            //armazena instancia do prismaClient em ambientes que suportam o hotloading(geralmente em desenvolvimento)
+    // eslint-disable-next-line no-var                                      
     var cachedPrisma: PrismaClient                      //isso evita a criação de varias instancia do Prisma toda vez que o codigo for recarregado, já que o hotloading reinicia o codigo
 }                                                       //mas mantém o estado global.
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -30,6 +31,9 @@ export const db = prisma //exporta db
 // DESENVOLVIMENTO: Uma única instância do PrismaClient é reutilizada durante o hot-reloading, evitando a criação de múltiplas instâncias.
 
 // --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
 
 
 

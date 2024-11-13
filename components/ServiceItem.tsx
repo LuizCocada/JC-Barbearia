@@ -73,8 +73,8 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     }
 
     //armazena o horário selecionado
-    const [selectedTime, setSelectedTime] = useState<String | undefined>(undefined)
-    const handleSelectTime = (time: String) => {
+    const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
+    const handleSelectTime = (time: string) => {
         setSelectedTime(time)
     }
 
@@ -122,7 +122,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         try {
             if (!selectedDate || !data?.user) return
 
-            selectedDate //retorna o dia selecionado e seta o horario escolhido.
+            // selectedDate //retorna o dia selecionado e seta o horario escolhido.
 
             await createBooking({
                 userId: data?.user.id,

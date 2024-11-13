@@ -42,7 +42,7 @@ const ServicesPage = async ({ searchParams }: ServicesPageParams) => {
                 </CardContent>
             </Card>
             <p className="text-sm font-semibold px-5 pt-3 text-muted-foreground">
-                Resultados para "{searchParams.title}"
+                {`Resultados para "${searchParams.title}"`}
             </p>
             <div className="p-6 space-y-3">
                 {services.map((service) => (
