@@ -2,12 +2,10 @@
 
 import { Card, CardContent } from "./ui/card"
 import { Badge } from "./ui/badge"
-import { Avatar, AvatarImage } from "./ui/avatar"
 import { Prisma } from "@prisma/client"
 import { format, isFuture } from "date-fns"
 import { ptBR } from "date-fns/locale"
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import Image from "next/image"
 import { Button } from "./ui/button"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
 import { toast } from "sonner"

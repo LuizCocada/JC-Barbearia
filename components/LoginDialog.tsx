@@ -1,13 +1,8 @@
 'use client'
 
-import { useState } from "react";
 import { Button } from "./ui/button";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
-import { signIn } from "next-auth/react";
-import { Input } from "./ui/input";
+import { Dialog, DialogTrigger } from "./ui/dialog";
 import { LogInIcon } from "lucide-react";
-import { toast } from "sonner";
-import { useRouter } from "next/navigation";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 
 const LoginDialog = () => {

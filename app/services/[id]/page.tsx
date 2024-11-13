@@ -1,11 +1,4 @@
 
-import SheetComponent from "@/components/SheetComponent";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { ChevronLeft } from "lucide-react";
-import Link from "next/link";
-import Image from "next/image";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
 import ServiceItem from "@/components/ServiceItem";
 import { db } from "@/lib/prisma";
 import HeaderPageServices from "@/components/HeaderPageServices";

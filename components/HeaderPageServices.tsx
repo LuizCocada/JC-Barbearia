@@ -3,7 +3,7 @@ import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { ChevronLeft } from "lucide-react";
 import SheetComponent from "./SheetComponent";
-import { Category, Prisma, Service } from "@prisma/client";
+import { Category } from "@prisma/client";
 
 interface HeaderPageServicesProps {
     category: Category

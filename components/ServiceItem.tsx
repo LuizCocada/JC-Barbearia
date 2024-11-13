@@ -4,14 +4,13 @@ import Image from "next/image";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
 import { Booking, Service, Times } from "@prisma/client";
-import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "./ui/sheet";
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { useEffect, useMemo, useState } from "react";
 import { GetAvailableTimes } from "@/actions/GetAvailableTimes";
 import { useSession } from "next-auth/react";
-import { Dialog, DialogContent } from "./ui/dialog";
-import LoginDialog from "./LoginDialog";
+import { Dialog } from "./ui/dialog";
 import { format, set } from "date-fns";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";

@@ -1,4 +1,3 @@
-import HeaderInputSearch from "@/components/HeaderInputSerch";
 import InputSearch from "@/components/InputSearch";
 import ServiceItem from "@/components/ServiceItem";
 import SheetComponent from "@/components/SheetComponent";

@@ -7,7 +7,6 @@ import { Input } from "./ui/input";
 import { toast } from "sonner";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { ca } from "date-fns/locale";
 
 const TesteOnlyContentLogin = () => {
 

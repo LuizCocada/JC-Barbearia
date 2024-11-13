@@ -4,7 +4,7 @@ import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
 import { StarIcon } from "lucide-react";
 import Link from "next/link";
-import { Prisma, Service } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 
 interface BarberShopItemProps {
     service: Prisma.ServiceGetPayload<{

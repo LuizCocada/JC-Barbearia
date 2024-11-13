@@ -5,7 +5,6 @@ import { Adapter } from "next-auth/adapters";
 import { db } from "./prisma";
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import { PrismaClient } from "@prisma/client";
 
 // const prisma = new PrismaClient();
 
