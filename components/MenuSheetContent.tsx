@@ -13,7 +13,7 @@ import { Category } from "@prisma/client";
 import { Dialog } from "./ui/dialog";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 import { useRouter } from "next/navigation";
-import { getCategorys } from "@/actions/getCategorys";
+import { getCategorys } from "@/actions/GetCategorys";
 
 
 const MenuSheetContent = () => {
