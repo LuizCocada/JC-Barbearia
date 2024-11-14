@@ -7,7 +7,8 @@ import BookingItem from "@/components/BookingItem"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft } from "lucide-react"
+import { ChevronLeft, BookmarkCheck, BookmarkX } from "lucide-react"
+
 
 const Bookings = async () => {
 
@@ -35,9 +36,12 @@ const Bookings = async () => {
                 <div className="space-y-3">
                     {ConfirmedBookings.length > 0 && (
                         <>
-                            <p className="text-sm">
-                                CONFIRMADOS
-                            </p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-sm">
+                                    CONFIRMADOS
+                                </p>
+                                <BookmarkCheck className="w-[25px] h-[25px] text-background" fill="green" />
+                            </div>
                             {ConfirmedBookings.map((booking) => (
                                 <BookingItem key={booking.id} booking={booking} /> //ou passamos service={booking.service} e recebemos em BookingItem service como prop.
                             ))}
@@ -48,9 +52,12 @@ const Bookings = async () => {
                 <div className="space-y-3">
                     {ConcludedBookings.length > 0 && (
                         <>
-                            <p className="text-sm text-gray-400">
-                                FINALIZADOS
-                            </p>
+                            <div className="flex items-center gap-2">
+                                <p className="text-sm text-gray-400">
+                                    FINALIZADOS
+                                </p>
+                                <BookmarkX className="w-[25px] h-[25px] text-background" fill="red" />
+                            </div>
                             {ConcludedBookings.map((booking) => (
                                 <BookingItem key={booking.id} booking={booking} /> //ou passamos service={booking.service} e recebemos em BookingItem service como prop.
                             ))}

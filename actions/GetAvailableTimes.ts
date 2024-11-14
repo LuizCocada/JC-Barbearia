@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/prisma";
 
-export const GetAvailableTimes = async () => {
+export const getAvailableTimes = async () => {
   const times = await db.times.findMany();
   return times.sort((a, b) => {
     const timeA = a.time.split(':').map(Number);

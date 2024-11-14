@@ -10,10 +10,10 @@ import { signOut, useSession } from "next-auth/react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog";
 import { useEffect, useState } from "react";
 import { Category } from "@prisma/client";
-import { GetCategorys } from "@/actions/GetCategorys";
 import { Dialog } from "./ui/dialog";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 import { useRouter } from "next/navigation";
+import { getCategorys } from "@/actions/getCategorys";
 
 
 const MenuSheetContent = () => {
@@ -25,7 +25,7 @@ const MenuSheetContent = () => {
     const [categorys, setCategorys] = useState<Category[]>([])
     useEffect(() => {
         const fetch = async () => {
-            const category = await GetCategorys()
+            const category = await getCategorys()
             setCategorys(category)
         }
         fetch()

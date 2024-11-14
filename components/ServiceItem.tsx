@@ -8,7 +8,7 @@ import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle }
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { useEffect, useMemo, useState } from "react";
-import { GetAvailableTimes } from "@/actions/GetAvailableTimes";
+import { getAvailableTimes } from "@/actions/getAvailableTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
 import { format, set } from "date-fns";
@@ -16,7 +16,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/createBooking";
 import BookingSummary from "./BookingSummary";
-import { GetBookings } from "@/actions/BookingAlreadyMade";
+import { getBookings } from "@/actions/bookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 
 
@@ -33,6 +33,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     const [signInDialogItsOpen, setSignInDialogItsOpen] = useState(false)
     const [bookingSheetItsOpen, setBookingSheetItsOpen] = useState(false)
 
+    //verifica se o usuário está logado
     const handleVeridyUserLoggedIn = () => {
         if (data?.user) {
             return setBookingSheetItsOpen(true)
@@ -40,6 +41,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         return setSignInDialogItsOpen(true)
     }
 
+    //fechar dialog login apos login
     useEffect(() => {
         if (data?.user) {
             setSignInDialogItsOpen(false)
@@ -58,7 +60,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     const [timeList, setTimeList] = useState<Times[]>([])
     useEffect(() => {
         const fetch = async () => {
-            const times = await GetAvailableTimes()
+            const times = await getAvailableTimes()
             setTimeList(times)
         }
         fetch()
@@ -91,7 +93,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     useEffect(() => {
         const fetch = async () => {
             if (!selectedDay) return
-            const bookings = await GetBookings({ serviceId: service.id, date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
+            const bookings = await getBookings({ serviceId: service.id, date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
             setbookingsAlreadyMade(bookings)
         }
         fetch()
@@ -105,14 +107,21 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
     const timeListTimeString = timeList.map((time => time.time))
     const filterTimeListValidhour = timeListTimeString.map((time) => {
+
+        if (!selectedDay || selectedDay.getDay() === 0) return null; //se o dia selecionado for domingo, não retorna horários.
+        if (selectedDay.getDay() === 6 && time > "12:00") return null; //se o dia selecionado for sábado só retorna horários até 12:00. (de acordo com a barbearia.)
+
         const dateTimeString = `${selectedDay?.toISOString().split('T')[0]}T${time}:00`;
-        return new Date(dateTimeString);//passando dateTimeString para um objeto Date (para ser usado no filtro abaixo.)
+        return new Date(dateTimeString);//passando dateTimeString para um objeto Date (para ser usado no filtro abaixo.)  
     })
-        .filter((date) => date.getTime() > new Date().getTime()) //filtrando apenas as datas que forem maior que a data, hora e minuto atual
+        .filter((date) => date !== null && date.getTime() > new Date().getTime()) //filtrando apenas as datas que forem maior que a data, hora e minuto atual
         .map((date) => {
-            const hours = date.getHours();//pegando horas 
-            const minutes = date.getMinutes().toString().padStart(2, '0'); //pegando minutos e adicionando zero à esquerda se preciso.
-            return `${hours}:${minutes}`;// tempo disponivel ara reserva à partir da hora e minuto do dia atual.
+            if (date) {
+                const hours = date.getHours();//pegando horas 
+                const minutes = date.getMinutes().toString().padStart(2, '0'); //pegando minutos e adicionando zero à esquerda se preciso.
+                return `${hours}:${minutes}`;// tempo disponivel para reserva à partir da hora e minuto do dia atual.
+            }
+            return null;
         }
         );
 
@@ -136,6 +145,10 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                     onClick: () => router.push("/bookings")
                 }
             })
+
+
+
+
         } catch (error) {
             console.log(error)
             toast.error("Error ao criar reserva")
@@ -207,20 +220,20 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                                     </div>
 
                                     {selectedDay && (
-                                        <div className="flex gap-1.5 border-b border-solid py-3 overflow-y-auto [&::-webkit-scrollbar]:hidden">
+                                        <div className="flex flex-wrap gap-1.5 border-b border-solid py-3">
                                             {filterTimeListValidhour.length > 0 ? (
                                                 filterTimeListValidhour.map((time) => //listTimeString filtrando do array timeList apenas as datas que estao no futuro.
                                                     <Button key={time} className="rounded-full"
                                                         size={"sm"}
                                                         variant={selectedTime == time ? "default" : "outline"}
-                                                        onClick={() => handleSelectTime(time)}
-                                                        disabled={horaDiaAgendamento.includes(time)}//se haver agendamento no banco deixa a hora indisponivel
+                                                        onClick={() => time && handleSelectTime(time)}
+                                                        disabled={time ? horaDiaAgendamento.includes(time) : false}//se haver agendamento no banco deixa a hora indisponivel
                                                     >
                                                         {time}
                                                     </Button>
                                                 )
 
-                                            ) : <p className="text-sm font-semibold text-destructive">Não há horários disponiveis para hoje</p>
+                                            ) : <p className="text-sm font-semibold text-destructive">{selectedDay.getDay() === 0 ? "Não funcionamos aos Domingos" : "Não há mais horários disponiveis para hoje"}</p>
                                             }
                                         </div>
                                     )}

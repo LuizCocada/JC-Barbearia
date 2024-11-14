@@ -7,6 +7,7 @@ import { GetConfirmedBookings } from "@/data/GetConfirmedBookings";
 import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prisma";
 import { getServerSession } from "next-auth";
+import Link from "next/link";
 
 const Home = async () => {
 
@@ -24,33 +25,33 @@ const Home = async () => {
     <div className="bg-secondary">
       <HeaderInputSearch />
 
-      <div className="border-b-[0.1px] border-muted-foreground pb-1">
-        {session?.user &&
-          (
-            <>
-              <div className="mt-2">
-                <h2 className="text-xs font-bold px-5 pt-5 sm:text-sm md:text-xl">
+      {session?.user &&
+        (
+          <div className="border-b-[0.1px] border-muted-foreground pb-1">
+            <div className="mt-2 w-fit">
+              <Link href={"/bookings"}>
+                <h2 className="text-xs font-bold px-5 pt-5 sm:text-sm md:text-xl hover:underline">
                   AGENDAMENTOS
                 </h2>
-              </div>
+              </Link>
+            </div>
 
-              {ConfirmedBookings.length > 0 ? (
-                <div className="flex overflow-x-auto gap-3 p-5">
-                  {ConfirmedBookings.map(booking => (
-                    <BookingItem key={booking.id} booking={JSON.parse(JSON.stringify(booking))} />
-                  ))}
+            {ConfirmedBookings.length > 0 ? (
+              <div className="flex overflow-x-auto gap-3 p-5">
+                {ConfirmedBookings.map(booking => (
+                  <BookingItem key={booking.id} booking={JSON.parse(JSON.stringify(booking))} />
+                ))}
+              </div>
+            )
+              :
+              (
+                <div className="p-5">
+                  <p className="text-sm text-gray-400">Não há agendamentos por enquanto...</p>
                 </div>
-              )
-                :
-                (
-                  <div className="p-5">
-                    <p className="text-sm text-gray-400">Não há agendamentos por enquanto...</p>
-                  </div>
-                )}
-            </>
-          )
-        }
-      </div>
+              )}
+          </div>
+        )
+      }
 
       <div className="flex justify-center px-5">
         <Card className="rounded-3xl border-none m-2 bg-popover text-background mt-8 min-w-[70%] sm:min-w-[80%] mb-8">

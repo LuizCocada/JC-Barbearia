@@ -50,7 +50,8 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                         <Card className="rounded-3xl bg-primary border-none">
                             <CardContent className="flex justify-between p-0">
                                 <div className="flex flex-col gap-2 py-5 pl-5">
-                                    <Badge className="w-fit bg-green-600">
+
+                                    <Badge className={`w-fit rounded-xl ${isConfirmed ? "bg-green-600" : "bg-red-600"}`}>
                                         {isConfirmed ? 'Confirmado' : 'Finalizado'}
                                     </Badge>
 
