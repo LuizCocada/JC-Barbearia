@@ -32,6 +32,7 @@ export const createBooking = async (params: createBookingParams) => {
   revalidatePath("/");
 
   const formattedDate = params.date.toLocaleString("pt-BR", {
+    timeZone: "America/Fortaleza",
     day: "2-digit",
     month: "2-digit",
     year: "numeric",
