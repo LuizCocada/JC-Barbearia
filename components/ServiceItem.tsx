@@ -18,6 +18,7 @@ import { createBooking } from "@/actions/createBooking";
 import BookingSummary from "./BookingSummary";
 import { getBookings } from "@/actions/BookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
+import gzappy from "gzappy-js";
 
 
 
@@ -145,9 +146,6 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                     onClick: () => router.push("/bookings")
                 }
             })
-
-
-
 
         } catch (error) {
             console.log(error)

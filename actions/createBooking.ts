@@ -27,48 +27,32 @@ export const createBooking = async (params: createBookingParams) => {
     data: params,
   });
 
-  revalidatePath("/services/[id]");
+  // revalidatePath("/services/[id]");
   revalidatePath("/bookings");
   revalidatePath("/");
 
-  try {
-    // Definição das variáveis de ambiente
-    const GZAPPY_API_TOKEN = process.env.GZAPPY_API_TOKEN;
-    const GZAPPY_INSTANCE_ID = process.env.GZAPPY_INSTANCE_ID;
+  const formattedDate = params.date.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 
-    // Criação de uma instância do gzappy client
-    const gClient = new gzappy({
-      token: GZAPPY_API_TOKEN,
-      instanceId: GZAPPY_INSTANCE_ID,
-    });
+  const GZAPPY_API_TOKEN = process.env.GZAPPY_API_TOKEN;
+  const GZAPPY_INSTANCE_ID = process.env.GZAPPY_INSTANCE_ID;
 
-    // Enviando mensagens
-    const messages = [
-      "Olá, tudo bem?",
-      "Você tem um novo agendamento marcado, Sr Cliente",
-    ];
-    const phones = ["5511999999999", "5511333333333"];
+  const gClient = new gzappy({
+    token: GZAPPY_API_TOKEN,
+    instanceId: GZAPPY_INSTANCE_ID,
+  });
 
-    gClient
-      .sendMessage(messages, phones)
-      .then((response) => console.log(response))
-      .catch((error) => console.error(error));
-  } catch (error) {
-    console.log(error);
-  }
+  const messages = [`Olá ${user.user.name}, seu agendamento para ${formattedDate} está confirmado! ✅`];
+  const phones = [`55${user.user.telephone}`];
+
+  gClient
+    .sendMessage(messages, phones)
+    .then((response) => console.log(`resposta ${response}`))
+    .catch((error) => console.error(error));
 };
-
-//------------------------------------------------------------------------------------------------------------------------------------
-
-//podemos verificar se o ID recebido bate com o id da sessao atual.
-
-// if (params.userId != (user.user as any).id) {
-//   //verificando se o Id do user recebido de params bate com a sessao atual de user.
-//   throw new Error("Error inesperado de autenticação")
-// }
-
-// ou ao invés de verificar, já pegar a sessao atual logada e setar ela no userId, sem precisar passar na interface a prop userId
-
-// await db.booking.create({
-//     data: {...params, userId: (user.user as any).id}
-//   })
