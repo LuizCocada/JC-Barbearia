@@ -31,19 +31,19 @@ const TesteOnlyContentLogin = () => {
             throw new Error("Preencha todos os campos!");
         }
 
-        try{
-            const result = await signIn('credentials', {
+        try {
+            const result = await signIn('user-credentials', {
                 redirect: false,
                 name,
                 number,
             });
-    
+
             router.refresh();
             resetDialogLogin();
             toast.success("Login realizado com sucesso!");
             return result;
         }
-        catch(err){
+        catch (err) {
             toast.error("Error inesperado ao realizar login!");
             return err;
         }

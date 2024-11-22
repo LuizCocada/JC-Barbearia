@@ -1,4 +1,3 @@
-
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import { AuthOptions } from "next-auth";
 import { Adapter } from "next-auth/adapters";
@@ -6,12 +5,11 @@ import { db } from "./prisma";
 
 import CredentialsProvider from "next-auth/providers/credentials";
 
-// const prisma = new PrismaClient();
-
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,
   providers: [
     CredentialsProvider({
+      id: "user-credentials",
       name: "Credentials",
       credentials: {
         name: { label: "Nome", type: "text" },
@@ -53,6 +51,28 @@ export const authOptions: AuthOptions = {
         return null;
       },
     }),
+
+    CredentialsProvider({
+      id: "admin-credentials",
+      name: "Admin Credentials",
+      credentials: {
+        username: { label: "Nome", type: "text" },
+        password: { label: "Senha", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials) {
+          throw new Error("Missing credentials");
+        }
+
+        const isValid =
+          credentials?.username === process.env.ADMIN_USERNAME &&
+          credentials?.password === process.env.ADMIN_PASSWORD;
+        if (isValid) {
+          return { id: "1", name: process.env.ADMIN_USERNAME };
+        }
+        return null;
+      },
+    }),
   ],
   session: {
     strategy: "jwt",
@@ -74,35 +94,3 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.AUTH_SECRET, //assinatura para JWT
 };
-
-// LOGIN GOOGLE
-
-// const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID as string;
-// const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET as string;
-
-// export const authOptions: AuthOptions = {
-//   adapter: PrismaAdapter(db) as Adapter,
-//   providers: [
-//     GoogleProvider({
-//       clientId: GOOGLE_CLIENT_ID,
-//       clientSecret: GOOGLE_CLIENT_SECRET,
-//     }),
-//   ],
-//   session: {
-//     strategy: "jwt",
-//     maxAge: 30 * 24 * 60 * 60, // 30 days
-//   },
-//   callbacks: {
-//     async jwt({ token, user }) {
-//       if (user) {
-//         token.id = user.id;
-//       }
-//       return token;
-//     },
-//     async session({ session, token }) {
-//       session.user.id = token.id;
-//       return session;
-//     },
-//   },
-//   secret: process.env.AUTH_SECRET, //isto para validação em produção
-// };
