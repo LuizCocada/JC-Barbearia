@@ -22,7 +22,9 @@ export default function RootLayout({
       <body className={`${inter.className} antialiased`}>
         <AuthProvider>
           <div className="h-full flex flex-col">
-            <div className="flex-1">{children}</div>
+            <div className="flex-1 bg-muted">
+              {children}
+            </div>
             <Footer />
           </div>
         </AuthProvider>

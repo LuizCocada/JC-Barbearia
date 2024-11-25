@@ -8,7 +8,7 @@ export async function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;
 
   // Permite o acesso às páginas de login e API de autenticação
-  if (pathname.startsWith("/admin/login") || pathname.startsWith("/api/auth")) {
+  if (pathname.startsWith("/syslogin") || pathname.startsWith("/api/auth")) {
     return NextResponse.next();
   }
 
@@ -16,7 +16,7 @@ export async function middleware(req: NextRequest) {
   if (pathname.startsWith("/admin")) {
     if (!token || token.id !== "1") {
       const loginUrl = req.nextUrl.clone();
-      loginUrl.pathname = "/admin/login";
+      loginUrl.pathname = "/syslogin";
       return NextResponse.redirect(loginUrl);
     }
     return NextResponse.next();
