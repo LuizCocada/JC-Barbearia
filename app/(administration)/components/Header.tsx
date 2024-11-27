@@ -8,7 +8,7 @@ const Header = () => {
     return (
         <div>
             <Card className="rounded-none border-none">
-                <CardContent className="flex justify-between bg-primary items-center p-2 px-20">
+                <CardContent className="flex justify-between bg-primary items-center p-5 px-20">
                     <div className="flex flex-col">
                         <h1 className="text-2xl font-semibold">Painel de Administrador</h1>
                         <p className="font-medium">Administrador: Jony</p>

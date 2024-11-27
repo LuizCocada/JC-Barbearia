@@ -2,7 +2,7 @@
 
 import { db } from "@/lib/prisma";
 
-export const getAllTodayBookings = async () => {
+export const getBillingOfDay = async () => {
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);
 
@@ -28,3 +28,5 @@ export const getAllTodayBookings = async () => {
     .map((booking) => Number(booking.service.price))
     .reduce((a, b) => a + b, 0);
 };
+
+//a função retorna o valor total do faturamento do dia atual, somando o preço de cada serviço agendado no dia.

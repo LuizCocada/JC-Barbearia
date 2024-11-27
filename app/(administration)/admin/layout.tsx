@@ -1,20 +1,22 @@
 'use server'
 
-import React, { createContext, PropsWithChildren } from "react";
+import React, { PropsWithChildren } from "react";
 import Header from "../components/Header";
-import { getTodayBookings } from "@/actions/getTodayBookings";
-import { getAllTodayBookings } from "@/actions/getAllTodayBookings";
-import { Booking } from "@prisma/client";
+import { MainSidebar } from "../components/MainSidebar";
 
 
 
 
-const Layout = async ({ children }: PropsWithChildren) => {
+const Layout = ({ children }: PropsWithChildren) => {
 
     return (
         <div>
-            <Header />
-            {children}
+            <div className="grid grid-cols-[15rem_1fr]">
+                <MainSidebar/>
+                <main>
+                    {children}
+                </main>
+            </div>
         </div>
     )
 }

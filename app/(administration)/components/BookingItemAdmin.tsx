@@ -1,29 +1,30 @@
-"use client" //tem Onclick()
+"use client"
 
-import { Card, CardContent } from "./ui/card"
-import { Badge } from "./ui/badge"
 import { Prisma } from "@prisma/client"
 import { format, isFuture } from "date-fns"
 import { ptBR } from "date-fns/locale"
-import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "./ui/sheet"
-import { Button } from "./ui/button"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "./ui/alert-dialog"
+
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../../components/ui/alert-dialog"
 import { toast } from "sonner"
 import { useState } from "react"
-import BookingSummary from "./BookingSummary"
+import BookingSummary from "../../../components/BookingSummary"
 import { deleteBooking } from "@/actions/(delete)/deleteBooking"
+import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
 
 
 interface BookingItemProps {
     booking: Prisma.BookingGetPayload<{
         include: {
-            service: true
+            service: true,
+            user: true,
         },
     }>
 }
 
-const BookingItem = ({ booking }: BookingItemProps) => {
-
+const BookingItemAdmin = ({ booking }: BookingItemProps) => {
 
     const date = new Date(booking.date); //por algum motivo o date-fns nao aceita o booking.date diretamente
 
@@ -46,24 +47,35 @@ const BookingItem = ({ booking }: BookingItemProps) => {
         <>
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger className="cursor-pointer" asChild>
-                    <div className="min-w-[80%]">
-                        <Card className="rounded-3xl bg-primary border-none">
+                    <div className="min-w-[50%]">
+                        <Card className="rounded-xl bg-primary border-none">
                             <CardContent className="flex justify-between p-0">
-                                <div className="flex flex-col gap-2 py-5 pl-5">
+                                <div className="px-8 py-3 space-y-1">
+                                    <p className="font-medium">
+                                        Nome: <span className="text-sm font-semibold">{booking.user.name}</span>
+                                    </p>
+                                    <p className="font-medium">
+                                        Telefone: <span className="text-sm font-semibold">{booking.user.telephone}</span>
+                                    </p>
+                                    <div className="border-b-[0.1px] border-yellow-600"></div>
+                                    <p className="font-medium">
+                                        Serviço: <span className="text-sm font-semibold">{booking.service.name}</span>
+                                    </p>
+                                    <p className="font-medium">
+                                        Valor: <span className="text-sm font-semibold">
+                                            {Intl.NumberFormat("pt-BR", {
+                                                style: "currency",
+                                                currency: "BRL",
+                                            }).format(Number(booking.service.price))}
+                                        </span>
 
-                                    <Badge className={`w-fit rounded-xl ${isConfirmed ? "bg-green-600" : "bg-red-600"}`}>
-                                        {isConfirmed ? 'Confirmado' : 'Finalizado'}
-                                    </Badge>
-
-                                    <div className="flex items-center gap-2 px-2">
-                                        <h3 className="font-semibold">{booking.service.name}</h3>
-                                    </div>
+                                    </p>
                                 </div>
 
-                                <div className="flex flex-col justify-center items-center px-5 border-l">
-                                    <p className="text-sm">{format(date, 'MMMM', { locale: ptBR })}</p>
-                                    <p className="text-2xl">{format(date, 'dd', { locale: ptBR })}</p>
-                                    <p className="text-sm">{format(date, 'HH:mm', { locale: ptBR })}</p>
+                                <div className="flex flex-col justify-center items-center px-5 border-l bg-green-600 text-background rounded-r-xl">
+                                    <p className="text-xl">{format(date, 'MMMM', { locale: ptBR })}</p>
+                                    <p className="text-3xl">{format(date, 'dd', { locale: ptBR })}</p>
+                                    <p className="text-xl">{format(date, 'HH:mm', { locale: ptBR })}</p>
                                 </div>
                             </CardContent>
                         </Card>
@@ -77,8 +89,8 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
                     <div className="p-5 space-y-5">
                         <div className="border-b-[0.1px] border-muted-foreground pb-3">
-                            <h3 className="text- font-semibold">Observações</h3>
-                            <p className="text-sm text-justify">Trabalhamos com horários fixos, porém, dependendo do estilo de corte e/ou problemas externos, podem ocorrer variações de hórarios</p>
+                            <h3 className="text- font-semibold">Atenção</h3>
+                            <p className="text-sm text-justify">Esta ação é irrevercível, tem certeza que deseja cancelar o agendamento de {booking.user.name}?</p>
                         </div>
 
                         <Badge className="w-fit bg-green-500 hover:bg-green-500">
@@ -131,10 +143,8 @@ const BookingItem = ({ booking }: BookingItemProps) => {
                                         Avaliar
                                     </Button>
                                 }
-
                             </div>
                         </SheetFooter>
-
                     </div>
                 </SheetContent>
             </Sheet>
@@ -142,7 +152,7 @@ const BookingItem = ({ booking }: BookingItemProps) => {
     )
 }
 
-export default BookingItem
+export default BookingItemAdmin
 
 
 

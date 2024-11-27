@@ -21,7 +21,7 @@ const LoginPage = () => {
         if (res?.error) {
             setError("Credenciais inválidas.");
         } else {
-            router.push("/admin");
+            router.push("/admin/agendamentos");
         }
     };
 

@@ -8,15 +8,15 @@ import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle }
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { useEffect, useMemo, useState } from "react";
-import { getAvailableTimes } from "@/actions/GetAvailableTimes";
+import { GetTimes } from "@/actions/(get)/GetTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
 import { format, set } from "date-fns";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
-import { createBooking } from "@/actions/createBooking";
+import { createBooking } from "@/actions/(create)/createBooking";
 import BookingSummary from "./BookingSummary";
-import { getBookings } from "@/actions/BookingAlreadyMade";
+import { getBookings } from "@/actions/(get)/BookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 
 
@@ -59,7 +59,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     const [timeList, setTimeList] = useState<Times[]>([])
     useEffect(() => {
         const fetch = async () => {
-            const times = await getAvailableTimes()
+            const times = await GetTimes()
             setTimeList(times)
         }
         fetch()
@@ -92,7 +92,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     useEffect(() => {
         const fetch = async () => {
             if (!selectedDay) return
-            const bookings = await getBookings({ serviceId: service.id, date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
+            const bookings = await getBookings({ date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
             setbookingsAlreadyMade(bookings)
         }
         fetch()

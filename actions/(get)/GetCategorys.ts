@@ -13,3 +13,7 @@ export const getCategorys = async () => {
 
   return category;
 };
+
+
+
+//busca as categorias
