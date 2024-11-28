@@ -20,7 +20,7 @@ export function Sidebar({ children, className }: SidebarGenericProps) {
 
 export function SidebarHeader({ children, className }: SidebarGenericProps) {
     return (
-        <header className={cn(['flex items-center gap-2 px-6 py-3 border-b-[0.1px]', className])}>
+        <header className={cn(['flex items-center gap-2 px-6 py-2.5 border-b-[0.1px] bg-card', className])}>
             {children}
         </header>
     );
@@ -34,7 +34,7 @@ type SidebarImageHeaderProps = {
 
 export function SidebarImageHeader({ children, className, imageSrc, alt }: SidebarGenericProps<SidebarImageHeaderProps>) {
     return (
-        <div className={cn(['p-2 bg-primary rounded-xl', className])}>
+        <div className={cn(['bg-primary rounded-xl p-2', className])}>
             <Image width={20} height={20} src={imageSrc} alt={alt}>
                 {children}
             </Image>
@@ -117,7 +117,7 @@ export function SidebarNavLinkBorder({ className }: SidebarGenericProps) {
 
 export function SidebarFooter({ children, className }: SidebarGenericProps) {
     return (
-        <footer className={cn(['p-6 mt-auto border-t-[0.1px] border-muted-foreground', className])}>
+        <footer className={cn(['p-3 mt-auto border-t-[0.1px] border-muted-foreground', className])}>
             {children}
         </footer>
     );

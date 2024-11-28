@@ -8,7 +8,7 @@ import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle }
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { useEffect, useMemo, useState } from "react";
-import { GetTimes } from "@/actions/(get)/GetTimes";
+import { getTimes } from "@/actions/(get)/getTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
 import { format, set } from "date-fns";
@@ -16,7 +16,7 @@ import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/(create)/createBooking";
 import BookingSummary from "./BookingSummary";
-import { getBookings } from "@/actions/(get)/BookingAlreadyMade";
+import { bookingAlreadyMade } from "@/actions/(get)/bookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 
 
@@ -59,7 +59,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     const [timeList, setTimeList] = useState<Times[]>([])
     useEffect(() => {
         const fetch = async () => {
-            const times = await GetTimes()
+            const times = await getTimes()
             setTimeList(times)
         }
         fetch()
@@ -92,26 +92,29 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     useEffect(() => {
         const fetch = async () => {
             if (!selectedDay) return
-            const bookings = await getBookings({ date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
+            const bookings = await bookingAlreadyMade({ date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
             setbookingsAlreadyMade(bookings)
         }
         fetch()
     }, [selectedDay, service.id])
 
-    const dateBookings = bookingsAlreadyMade.map(booking => booking.date)
+    const dateBookings = bookingsAlreadyMade.map(booking => booking.date) //aqui filtra os horarios já agendados para o dia selecionado.
     const horaDiaAgendamento = dateBookings.map((booking) => {
         const parsedDate = new Date(booking)
-        return format(parsedDate, 'H:mm')
+        return format(parsedDate, 'H:mm') //retorna a string da hora e minuto do agendamento.
     })
 
-    const timeListTimeString = timeList.map((time => time.time))
+    const timeListTimeString = timeList.map((time => time.time)) //transformando os times do banco em um array de strings.
     const filterTimeListValidhour = timeListTimeString.map((time) => {
 
+        //##########################BUSCAR NO BANCO OS DIAS E HORARIOS QUE ESTARAO INDISPONIVEIS E FILTRAR AQUI.########################################################################################################
         if (!selectedDay || selectedDay.getDay() === 0) return null; //se o dia selecionado for domingo, não retorna horários.
         if (selectedDay.getDay() === 6 && time > "12:00") return null; //se o dia selecionado for sábado só retorna horários até 12:00. (de acordo com a barbearia.)
 
         const dateTimeString = `${selectedDay?.toISOString().split('T')[0]}T${time}:00`;
         return new Date(dateTimeString);//passando dateTimeString para um objeto Date (para ser usado no filtro abaixo.)  
+        //###############################################################################################################################################################################################################
+
     })
         .filter((date) => date !== null && date.getTime() > new Date().getTime()) //filtrando apenas as datas que forem maior que a data, hora e minuto atual
         .map((date) => {

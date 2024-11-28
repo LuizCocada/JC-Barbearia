@@ -58,9 +58,11 @@ const Bookings = async () => {
                                 </p>
                                 <BookmarkX className="w-[25px] h-[25px] text-background" fill="red" />
                             </div>
-                            {ConcludedBookings.map((booking) => (
-                                <BookingItem key={booking.id} booking={booking} /> //ou passamos service={booking.service} e recebemos em BookingItem service como prop.
-                            ))}
+                            <div className="flex flex-col gap-4 sm:grid sm:grid-cols-2">
+                                {ConcludedBookings.map((booking) => (
+                                    <BookingItem key={booking.id} booking={booking} /> //ou passamos service={booking.service} e recebemos em BookingItem service como prop.
+                                ))}
+                            </div>
                         </>
                     )}
                 </div>

@@ -1,6 +1,6 @@
 'use client'
 
-import { Sidebar, SidebarFooter, SidebarHeader, SidebarHeaderTitle, SidebarImageHeader, SidebarMain, SidebarNav, SidebarNavHeader, SidebarNavHeaderTitle, SidebarNavLink, SidebarNavLinkBorder, SidebarNavMain } from "../components/Sidebar";
+import { Sidebar, SidebarFooter, SidebarHeader, SidebarHeaderTitle, SidebarImageHeader, SidebarMain, SidebarNav, SidebarNavHeader, SidebarNavHeaderTitle, SidebarNavLink, SidebarNavLinkBorder, SidebarNavMain } from "../../components/Sidebar";
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";

@@ -1,13 +1,36 @@
-const FaturamentoPage = () => {
+import { Card, CardContent } from "@/components/ui/card";
+import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../components/(Dashboard)/DashboardPage";
+import { CircleDollarSign, CircleOff } from "lucide-react";
+import { getBillingOfDay } from "@/actions/(get)/getBillingOfDay";
+
+
+
+const FaturamentoPage = async () => {
+
+
+    const todayBilling = await getBillingOfDay() //retorna faturamento do dia atual. */}
+
     return (
         <div>
-            <h1>Faturamento</h1>
+            <DashboardPage>
+                <DashboardPageHeader>
+                    <DashboardPageHeaderTitle className="font-semibold text-xl">
+                        Faturamento
+                    </DashboardPageHeaderTitle>
+                </DashboardPageHeader>
+                <DashboardPageMain>
+                    <div className="flex flex-col gap-5 justify-center items-center text-muted-foreground font-bold uppercase">
 
 
-            {/* //const todayBilling = await getAllTodayBookings() //retorna faturamento do dia atual. */}
+
+                    </div>
+                </DashboardPageMain>
+            </DashboardPage>
 
 
-            {/* <Card className="border-none pt-6 max-h-36">
+
+            <div className="pt-10 px-20">
+                <Card className="border-none pt-6 max-h-36">
                     <CardContent>
                         <div className="space-y-3">
                             <div className="flex gap-1 items-center">
@@ -33,7 +56,8 @@ const FaturamentoPage = () => {
                             )}
                         </div>
                     </CardContent>
-                </Card> */}
+                </Card>
+            </div>
         </div>
     );
 }
