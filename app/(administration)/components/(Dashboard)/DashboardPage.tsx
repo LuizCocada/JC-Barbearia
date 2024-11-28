@@ -17,7 +17,7 @@ export function DashboardPage({ children, className }: DashboardPageGenericProps
 
 export function DashboardPageHeader({ children, className }: DashboardPageGenericProps) {
     return (
-        <header className={cn(['flex items-center gap-2 px-6 py-3.5 border-b-[0.1px] bg-card', className])}>
+        <header className={cn(['flex items-center gap-2 px-10 py-3 border-b-[0.1px] border-gray-300 bg-card', className])}>
             {children}
         </header>
     );
@@ -25,7 +25,7 @@ export function DashboardPageHeader({ children, className }: DashboardPageGeneri
 
 export function DashboardPageHeaderTitle({ children, className }: DashboardPageGenericProps) {
     return (
-        <h1 className={cn(['', className])}>
+        <h1 className={cn(['text-muted-foreground uppercase', className])}>
             {children}
         </h1>
     );

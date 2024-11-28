@@ -14,7 +14,7 @@ const FaturamentoPage = async () => {
         <div>
             <DashboardPage>
                 <DashboardPageHeader>
-                    <DashboardPageHeaderTitle className="font-semibold text-xl">
+                    <DashboardPageHeaderTitle>
                         Faturamento
                     </DashboardPageHeaderTitle>
                 </DashboardPageHeader>
@@ -49,7 +49,7 @@ const FaturamentoPage = async () => {
                                     </p>
                                 </div>
                             ) : (
-                                <div className="flex items-center gap-2 pt-8 px-5 text-muted-foreground">
+                                <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
                                     <CircleOff />
                                     <p>Nenhum faturamento para hoje.</p>
                                 </div>

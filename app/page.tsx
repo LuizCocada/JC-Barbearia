@@ -12,9 +12,9 @@ import Link from "next/link";
 const Home = async () => {
 
   const session = await getServerSession(authOptions)
-  const categorys = await db.category.findMany({})
 
   const ConfirmedBookings = await GetConfirmedBookings()
+  const categorys = await db.category.findMany({})
   const services = await db.service.findMany({
     include: {
       category: true
@@ -27,7 +27,7 @@ const Home = async () => {
 
       {session?.user &&
         (
-          <div className="border-b-[0.1px] border-muted-foreground pb-1">
+          <div className="border-b-[0.1px] border-gray-200 pb-1">
             <div className="mt-2 w-fit">
               <Link href={"/bookings"}>
                 <h2 className="text-xs font-bold px-5 pt-5 sm:text-sm md:text-xl hover:underline">
@@ -70,7 +70,7 @@ const Home = async () => {
         </Card>
       </div>
 
-      <h2 className="text-xs font-bold flex items-center px-5 pt-5 sm:text-sm md:text-xl border-t-[0.1px] border-muted-foreground">
+      <h2 className="text-xs font-bold flex items-center px-5 pt-5 sm:text-sm md:text-xl border-t-[0.1px] border-gray-200">
         NOSSOS SERVIÇOS
       </h2>
 
@@ -79,7 +79,6 @@ const Home = async () => {
           <ServicesMain key={service.id} service={service} />
         ))}
       </div>
-
     </div>
   );
 }

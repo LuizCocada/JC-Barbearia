@@ -41,7 +41,7 @@ const AgendamentosPage = () => {
         <div>
             <DashboardPage>
                 <DashboardPageHeader>
-                    <DashboardPageHeaderTitle className="font-semibold text-xl">
+                    <DashboardPageHeaderTitle>
                         Agendamentos
                     </DashboardPageHeaderTitle>
                 </DashboardPageHeader>
@@ -65,10 +65,10 @@ const AgendamentosPage = () => {
                                             <table className="w-full text-left rounded-xl overflow-hidden">
                                                 <thead className="bg-gray-100">
                                                     <tr>
-                                                        <th className="p-4 border-r-[0.1px]">Nome</th>
-                                                        <th className="p-4 border-r-[0.1px]">Telefone</th>
-                                                        <th className="p-4 border-r-[0.1px]">Serviço</th>
-                                                        <th className="p-4 border-r-[0.1px]">Valor</th>
+                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Nome</th>
+                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Telefone</th>
+                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Serviço</th>
+                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Valor</th>
                                                         <th className="p-4">Hora</th>
                                                     </tr>
                                                 </thead>
@@ -78,14 +78,14 @@ const AgendamentosPage = () => {
                                                             key={booking.id}
                                                             className={
                                                                 index === 0
-                                                                    ? 'bg-primary border-t-[0.1px]'
-                                                                    : 'bg-gray-200 border-t-[0.1px]'
+                                                                    ? 'bg-primary border-t-[0.1px] border-gray-300'
+                                                                    : 'bg-gray-200 border-t-[0.1px] border-gray-300'
                                                             }
                                                         >
-                                                            <td className="p-4 border-r-[0.1px] font-medium">{booking.user.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] font-medium">{booking.user.telephone}</td>
-                                                            <td className="p-4 border-r-[0.1px] font-medium">{booking.service.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] font-medium">
+                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">{booking.user.name}</td>
+                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">{booking.user.telephone}</td>
+                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">{booking.service.name}</td>
+                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">
                                                                 {Intl.NumberFormat("pt-BR", {
                                                                     style: "currency",
                                                                     currency: "BRL",
@@ -116,7 +116,7 @@ const AgendamentosPage = () => {
                             </CardContent>
                         </Card>
 
-                        <div className="border-b-[0.1px] border-muted-foreground pt-10"></div>
+                        <div className="border-b-[0.1px] border-gray-300 pt-10"></div>
 
                         <div className="grid grid-cols-2 mt-8">
                             <Card className="border-none pt-6 ">
