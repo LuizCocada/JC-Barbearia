@@ -39,7 +39,7 @@ const InputSearch = () => {
                     render={({ field }) => (
                         <FormItem className="w-full">
                             <FormControl>
-                                <Input className="bg-popover border-none rounded-xl p-5 text-background"
+                                <Input className="bg-input border-none rounded-xl p-5 text-background"
                                     placeholder="Buscar por serviços"
                                     {...field}
                                 />

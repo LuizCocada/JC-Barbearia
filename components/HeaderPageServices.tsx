@@ -11,10 +11,10 @@ interface HeaderPageServicesProps {
 
 const HeaderPageServices = ({ category }: HeaderPageServicesProps) => {
     return (
-        <Card className="rounded-none border-none text-background bg-foreground w-full">
+        <Card className="rounded-none border-none bg-card w-full">
             <CardContent className="flex items-center justify-between p-5">
                 <Link href={"/"}>
-                    <Button size={"icon"} className="bg-popover text-secondary rounded-lg p-1" asChild>
+                    <Button size={"icon"} className="bg-input rounded-lg p-1" asChild>
                         <ChevronLeft />
                     </Button>
                 </Link>

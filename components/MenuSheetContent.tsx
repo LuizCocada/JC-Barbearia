@@ -62,8 +62,8 @@ const MenuSheetContent = () => {
                     {/* se existir usuario logado rederiza o componente de cima, senao o componente d`baixo */}
                     {data?.user ? (
                         <div className="flex items-center gap-2 px-3">
-                            <div>
-                                <h2 className="font-bold">{data.user.name}</h2>
+                            <div className="font-bold">
+                                <p>Nome: {data.user.name}</p>
                                 <p>Telefone: {data.user.telephone}</p>
                             </div>
                         </div>

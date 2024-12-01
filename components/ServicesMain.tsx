@@ -19,21 +19,16 @@ const ServicesMain = ({ service }: BarberShopItemProps) => {
     return (
 
         <div className="items-center flex flex-col">
-            <Card className="min-w-[90%] rounded-xl bg-popover p-2 ">
+            <Card className="min-w-[90%] rounded-xl bg-card border-none p-2">
                 <CardContent className="p-0 px-1 pt-1">
 
                     <div className="relative h-[200px] w-full">
-                        <Image fill className="object-cover rounded" src={"/bannerYellow.png"} alt={service.name} />
-
-                        <Badge className="absolute top-2 left-2" variant="secondary">
-                            <StarIcon className="text-primary fill-primary" size={12} />
-                            <p className="pl-1 text-xs font-semibold">5,0</p>
-                        </Badge>
+                        <Image fill className="object-cover rounded" src={"/corteExemplo.png"} alt={service.name} />
                     </div>
 
                     <div className="px-1 py-3 ">
-                        <h3 className="font-semibold text-background truncate">{service.name}</h3>
-                        <p className="text-sm truncate font-bold text-primary">
+                        <h3 className="font-semibold truncate">{service.name}</h3>
+                        <p className="text-sm truncate">
                             {Intl.NumberFormat("pt-BR", {
                                 style: "currency",
                                 currency: "BRL",

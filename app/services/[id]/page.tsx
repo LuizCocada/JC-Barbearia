@@ -2,6 +2,8 @@
 import ServiceItem from "@/components/ServiceItem";
 import { db } from "@/lib/prisma";
 import HeaderPageServices from "@/components/HeaderPageServices";
+import { GetState } from "@/actions/(get)/getState";
+import { CircleX, EyeClosed } from "lucide-react";
 
 interface ServicesParams {
     params: {
@@ -20,6 +22,8 @@ const Services = async ({ params }: ServicesParams) => {
         }
     })
 
+    const state = await GetState();
+
     return (
         <div>
             {services.length > 0 &&
@@ -35,19 +39,26 @@ const Services = async ({ params }: ServicesParams) => {
                 />
             </div> */}
 
-            <div className="p-5 border-b-[0.1px] space-y-3">
+            <div className="p-5 border-b border-gray-200 space-y-3">
                 <h3 className="text- font-semibold">Observações</h3>
                 <p className="text-sm text-justify">Trabalhamos com horários fixos, porém, dependendo do estilo de corte e/ou problemas externos, podem ocorrer variações de hórarios</p>
             </div>
 
-            <div className="p-5 border-b-[0.1px] space-y-3">
+            <div className="p-5 border-b border-gray-200 space-y-3">
                 <h3 className="text-lg font-semibold pb-3">Serviços</h3>
                 <div className="flex flex-col md:grid grid-cols-2 gap-4">
-                    {services.map((service) => (
-                        <ServiceItem key={service.id} service={service} />
-                    ))}
-                </div>
+                    {state ? (
+                        services.map((service) => (
+                            <ServiceItem key={service.id} service={service} />
+                        ))
+                    ) : (
+                        <div className="flex items-center gap-2 p-5 text-destructive text-xl">
+                            <CircleX className="w-[25px] h-[25px] "/>
+                            <p>Barbearia está fechada...</p>
+                        </div>
+                    )}
 
+                </div>
             </div>
         </div>
     );

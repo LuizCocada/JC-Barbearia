@@ -25,7 +25,6 @@ interface ServiceItemProps {
 }
 
 const ServiceItem = ({ service }: ServiceItemProps) => {
-
     const { data } = useSession()
     const router = useRouter()
 
@@ -156,20 +155,20 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
     return (
         <>
-            <Card className="rounded-xl bg-popover">
+            <Card className="rounded-xl bg-card border-none">
                 <CardContent className="flex items-center gap-3 p-3">
                     <div className="relative max-h-[110px] min-h-[110px] max-w-[110px] min-w-[110px]">
-                        <Image alt={"alt"} src={"/bannerYellow.png"} fill className="object-cover rounded-lg" />
+                        <Image alt={"alt"} src={"/corteExemplo.png"} fill className="object-cover rounded-lg" />
                     </div>
 
                     <div className="space-y-2 flex-1">
                         <div>
-                            <h3 className="font-semibold text-sm text-background">{service.name}</h3>
-                            <p className="text-sm text-gray-300">{service.description}</p>
+                            <h3 className="font-semibold text-sm">{service.name}</h3>
+                            <p className="text-sm text-gray-400">{service.description}</p>
                         </div>
 
                         <div className="space-y-2">
-                            <p className="text-sm font-bold text-primary">
+                            <p className="text-sm">
                                 {Intl.NumberFormat("pt-BR", {
                                     style: 'currency',
                                     currency: 'BRL'

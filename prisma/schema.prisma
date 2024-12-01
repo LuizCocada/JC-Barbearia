@@ -80,3 +80,10 @@ model Times {
 
   @@map("times")
 }
+
+model State {
+  id        Int      @id @default(autoincrement())
+  isActive  Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

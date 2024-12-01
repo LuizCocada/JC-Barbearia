@@ -12,7 +12,6 @@ import Link from "next/link";
 const Home = async () => {
 
   const session = await getServerSession(authOptions)
-
   const ConfirmedBookings = await GetConfirmedBookings()
   const categorys = await db.category.findMany({})
   const services = await db.service.findMany({
@@ -27,7 +26,7 @@ const Home = async () => {
 
       {session?.user &&
         (
-          <div className="border-b-[0.1px] border-gray-200 pb-1">
+          <div className="border-b border-gray-200 pb-1">
             <div className="mt-2 w-fit">
               <Link href={"/bookings"}>
                 <h2 className="text-xs font-bold px-5 pt-5 sm:text-sm md:text-xl hover:underline">
@@ -54,7 +53,7 @@ const Home = async () => {
       }
 
       <div className="flex justify-center px-5">
-        <Card className="rounded-3xl border-none m-2 bg-popover text-background mt-8 min-w-[70%] sm:min-w-[80%] mb-8">
+        <Card className="rounded-3xl border-none m-2 bg-card text-foreground mt-8 min-w-[70%] sm:min-w-[80%] mb-8">
           <CardContent className="p-3 pt-2 mb-2">
             <div className="flex justify-center m-3 pb-3">
               <p className="text-sm font-bold px-5 md:text-xl">
@@ -70,7 +69,7 @@ const Home = async () => {
         </Card>
       </div>
 
-      <h2 className="text-xs font-bold flex items-center px-5 pt-5 sm:text-sm md:text-xl border-t-[0.1px] border-gray-200">
+      <h2 className="text-xs font-bold flex items-center px-5 pt-5 sm:text-sm md:text-xl border-t border-gray-200">
         NOSSOS SERVIÇOS
       </h2>
 

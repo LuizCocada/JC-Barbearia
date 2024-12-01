@@ -7,7 +7,7 @@ import BookingItem from "@/components/BookingItem"
 import { Card } from "@/components/ui/card"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { ChevronLeft, BookmarkCheck, BookmarkX } from "lucide-react"
+import { ChevronLeft, BookmarkCheck, BookmarkX, CircleOff } from "lucide-react"
 
 
 const Bookings = async () => {
@@ -24,7 +24,7 @@ const Bookings = async () => {
         <>
             <div className="p-5 space-y-6">
 
-                <Card className="p-5 bg-foreground text-background flex items-center gap-5">
+                <Card className="flex items-center gap-5 p-5 bg-card border-none">
                     <Link href={"/"}>
                         <Button size={"icon"} className="bg-popover text-secondary rounded-lg p-1" asChild>
                             <ChevronLeft />
@@ -34,19 +34,24 @@ const Bookings = async () => {
                 </Card>
 
                 <div className="space-y-3">
-                    {ConfirmedBookings.length > 0 && (
-                        <>
-                            <div className="flex items-center gap-2">
-                                <p className="text-sm">
-                                    CONFIRMADOS
-                                </p>
-                                <BookmarkCheck className="w-[25px] h-[25px] text-background" fill="green" />
+                    <div className="space-y-3">
+                        {ConfirmedBookings.length > 0 ? (
+                            <>
+                                <div className="flex items-center gap-2">
+                                    <p className="text-sm">CONFIRMADOS</p>
+                                    <BookmarkCheck className="w-[25px] h-[25px] text-background" fill="green" />
+                                </div>
+                                {ConfirmedBookings.map((booking) => (
+                                    <BookingItem key={booking.id} booking={booking} />
+                                ))}
+                            </>
+                        ) : (
+                            <div className="flex items-center justify-center gap-2 text-muted-foreground font-semibold">
+                                <CircleOff />
+                                <p>Você não tem agendamentos confirmados</p>
                             </div>
-                            {ConfirmedBookings.map((booking) => (
-                                <BookingItem key={booking.id} booking={booking} /> //ou passamos service={booking.service} e recebemos em BookingItem service como prop.
-                            ))}
-                        </>
-                    )}
+                        )}
+                    </div>
                 </div>
 
                 <div className="space-y-3">
