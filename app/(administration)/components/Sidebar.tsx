@@ -4,7 +4,7 @@ import Link from "next/link";
 
 
 export type SidebarGenericProps<T = unknown> = {
-    children: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
 } & T;
 
@@ -27,17 +27,15 @@ export function SidebarHeader({ children, className }: SidebarGenericProps) {
 }
 
 
-type SidebarImageHeaderProps = {
-    imageSrc: string;
-    alt: string;
-};
+// type SidebarImageHeaderProps = {
+//     imageSrc: string;
+//     alt: string;
+// };
 
-export function SidebarImageHeader({ children, className, imageSrc, alt }: SidebarGenericProps<SidebarImageHeaderProps>) {
+export function SidebarImageHeader({ children, className }: SidebarGenericProps) {
     return (
         <div className={cn(['bg-primary rounded-xl p-1', className])}>
-            <Image width={20} height={20} src={imageSrc} alt={alt}>
-                {children}
-            </Image>
+            {children}
         </div>
     );
 }

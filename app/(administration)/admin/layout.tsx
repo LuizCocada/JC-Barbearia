@@ -1,7 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import Header from "../components/Header";
 import { MainSidebar } from "../components/(Dashboard)/MainSidebar";
-import { CheckedProvider } from "@/hooks/context/CheckedContext";
 
 
 

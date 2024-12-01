@@ -1,8 +1,6 @@
 import Image from "next/image";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { Badge } from "./ui/badge";
-import { StarIcon } from "lucide-react";
 import Link from "next/link";
 import { Prisma } from "@prisma/client";
 

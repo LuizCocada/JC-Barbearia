@@ -1,6 +1,7 @@
 'use client'
 
 import { Sidebar, SidebarFooter, SidebarHeader, SidebarHeaderTitle, SidebarImageHeader, SidebarMain, SidebarNav, SidebarNavHeader, SidebarNavHeaderTitle, SidebarNavLink, SidebarNavLinkBorder, SidebarNavMain } from "../../components/Sidebar";
+import Image from 'next/image';
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
@@ -24,7 +25,9 @@ export function MainSidebar() {
     return (
         <Sidebar className="h-[100vh]">
             <SidebarHeader>
-                <SidebarImageHeader imageSrc="/barba.svg" alt="logoJcbarbearia" children={undefined} />
+                <SidebarImageHeader>
+                    <Image width={20} height={20} src={"/barba.svg"} alt={'logo'} />
+                </SidebarImageHeader>
                 <SidebarHeaderTitle>JC Barbearia</SidebarHeaderTitle>
             </SidebarHeader>
             <SidebarMain className="flex flex-col flex-grow">
@@ -35,17 +38,17 @@ export function MainSidebar() {
                             <BookmarkCheck className="w-[18px] h-[18px]" />
                             Agendamentos
                         </SidebarNavLink>
-                        <SidebarNavLinkBorder children={undefined}></SidebarNavLinkBorder>
+                        <SidebarNavLinkBorder />
                         <SidebarNavLink className="flex items-center gap-2" href="/admin/faturamento" active={isActive('/admin/faturamento')}>
                             <CircleDollarSign className="w-[18px] h-[18px]" />
                             Faturamento
                         </SidebarNavLink>
-                        <SidebarNavLinkBorder children={undefined}></SidebarNavLinkBorder>
+                        <SidebarNavLinkBorder />
                         <SidebarNavLink className="flex items-center gap-2" href="/admin/clientes" active={isActive('/admin/')}>
                             <PersonIcon className="w-[18px] h-[18px]" />
                             Clientes
                         </SidebarNavLink>
-                        <SidebarNavLinkBorder children={undefined}></SidebarNavLinkBorder>
+                        <SidebarNavLinkBorder />
                     </SidebarNavMain>
                 </SidebarNav>
 
@@ -58,7 +61,7 @@ export function MainSidebar() {
                             <Clock className="w-[18px] h-[18px]" />
                             Horários
                         </SidebarNavLink>
-                        <SidebarNavLinkBorder children={undefined}></SidebarNavLinkBorder>
+                        <SidebarNavLinkBorder />
                     </SidebarNavMain>
                 </SidebarNav>
 

@@ -3,7 +3,7 @@ import ServiceItem from "@/components/ServiceItem";
 import { db } from "@/lib/prisma";
 import HeaderPageServices from "@/components/HeaderPageServices";
 import { GetState } from "@/actions/(get)/getState";
-import { CircleX, EyeClosed } from "lucide-react";
+import { CircleX } from "lucide-react";
 
 interface ServicesParams {
     params: {
@@ -53,7 +53,7 @@ const Services = async ({ params }: ServicesParams) => {
                         ))
                     ) : (
                         <div className="flex items-center gap-2 p-5 text-destructive text-xl">
-                            <CircleX className="w-[25px] h-[25px] "/>
+                            <CircleX className="w-[25px] h-[25px] " />
                             <p>Barbearia está fechada...</p>
                         </div>
                     )}
