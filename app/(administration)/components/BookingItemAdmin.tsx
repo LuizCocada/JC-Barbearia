@@ -8,7 +8,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from "sonner"
 import { useState } from "react"
 import BookingSummary from "../../../components/BookingSummary"
-import { deleteBooking } from "@/actions/(delete)/deleteBooking"
+import { deleteBooking } from "@/actions/delete/deleteBooking"
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"

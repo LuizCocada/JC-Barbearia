@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../components/(Dashboard)/DashboardPage";
 import { CircleDollarSign, CircleOff } from "lucide-react";
-import { getBillingOfDay } from "@/actions/(get)/getBillingOfDay";
+import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
 
 
 

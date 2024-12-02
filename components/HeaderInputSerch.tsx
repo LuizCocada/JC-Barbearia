@@ -8,7 +8,7 @@ import { ptBR } from "date-fns/locale";
 import { Card, CardContent } from "./ui/card";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
-import { GetState } from "@/actions/(get)/getState";
+import { GetState } from "@/actions/get/getState";
 import { Badge } from "./ui/badge";
 
 

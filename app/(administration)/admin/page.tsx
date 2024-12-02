@@ -1,10 +1,10 @@
 'use client'
 
-import { UpdateState } from "@/actions/(put)/updateState";
+import { UpdateState } from "@/actions/put/updateState";
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderNav, DashboardPageHeaderTitle, DashboardPageMain } from "../components/(Dashboard)/DashboardPage";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
-import { GetState } from "@/actions/(get)/getState";
+import { GetState } from "@/actions/get/getState";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";

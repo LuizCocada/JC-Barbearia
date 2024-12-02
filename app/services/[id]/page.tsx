@@ -2,7 +2,7 @@
 import ServiceItem from "@/components/ServiceItem";
 import { db } from "@/lib/prisma";
 import HeaderPageServices from "@/components/HeaderPageServices";
-import { GetState } from "@/actions/(get)/getState";
+import { GetState } from "@/actions/get/getState";
 import { CircleX } from "lucide-react";
 
 interface ServicesParams {

@@ -11,7 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from "sonner"
 import { useState } from "react"
 import BookingSummary from "./BookingSummary"
-import { deleteBooking } from "@/actions/(delete)/deleteBooking"
+import { deleteBooking } from "@/actions/delete/deleteBooking"
 
 
 interface BookingItemProps {

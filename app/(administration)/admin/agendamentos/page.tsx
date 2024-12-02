@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { BookmarkCheck, CircleOff, Mail } from "lucide-react";
-import { GetCurrentBookings } from "@/actions/(get)/getCurrentBookings";
+import { GetCurrentBookings } from "@/actions/get/getCurrentBookings";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useEffect, useState } from "react";

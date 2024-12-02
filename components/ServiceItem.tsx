@@ -8,15 +8,15 @@ import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle }
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
 import { useEffect, useMemo, useState } from "react";
-import { getTimes } from "../actions/(get)/getTimes";
+import { getTimes } from "../actions/get/getTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
 import { format, set } from "date-fns";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
-import { createBooking } from "@/actions/(create)/createBooking";
+import { createBooking } from "@/actions/create/createBooking";
 import BookingSummary from "./BookingSummary";
-import { bookingAlreadyMade } from "../actions/(get)/bookingAlreadyMade";
+import { bookingAlreadyMade } from "../actions/get/bookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 
 
