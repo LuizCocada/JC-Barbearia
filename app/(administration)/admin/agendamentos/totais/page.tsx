@@ -188,7 +188,7 @@ const AgendamentosTotaisPage = () => {
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
                                                 <CircleOff />
-                                                <p>Nenhum há agendamentos</p>
+                                                <p>Não há agendamentos</p>
                                             </div>
                                         )
                                     )}
