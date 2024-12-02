@@ -8,9 +8,9 @@ const Layout = ({ children }: PropsWithChildren) => {
 
     return (
         <div>
-            <div className="grid grid-cols-[15rem_1fr]">
+            <div className="grid grid-cols-[15rem_1fr] h-screen">
                 <MainSidebar />
-                <main>
+                <main className="overflow-auto [&::-webkit-scrollbar]:hidden">
                     {children}
                 </main>
             </div>

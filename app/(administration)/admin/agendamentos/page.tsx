@@ -50,8 +50,8 @@ const AgendamentosPage = () => {
                         <Card className="border-none pt-6">
                             <CardContent>
                                 <div className="space-y-6">
-                                    <div className="flex gap-1 items-center">
-                                        <h3 className="font-semibold text-xl">Agendamentos confirmados para hoje</h3>
+                                    <div className="flex gap-1 items-center border-b-[0.1px] border-gray-300">
+                                        <h3 className="font-semibold text-xl">Agendamentos confirmados</h3>
                                         <BookmarkCheck className="w-[25px] h-[25px] text-background" fill="green" />
                                     </div>
 

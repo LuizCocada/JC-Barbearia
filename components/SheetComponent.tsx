@@ -21,7 +21,7 @@ const SheetComponent = () => {
     return (
         <Sheet open={isOpen} onOpenChange={setIsOpen}>
             <SheetTrigger asChild>
-                <Button size={"icon"} variant={"link"} className="bg-primary text-foreground rounded-lg p-1" asChild>
+                <Button size={"icon"} variant={"link"} className="bg-input text-foreground rounded-lg p-1" asChild>
                     <MenuIcon />
                 </Button>
             </SheetTrigger>

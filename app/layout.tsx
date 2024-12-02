@@ -25,7 +25,7 @@ export default function RootLayout({
             <div className="flex-1 bg-muted">
               {children}
             </div>
-            <Footer />
+            {/* <Footer /> */}
           </div>
         </AuthProvider>
         <Toaster />
