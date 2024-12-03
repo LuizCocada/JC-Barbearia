@@ -3,6 +3,7 @@
 import { db } from "@/lib/prisma";
 
 export const GetCurrentBookings = async () => {
+  
   const endOfToday = new Date();
   endOfToday.setHours(23, 59, 59, 999);
 
