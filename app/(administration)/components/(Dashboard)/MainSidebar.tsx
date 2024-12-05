@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
-import { BookmarkCheck, CircleDollarSign, Clock, LogOutIcon } from "lucide-react";
+import { BookmarkCheck, Clock, LogOutIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { PersonIcon } from "@radix-ui/react-icons";
 

@@ -1,6 +1,5 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { AlarmClockPlus } from 'lucide-react';
 import React from 'react';
 
 interface HorarioCardProps {

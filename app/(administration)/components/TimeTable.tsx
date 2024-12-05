@@ -52,7 +52,7 @@ const TimeTable = () => {
             }
         }
         fetchTimes();
-    }, []);
+    }, []); 
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -103,7 +103,7 @@ const TimeTable = () => {
                 <TableBody>
                     {loading ? (<TableRow><TableCell>Carregando...</TableCell></TableRow>) : (
                         times.map((time) => (
-                            <TableRow>
+                            <TableRow key={time.id}>
                                 <TableCell className="font-medium">{time.time}</TableCell>
                                 <TableCell>
                                     <Button variant={"link"}>

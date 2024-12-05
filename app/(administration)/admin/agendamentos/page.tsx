@@ -12,7 +12,6 @@ import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, Dashboard
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
-import { Decimal } from "@prisma/client/runtime/library";
 const AgendamentosPage = () => {
 
     type BookingWithRelations = Booking & {

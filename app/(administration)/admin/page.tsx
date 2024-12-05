@@ -8,10 +8,6 @@ import { GetState } from "@/actions/get/getState";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
-import { Card, CardContent } from "@/components/ui/card";
-import { AlarmClock, AlarmClockMinus, AlarmClockPlus } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import HourCard from "../components/HourCard";
 import TimeTable from "../components/TimeTable";
 
 
