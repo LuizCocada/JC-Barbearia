@@ -23,10 +23,10 @@ export function MainSidebar() {
 
 
     return (
-        <Sidebar className="h-[100vh]">
+        <Sidebar>
             <SidebarHeader>
                 <SidebarImageHeader>
-                    <Image width={20} height={20} src={"/barba.svg"} alt={'logo'} />
+                    <Image width={40} height={40} className="rounded" src={"/logoBarber.png"} alt={'logo'} />
                 </SidebarImageHeader>
                 <SidebarHeaderTitle>JC Barbearia</SidebarHeaderTitle>
             </SidebarHeader>
@@ -39,11 +39,11 @@ export function MainSidebar() {
                             Agendamentos
                         </SidebarNavLink>
                         <SidebarNavLinkBorder />
-                        <SidebarNavLink className="flex items-center gap-2" href="/admin/faturamento" active={isActive('/admin/faturamento')}>
+                        {/* <SidebarNavLink className="flex items-center gap-2" href="/admin/faturamento" active={isActive('/admin/faturamento')}>
                             <CircleDollarSign className="w-[18px] h-[18px]" />
                             Faturamento
-                        </SidebarNavLink>
-                        <SidebarNavLinkBorder />
+                        </SidebarNavLink> */}
+                        {/* <SidebarNavLinkBorder /> */}
                         <SidebarNavLink className="flex items-center gap-2" href="/admin/clientes" active={isActive('/admin/')}>
                             <PersonIcon className="w-[18px] h-[18px]" />
                             Clientes
@@ -57,7 +57,7 @@ export function MainSidebar() {
                         <SidebarNavHeaderTitle>Gerenciar</SidebarNavHeaderTitle>
                     </SidebarNavHeader>
                     <SidebarNavMain>
-                        <SidebarNavLink className="flex items-center gap-2 font-medium underline" href="/admin">
+                        <SidebarNavLink className="flex items-center gap-2 font-medium underline" href="/admin" active={isActive('/admin')}>
                             <Clock className="w-[18px] h-[18px]" />
                             Horários
                         </SidebarNavLink>

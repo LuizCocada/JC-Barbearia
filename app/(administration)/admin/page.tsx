@@ -8,6 +8,11 @@ import { GetState } from "@/actions/get/getState";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
+import { Card, CardContent } from "@/components/ui/card";
+import { AlarmClock, AlarmClockMinus, AlarmClockPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import HourCard from "../components/HourCard";
+import TimeTable from "../components/TimeTable";
 
 
 const AdminPage = () => {
@@ -22,7 +27,6 @@ const AdminPage = () => {
             const state = await GetState();
             setChecked(state);
         };
-
         fetchState();
     }, []);
 
@@ -30,7 +34,6 @@ const AdminPage = () => {
         setNewChecked(newChecked);
         setIsDialogOpen(true);
     }
-
     const handleConfirm = async () => {
         try {
             await UpdateState({ state: newChecked });
@@ -42,12 +45,9 @@ const AdminPage = () => {
             console.error(err);
         }
     }
-
     const handleCancel = () => {
         setIsDialogOpen(false);
     }
-
-
 
     return (
         <DashboardPage>
@@ -63,14 +63,28 @@ const AdminPage = () => {
                 </DashboardPageHeaderNav>
             </DashboardPageHeader>
             <DashboardPageMain>
-                <div className="flex flex-col gap-5 justify-center items-center text-muted-foreground font-bold uppercase">
-                    <h1>
-                        Painel Administrativo
-                    </h1>
-                    <h1>
-                        JC-Barbearia
-                    </h1>
+                {/* <div className="grid grid-cols-3 pt-5 border-t border-gray-700">
+                    <HourCard
+                        icon={<AlarmClock size={200} />}
+                        description={"Atualize horários fixos."}
+                        buttonText={"Remover"}
+                    />
+                    <HourCard
+                        icon={<AlarmClockPlus size={200} />}
+                        description={"Adicione horários fixos."}
+                        buttonText={"Adicionar"}
+                    />
+                    <HourCard
+                        icon={<AlarmClockMinus size={200} />}
+                        description={"Remova horários fixos."}
+                        buttonText={"Remover"}
+                    />
+                </div> */}
+                <div className="p-10 px-20">
+                    <TimeTable />
                 </div>
+
+
             </DashboardPageMain>
             <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <AlertDialogContent>
@@ -86,6 +100,9 @@ const AdminPage = () => {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
+
+
+
         </DashboardPage>
     )
 };

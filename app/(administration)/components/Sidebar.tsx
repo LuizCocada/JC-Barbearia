@@ -33,7 +33,7 @@ export function SidebarHeader({ children, className }: SidebarGenericProps) {
 
 export function SidebarImageHeader({ children, className }: SidebarGenericProps) {
     return (
-        <div className={cn(['bg-primary rounded-xl p-1', className])}>
+        <div className={cn(['', className])}>
             {children}
         </div>
     );

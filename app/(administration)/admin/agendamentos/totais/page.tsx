@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from "@/components/ui/card";
-import { BookmarkCheck, CircleOff, Mail } from "lucide-react";
+import { BookmarkCheck, ChevronLeft, CircleOff, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Booking, Service, User } from "@prisma/client";
@@ -11,6 +11,7 @@ import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { GetBookingOfDay } from "@/actions/get/getBookingOfDay";
 import { GetAllBookings } from "@/actions/get/getAllBookings";
+import Link from "next/link";
 const AgendamentosTotaisPage = () => {
 
     type BookingWithRelations = Booking & {
@@ -18,7 +19,7 @@ const AgendamentosTotaisPage = () => {
         service: Service;
     };
 
-    
+
     //agendamentos do dia
     const [loadingTodayBookings, setLoadingTodayBookings] = useState(true);
     const [ConfirmedTodayBookings, setConfirmedTodayBookings] = useState<BookingWithRelations[]>([]);
@@ -59,13 +60,16 @@ const AgendamentosTotaisPage = () => {
         setReloadAllBookings(reloadAllBookings + 1);
     }
 
- 
+
 
     return (
         <div>
             <DashboardPage>
                 <DashboardPageHeader>
-                    <DashboardPageHeaderTitle>
+                    <DashboardPageHeaderTitle className="flex gap-3">
+                        <Link href="/admin/agendamentos">
+                            <ChevronLeft />
+                        </Link>
                         Agendamentos Totais
                     </DashboardPageHeaderTitle>
                 </DashboardPageHeader>
@@ -160,7 +164,8 @@ const AgendamentosTotaisPage = () => {
                                                         <th className="p-4 border-r-[0.1px] border-gray-200">Telefone</th>
                                                         <th className="p-4 border-r-[0.1px] border-gray-200">Serviço</th>
                                                         <th className="p-4 border-r-[0.1px] border-gray-200">Valor</th>
-                                                        <th className="p-4">Hora</th>
+                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Hora</th>
+                                                        <th className="p-4">Data</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -178,8 +183,11 @@ const AgendamentosTotaisPage = () => {
                                                                     currency: "BRL",
                                                                 }).format(Number(booking.service.price))}
                                                             </td>
-                                                            <td className="p-4 font-medium">
+                                                            <td className="p-4 border-r-[0.1px] border-gray-600  font-medium">
                                                                 {format(new Date(booking.date), 'HH:mm', { locale: ptBR })}
+                                                            </td>
+                                                            <td className="p-4 font-medium">
+                                                                {format(new Date(booking.date), 'dd/MM/yyyy', { locale: ptBR })}
                                                             </td>
                                                         </tr>
                                                     ))}

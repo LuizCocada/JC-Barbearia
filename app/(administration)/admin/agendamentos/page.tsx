@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from "@/components/ui/card";
-import { BookmarkCheck, CircleOff, Mail } from "lucide-react";
+import { BookmarkCheck, CircleDollarSign, CircleOff, Mail } from "lucide-react";
 import { GetCurrentBookings } from "@/actions/get/getCurrentBookings";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
@@ -11,6 +11,8 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../components/(Dashboard)/DashboardPage";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
+import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
+import { Decimal } from "@prisma/client/runtime/library";
 const AgendamentosPage = () => {
 
     type BookingWithRelations = Booking & {
@@ -19,17 +21,20 @@ const AgendamentosPage = () => {
     };
 
     const [ConfirmedTodayBookings, setConfirmedTodayBookings] = useState<BookingWithRelations[]>([]);
+    const [todayBilling, setTodayBilling] = useState<number>(0);
     const [loading, setLoading] = useState(true);
     const [reloadCount, setReloadCount] = useState(0);
 
     useEffect(() => {
-        const fetchBookings = async () => {
+        const fetchBookingsAndInvoicing = async () => {
             const bookings = await GetCurrentBookings();
+            const todayBilling = await getBillingOfDay();
             setConfirmedTodayBookings(bookings);
+            setTodayBilling(todayBilling);
             setLoading(false);
         };
 
-        fetchBookings();
+        fetchBookingsAndInvoicing();
     }, [reloadCount]);
 
     const reload = () => {
@@ -118,7 +123,7 @@ const AgendamentosPage = () => {
 
                         <div className="border-b-[0.1px] border-gray-300 pt-10"></div>
 
-                        <div className="grid grid-cols-2 mt-8">
+                        <div className="grid grid-cols-2 gap-10 mt-8">
                             <Card className="border-none pt-6 ">
                                 <CardContent>
                                     <div className="flex gap-2 items-center">
@@ -132,6 +137,33 @@ const AgendamentosPage = () => {
                                                 Clique aqui
                                             </Link>
                                         </Button>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                            <Card className="border-none pt-6 max-h-36">
+                                <CardContent>
+                                    <div className="space-y-3">
+                                        <div className="flex gap-1 items-center">
+                                            <h3 className="font-semibold text-xl">Faturamento do dia</h3>
+                                            <CircleDollarSign className="w-[25px] h-[25px] text-background" fill="green" />
+                                        </div>
+
+                                        {todayBilling > 0 ? (
+                                            <div className="p-2 flex gap-1 text-lg font-bold">
+                                                <p className="">Total: </p>
+                                                <p className=" underline">
+                                                    {Intl.NumberFormat("pt-BR", {
+                                                        style: "currency",
+                                                        currency: "BRL",
+                                                    }).format(Number(todayBilling))}
+                                                </p>
+                                            </div>
+                                        ) : (
+                                            <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
+                                                <CircleOff />
+                                                <p>Nenhum faturamento para hoje.</p>
+                                            </div>
+                                        )}
                                     </div>
                                 </CardContent>
                             </Card>
