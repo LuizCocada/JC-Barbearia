@@ -1,8 +1,6 @@
 'use server';
 
-import { authOptions } from "@/lib/authOptions";
 import { db } from "@/lib/prisma";
-import { getServerSession } from "next-auth";
 import { revalidatePath } from "next/cache";
 
 interface TimeAvailableProps {

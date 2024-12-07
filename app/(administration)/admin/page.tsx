@@ -59,6 +59,7 @@ const AdminPage = () => {
                 </DashboardPageHeaderNav>
             </DashboardPageHeader>
             <DashboardPageMain>
+                
                 {/* <div className="grid grid-cols-3 pt-5 border-t border-gray-700">
                     <HourCard
                         icon={<AlarmClock size={200} />}
@@ -76,12 +77,14 @@ const AdminPage = () => {
                         buttonText={"Remover"}
                     />
                 </div> */}
+
                 <div className="p-10 px-20">
+                {/* tabela de horarios fixos */}
                     <TimeTable />
                 </div>
-
-
             </DashboardPageMain>
+
+            {/* abrir e fechar barbearia */}
             <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
                 <AlertDialogContent>
                     <AlertDialogHeader className="font-bold">
@@ -96,9 +99,6 @@ const AdminPage = () => {
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>
-
-
-
         </DashboardPage>
     )
 };

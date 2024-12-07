@@ -13,33 +13,24 @@ import {
 import { Times } from "@prisma/client";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import {
-    InputOTP,
-    InputOTPGroup,
-    InputOTPSeparator,
-    InputOTPSlot,
-} from "@/components/ui/input-otp"
-
-import { useForm } from "react-hook-form";
-import { z } from "zod"
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, FormField } from "@/components/ui/form";
-import { addTimeAvailable } from "@/actions/create/addTimeAvailable";
+import AddTimeForm from "./AddTimeForm";
+import UpdateTimeForm from "./ApdateTimeForm";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { deleteTimeAvailable } from "@/actions/delete/deleteTimeAvailable";
 import { toast } from "sonner";
 
-
-
-const formSchema = z.object({
-    title: z.string().trim().min(1, {
-        message: "Digite algo para buscar"
-    }),
-})
-
 const TimeTable = () => {
-    const [times, setTimes] = useState<Times[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [sheetAddTimeIsOpen, setSheetAddTimeIsOpen] = useState(false);
 
+    const [times, setTimes] = useState<Times[]>([]);
+    const [timeId, setTimeId] = useState<string>("");
+    const [placeholderTime, setPlaceholderTime] = useState<string>();
+    const [loading, setLoading] = useState(true);
+    const [isDialogOpen, setIsDialogOpen] = useState(false);
+    const [sheetAddTimeIsOpen, setSheetAddTimeIsOpen] = useState(false);
+    const [sheetUpdateTimeIsOpen, setSheetUpdateTimeIsOpen] = useState(false);
+
+
+    //busca os horários fixos disponíveis.
     useEffect(() => {
         const fetchTimes = async () => {
             try {
@@ -52,35 +43,56 @@ const TimeTable = () => {
             }
         }
         fetchTimes();
-    }, []); 
+    }, []);
 
-    const form = useForm<z.infer<typeof formSchema>>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            title: "",
-        },
-    })
-    
     const handleSheetAddTimeOpen = () => {
         setSheetAddTimeIsOpen(true);
     };
 
+    const handleSheetUpdateTimeOpen = (id: string, time: string) => {
+        setTimeId(id);
+        setPlaceholderTime(time);
+        setSheetUpdateTimeIsOpen(true);
+    };
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        const newTimeAdded = `${data.title.slice(0, 2)}:${data.title.slice(2, 4)}`;
-        try{
-            await addTimeAvailable({time: newTimeAdded});
-            toast.success("Horário adicionado com sucesso");
-            setSheetAddTimeIsOpen(false);
-            form.reset();
+    //fecha o sheet e atualiza a lista de horários
+    const handleAddTime = async () => {
+        setSheetAddTimeIsOpen(false);
+        const times = await getTimes();
+        setTimes(times);
+    };
 
+    const handleUpdateTime = async () => {
+        setSheetUpdateTimeIsOpen(false);
+        setTimeId("");
+        const times = await getTimes();
+        setTimes(times);
+    };
+
+    //####DELETAR HORARIO######
+    const handleOpenDialogDeleteTime = (id: string, time: string) => {
+        setIsDialogOpen(true);
+        setPlaceholderTime(time);
+        setTimeId(id);
+    };
+    const handleConfirmDeleteTime = async (id: string) => {
+        try {
+            await deleteTimeAvailable({ id: id });
             const times = await getTimes();
             setTimes(times);
+            setIsDialogOpen(false);
+            toast.success("Horário excluído com sucesso.");
         } catch (err) {
-            toast.error("Erro ao adicionar horário");
+            toast.error("Error ao excluir horário.");
             console.error(err);
         }
-    };
+    }
+    const handleCancelDeleteTime = () => {
+        setIsDialogOpen(false);
+        setPlaceholderTime("");
+        setTimeId("");
+    }
+    //#######################
 
 
     return (
@@ -106,12 +118,12 @@ const TimeTable = () => {
                             <TableRow key={time.id}>
                                 <TableCell className="font-medium">{time.time}</TableCell>
                                 <TableCell>
-                                    <Button variant={"link"}>
+                                    <Button variant={"link"} onClick={() => handleSheetUpdateTimeOpen(time.id, time.time)}>
                                         <Pencil size={18} className="text-muted-foreground" />
                                     </Button>
                                 </TableCell>
                                 <TableCell>
-                                    <Button variant={"link"}>
+                                    <Button variant={"link"} onClick={() => handleOpenDialogDeleteTime(time.id, time.time)}>
                                         <Trash2 size={18} className="text-destructive" />
                                     </Button>
                                 </TableCell>
@@ -121,42 +133,56 @@ const TimeTable = () => {
                 </TableBody>
             </Table>
 
+            {/* adicionar horarios */}
             <Sheet open={sheetAddTimeIsOpen} onOpenChange={setSheetAddTimeIsOpen}>
                 <SheetContent className="rounded-b-3xl" side={"top"}>
                     <SheetHeader>
                         <SheetTitle className="border-b border-gray-300">
-                            Adicionar um horário
+                            Adicionar horário
                         </SheetTitle>
                     </SheetHeader>
 
                     <div className="p-5">
-                        <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center gap-2">
-                                <FormField
-                                    control={form.control}
-                                    name="title"
-                                    render={({ field }) => (
-                                        <InputOTP maxLength={4} {...field}>
-                                            <InputOTPGroup>
-                                                <InputOTPSlot index={0} />
-                                                <InputOTPSlot index={1} />
-                                            </InputOTPGroup>
-                                            <InputOTPSeparator />
-                                            <InputOTPGroup>
-                                                <InputOTPSlot index={2} />
-                                                <InputOTPSlot index={3} />
-                                            </InputOTPGroup>
-                                        </InputOTP>
-                                    )}
-                                />
-                                <Button type="submit" className="w-full p-5 mt-5">
-                                    Adicionar
-                                </Button>
-                            </form>
-                        </Form>
+                        <AddTimeForm onSuccessAddTime={handleAddTime} />
                     </div>
                 </SheetContent>
             </Sheet>
+
+            {/* atualizar horarios */}
+            <Sheet open={sheetUpdateTimeIsOpen} onOpenChange={setSheetUpdateTimeIsOpen}>
+                <SheetContent className="rounded-b-3xl" side={"top"}>
+                    <SheetHeader>
+                        <SheetTitle className="border-b border-gray-300">
+                            Atualizar horário
+                        </SheetTitle>
+                    </SheetHeader>
+
+                    <div className="p-5">
+                        <UpdateTimeForm onSuccessUpdateTime={handleUpdateTime} id={timeId} placeholder={placeholderTime || ""} />
+                    </div>
+                </SheetContent>
+            </Sheet>
+
+            <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogContent>
+                    <AlertDialogHeader className="font-bold border-b border-gray-200">
+                        Excluir horário
+                    </AlertDialogHeader>
+                    <AlertDialogTitle className="text-sm font-semibold">
+                    <span className="font-normal">Você tem certeza que deseja excluir o horário de</span> ({placeholderTime})?
+                    </AlertDialogTitle>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel onClick={handleCancelDeleteTime}>Cancelar</AlertDialogCancel>
+                        <AlertDialogAction
+                            className="bg-destructive text-background hover:bg-destructive hover:text-background"
+                            onClick={() => handleConfirmDeleteTime(timeId)}
+                        >
+                            Confirmar
+                        </AlertDialogAction>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
+
         </div>
     )
 };

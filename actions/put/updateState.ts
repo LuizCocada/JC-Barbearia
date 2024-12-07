@@ -3,11 +3,11 @@
 import { db } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 
-interface UpdateStateprops {
+interface UpdateStateProps {
   state: boolean;
 }
 
-export const UpdateState = async ({ state }: UpdateStateprops) => {
+export const UpdateState = async ({ state }: UpdateStateProps) => {
   await db.state.update({
     data: {
       isActive: state,
