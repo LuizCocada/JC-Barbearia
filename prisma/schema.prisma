@@ -81,6 +81,12 @@ model Times {
   @@map("times")
 }
 
+model UnusualDay {
+  id        String   @id @default(uuid())
+  date      DateTime @unique
+  @@map("unusual_times")
+}
+
 model State {
   id        Int      @id @default(autoincrement())
   isActive  Boolean

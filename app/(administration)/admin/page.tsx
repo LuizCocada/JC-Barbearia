@@ -9,6 +9,8 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import TimeTable from "../components/TimeTable";
+import HourCard from "../components/HourCard";
+import { CalendarX2 } from "lucide-react";
 
 
 const AdminPage = () => {
@@ -59,28 +61,17 @@ const AdminPage = () => {
                 </DashboardPageHeaderNav>
             </DashboardPageHeader>
             <DashboardPageMain>
-                
-                {/* <div className="grid grid-cols-3 pt-5 border-t border-gray-700">
-                    <HourCard
-                        icon={<AlarmClock size={200} />}
-                        description={"Atualize horários fixos."}
-                        buttonText={"Remover"}
-                    />
-                    <HourCard
-                        icon={<AlarmClockPlus size={200} />}
-                        description={"Adicione horários fixos."}
-                        buttonText={"Adicionar"}
-                    />
-                    <HourCard
-                        icon={<AlarmClockMinus size={200} />}
-                        description={"Remova horários fixos."}
-                        buttonText={"Remover"}
-                    />
-                </div> */}
-
                 <div className="p-10 px-20">
-                {/* tabela de horarios fixos */}
+                    {/* tabela de horarios fixos */}
                     <TimeTable />
+
+
+                    <div className="grid grid-cols-2 py-10 my-10 border-t border-gray-300">
+                        <HourCard
+                            
+                        />
+                        
+                    </div>
                 </div>
             </DashboardPageMain>
 

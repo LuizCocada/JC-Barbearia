@@ -11,14 +11,13 @@ import { useEffect, useMemo, useState } from "react";
 import { getTimes } from "../actions/get/getTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
-import { format, set } from "date-fns";
+import { daysInWeek, format, set } from "date-fns";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/create/createBooking";
 import BookingSummary from "./BookingSummary";
 import { bookingAlreadyMade } from "../actions/get/bookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
-
 
 interface ServiceItemProps {
     service: Service
@@ -30,8 +29,13 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
     const [signInDialogItsOpen, setSignInDialogItsOpen] = useState(false)
     const [bookingSheetItsOpen, setBookingSheetItsOpen] = useState(false)
+    const [timeList, setTimeList] = useState<Times[]>([])
+    const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
+    const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
+    const [bookingsAlreadyMade, setbookingsAlreadyMade] = useState<Booking[]>([])
 
-    //verifica se o usuário está logado
+
+    // Verifica se o usuário está logado
     const handleVeridyUserLoggedIn = () => {
         if (data?.user) {
             return setBookingSheetItsOpen(true)
@@ -39,14 +43,14 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         return setSignInDialogItsOpen(true)
     }
 
-    //fechar dialog login apos login
+    // Fechar dialog login após login
     useEffect(() => {
         if (data?.user) {
             setSignInDialogItsOpen(false)
         }
     }, [data]);
 
-    //reseta ao fechar a sheet
+    // Reseta ao fechar a sheet
     const HandleBookingSheetOpenChange = () => {
         setBookingSheetItsOpen(false)
         setTimeList([])
@@ -54,8 +58,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         setSelectedTime(undefined)
     }
 
-    //busca no db a lista de horários
-    const [timeList, setTimeList] = useState<Times[]>([])
+    // Busca no db a lista de horários fixos
     useEffect(() => {
         const fetch = async () => {
             const times = await getTimes()
@@ -64,21 +67,17 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         fetch()
     }, [bookingSheetItsOpen])
 
-
-
-    //armazena o dia selecionado no calendário
-    const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
+    // Armazena o dia selecionado no calendário
     const handleSelectDay = (date: Date | undefined) => {
         setSelectedDay(date)
     }
 
-    //armazena o horário selecionado
-    const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
+    // Armazena o horário selecionado
     const handleSelectTime = (time: string) => {
         setSelectedTime(time)
     }
 
-    //insere horas escolhidas no dia selecionado.
+    // Insere horas escolhidas no dia selecionado
     const selectedDate = useMemo(() => {
         if (!selectedDay || !selectedTime) return
         return set(selectedDay, {
@@ -87,52 +86,53 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         })
     }, [selectedDay, selectedTime])
 
-    const [bookingsAlreadyMade, setbookingsAlreadyMade] = useState<Booking[]>([])
+    // Busca agendamentos já feitos
     useEffect(() => {
         const fetch = async () => {
             if (!selectedDay) return
-            const bookings = await bookingAlreadyMade({ date: selectedDay }) //pegando o id do agendamento e o dia e fazendo a busca no banco.
+            const bookings = await bookingAlreadyMade({ date: selectedDay })
             setbookingsAlreadyMade(bookings)
         }
         fetch()
     }, [selectedDay, service.id])
 
-    const dateBookings = bookingsAlreadyMade.map(booking => booking.date) //aqui filtra os horarios já agendados para o dia selecionado.
+    // Filtra horários já agendados para o dia selecionado
+    const dateBookings = bookingsAlreadyMade.map(booking => booking.date)
     const horaDiaAgendamento = dateBookings.map((booking) => {
         const parsedDate = new Date(booking)
-        return format(parsedDate, 'H:mm') //retorna a string da hora e minuto do agendamento.
+        return format(parsedDate, 'H:mm')
     })
 
-    const timeListTimeString = timeList.map((time => time.time)) //transformando os times do banco em um array de strings.
+
+    // Filtra horários disponíveis
+    const timeListTimeString = timeList.map((time => time.time))
     const filterTimeListValidhour = timeListTimeString.map((time) => {
 
-        //##########################BUSCAR NO BANCO OS DIAS E HORARIOS QUE ESTARAO INDISPONIVEIS E FILTRAR AQUI.########################################################################################################
-        if (!selectedDay || selectedDay.getDay() === 0) return null; //se o dia selecionado for domingo, não retorna horários.
-        if (selectedDay.getDay() === 6 && time > "12:00") return null; //se o dia selecionado for sábado só retorna horários até 12:00. (de acordo com a barbearia.)
+        if (!selectedDay) return null
+        if (selectedDay.getDay() === 6 && time > "12:00") return null //pensar
 
-        const dateTimeString = `${selectedDay?.toISOString().split('T')[0]}T${time}:00`;
-        return new Date(dateTimeString);//passando dateTimeString para um objeto Date (para ser usado no filtro abaixo.)  
-        //###############################################################################################################################################################################################################
 
+
+
+
+
+        const dateTimeString = `${selectedDay?.toISOString().split('T')[0]}T${time}:00`
+        return new Date(dateTimeString)
     })
-        .filter((date) => date !== null && date.getTime() > new Date().getTime()) //filtrando apenas as datas que forem maior que a data, hora e minuto atual
+        .filter((date) => date !== null && date.getTime() > new Date().getTime())
         .map((date) => {
             if (date) {
-                const hours = date.getHours();//pegando horas 
-                const minutes = date.getMinutes().toString().padStart(2, '0'); //pegando minutos e adicionando zero à esquerda se preciso.
-                return `${hours}:${minutes}`;// tempo disponivel para reserva à partir da hora e minuto do dia atual.
+                const hours = date.getHours()
+                const minutes = date.getMinutes().toString().padStart(2, '0')
+                return `${hours}:${minutes}`
             }
-            return null;
-        }
-        );
+            return null
+        })
 
-
-
+    // Cria uma nova reserva
     const handleCreateBooking = async () => {
         try {
             if (!selectedDate || !data?.user) return
-
-            // selectedDate //retorna o dia selecionado e seta o horario escolhido.
 
             await createBooking({
                 userId: data?.user.id,
@@ -189,7 +189,8 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                                             locale={ptBR}
                                             selected={selectedDay}
                                             onSelect={handleSelectDay}
-                                            fromDate={new Date()}//nao permite agendar no dia anterior à o presente. 
+                                            fromDate={new Date()}
+                                            disabled={{ dayOfWeek: [0] }}
                                             styles={{
                                                 head_cell: {
                                                     width: "100%",
@@ -213,39 +214,29 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                                                     textTransform: "capitalize",
                                                 },
                                             }}
-                                        //STYLES NESTE CASO APENAS PARA TELAS PEQUENAS, ONDE OCUPA 100% DO ESPAÇO, EM TELAS GRANDES ELE QUEBRA, `POSTERIORMENTE FAZER PARA TELAS GRANDES.`
                                         />
                                     </div>
 
                                     {selectedDay && (
                                         <div className="flex flex-wrap gap-1.5 border-b border-solid py-3">
                                             {filterTimeListValidhour.length > 0 ? (
-                                                filterTimeListValidhour.map((time) => //listTimeString filtrando do array timeList apenas as datas que estao no futuro.
+                                                filterTimeListValidhour.map((time) =>
                                                     <Button key={time} className="rounded-full"
                                                         size={"sm"}
                                                         variant={selectedTime == time ? "default" : "outline"}
                                                         onClick={() => time && handleSelectTime(time)}
-                                                        disabled={time ? horaDiaAgendamento.includes(time) : false}//se haver agendamento no banco deixa a hora indisponivel
+                                                        disabled={time ? horaDiaAgendamento.includes(time) : false}
                                                     >
                                                         {time}
                                                     </Button>
                                                 )
-
-                                            ) : <p className="text-sm font-semibold text-destructive">{selectedDay.getDay() === 0 ? "Não funcionamos aos Domingos" : "Não há mais horários disponiveis para hoje"}</p>
+                                            ) : <p className="text-sm font-semibold text-destructive">{selectedDay.getDay() === 0 ? "Não funcionamos aos Domingos" : "Não há mais horários disponiveis"}</p>
                                             }
                                         </div>
                                     )}
 
-                                    {/* <div className="flex gap-1.5 py-3 overflow-y-auto [&::-webkit-scrollbar]:hidden">
-                                        {timeList.map((time) => (
-                                            <Button key={time.id} className="rounded-xl" onClick={() => handleSelectTime(time)}>
-                                                {time.time}
-                                            </Button>
-                                        ))}
-                                    </div> */}
                                     {selectedDate && (
                                         <div className="py-5 space-y-10">
-                                            {/* RESUMO */}
                                             <BookingSummary
                                                 service={service}
                                                 selectedDate={selectedDate}
@@ -265,7 +256,6 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
                                     </SheetFooter>
                                 </SheetContent>
                             </Sheet>
-
                         </div>
                     </div>
                 </CardContent>
@@ -273,7 +263,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
 
             <Dialog
                 open={signInDialogItsOpen}
-                onOpenChange={(open) => setSignInDialogItsOpen(open)} //atualiza o estado de 'signInDialogItsOpen'
+                onOpenChange={(open) => setSignInDialogItsOpen(open)}
             >
                 <TesteOnlyContentLogin />
             </Dialog>
