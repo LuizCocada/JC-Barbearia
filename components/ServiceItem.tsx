@@ -3,7 +3,7 @@
 import Image from "next/image";
 import { Card, CardContent } from "./ui/card";
 import { Button } from "./ui/button";
-import { Booking, Service, Times } from "@prisma/client";
+import { Booking, Service, Times, UnusualDay } from "@prisma/client";
 import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle } from "./ui/sheet";
 import { ptBR } from "date-fns/locale";
 import { Calendar } from "./ui/calendar";
@@ -11,13 +11,16 @@ import { useEffect, useMemo, useState } from "react";
 import { getTimes } from "../actions/get/getTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
-import { daysInWeek, format, set } from "date-fns";
+import { isAfter } from 'date-fns';
+
+import { format, set, parseISO, isBefore } from "date-fns";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/create/createBooking";
 import BookingSummary from "./BookingSummary";
 import { bookingAlreadyMade } from "../actions/get/bookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
+import { getUnusualDays } from "@/actions/get/getUnusualDays";
 
 interface ServiceItemProps {
     service: Service
@@ -30,6 +33,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     const [signInDialogItsOpen, setSignInDialogItsOpen] = useState(false)
     const [bookingSheetItsOpen, setBookingSheetItsOpen] = useState(false)
     const [timeList, setTimeList] = useState<Times[]>([])
+    const [unusualDays, setUnusualDays] = useState<UnusualDay[]>([])
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
     const [selectedTime, setSelectedTime] = useState<string | undefined>(undefined)
     const [bookingsAlreadyMade, setbookingsAlreadyMade] = useState<Booking[]>([])
@@ -58,14 +62,18 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         setSelectedTime(undefined)
     }
 
-    // Busca no db a lista de horários fixos
+    // Busca no db a lista de horários fixos e dias incomuns
     useEffect(() => {
         const fetch = async () => {
             const times = await getTimes()
+            const unusualDays = await getUnusualDays()
             setTimeList(times)
+            setUnusualDays(unusualDays)
         }
         fetch()
     }, [bookingSheetItsOpen])
+
+
 
     // Armazena o dia selecionado no calendário
     const handleSelectDay = (date: Date | undefined) => {
@@ -104,30 +112,51 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     })
 
 
-    // Filtra horários disponíveis
-    const timeListTimeString = timeList.map((time => time.time))
+
+
+    //estudar isto
+
+    const timeListTimeString = timeList.map((time) => time.time);
+    const unusualDaysList = unusualDays.map((day) => day.date);
+
     const filterTimeListValidhour = timeListTimeString.map((time) => {
-
-        if (!selectedDay) return null
-        if (selectedDay.getDay() === 6 && time > "12:00") return null //pensar
-
-
-
-
-
-
-        const dateTimeString = `${selectedDay?.toISOString().split('T')[0]}T${time}:00`
-        return new Date(dateTimeString)
-    })
-        .filter((date) => date !== null && date.getTime() > new Date().getTime())
-        .map((date) => {
-            if (date) {
-                const hours = date.getHours()
-                const minutes = date.getMinutes().toString().padStart(2, '0')
-                return `${hours}:${minutes}`
+        if (!selectedDay) return null;
+    
+        const selectedDayString = format(selectedDay, 'yyyy-MM-dd');
+        const matchingUnusualDay = unusualDaysList.find(day => {
+            const dayString = format(day, 'yyyy-MM-dd');
+            return dayString === selectedDayString;
+        });
+    
+        if (matchingUnusualDay) {
+            const unusualDayTime = format(matchingUnusualDay, 'HH:mm:ss');
+            if (unusualDayTime === "00:00:00") {
+                return null; // Não retorna nenhum horário se a hora for 00:00:00
+            } else if (isAfter(parseISO(`${selectedDayString}T${time}:00`), parseISO(`${selectedDayString}T${unusualDayTime}`))) {
+                return null; // Retorna apenas horários anteriores à hora especificada no unusualDay
             }
-            return null
-        })
+        }
+    
+        if (selectedDay.getDay() === 6 && time > "12:00") return null;
+    
+        const dateTimeString = `${selectedDayString}T${time}:00`;
+        return parseISO(dateTimeString);
+    })
+    .filter((date) => date !== null && date.getTime() > new Date().getTime())
+    .map((date) => {
+        if (date) {
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+        return null;
+    });
+
+
+
+
+
+
 
     // Cria uma nova reserva
     const handleCreateBooking = async () => {

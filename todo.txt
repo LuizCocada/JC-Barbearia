@@ -2,4 +2,41 @@
 
 
 - 1- HourCard.tsx: Adicionar botao de confirmar a persistir o Objeto DATE no db.
+##################   OK   ##################################################################
+
+
+
+
+
 - 2 - ServiceItem.tsx: Comparar e filtrar o timeList e o unusual_time.
+
+
+
+
+
+
+    // Filtra horários disponíveis
+    const timeListTimeString = timeList.map((time => time.time))
+    const unusualDaysList = unusualDays.map((day) => day.date)
+    
+    const filterTimeListValidhour = timeListTimeString.map((time) => {
+        if (!selectedDay) return null //pensar
+        if (selectedDay.getDay() === 6 && time > "12:00") return null //pensar
+
+
+        //verificaçao de dias incomuns
+
+
+
+        const dateTimeString = `${selectedDay?.toISOString().split('T')[0]}T${time}:00`
+        return new Date(dateTimeString)
+    })
+        .filter((date) => date !== null && date.getTime() > new Date().getTime())
+        .map((date) => {
+            if (date) {
+                const hours = date.getHours()
+                const minutes = date.getMinutes().toString().padStart(2, '0')
+                return `${hours}:${minutes}`
+            }
+            return null
+        })
