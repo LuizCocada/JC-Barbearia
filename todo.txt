@@ -40,3 +40,40 @@
             }
             return null
         })
+
+
+
+
+
+    const filterTimeListValidhour = timeListTimeString.map((time) => {
+        if (!selectedDay) return null;
+    
+        const selectedDayString = format(selectedDay, 'yyyy-MM-dd');
+        const matchingUnusualDay = unusualDaysList.find(day => {
+            const dayString = format(day, 'yyyy-MM-dd');
+            return dayString === selectedDayString;
+        });
+    
+        if (matchingUnusualDay) {
+            const unusualDayTime = format(matchingUnusualDay, 'HH:mm:ss');
+            if (unusualDayTime === "00:00:00") {
+                return null; // Não retorna nenhum horário se a hora for 00:00:00
+            } else if (isAfter(parseISO(`${selectedDayString}T${time}:00`), parseISO(`${selectedDayString}T${unusualDayTime}`))) {
+                return null; // Retorna apenas horários anteriores à hora especificada no unusualDay
+            }
+        }
+    
+        if (selectedDay.getDay() === 6 && time > "12:00") return null;
+    
+        const dateTimeString = `${selectedDayString}T${time}:00`;
+        return parseISO(dateTimeString);
+    })
+    .filter((date) => date !== null && date.getTime() > new Date().getTime())
+    .map((date) => {
+        if (date) {
+            const hours = date.getHours();
+            const minutes = date.getMinutes().toString().padStart(2, '0');
+            return `${hours}:${minutes}`;
+        }
+        return null;
+    });

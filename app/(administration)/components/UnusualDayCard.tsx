@@ -4,7 +4,7 @@ import { addUnusualDay } from '@/actions/create/addUnusualDay';
 import { getTimes } from '@/actions/get/getTimes';
 import { Button } from '@/components/ui/button';
 import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardDescription, CardHeader } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { Times } from '@prisma/client';
 import { set } from 'date-fns';
@@ -15,7 +15,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from 'sonner';
 
 
-const HourCard = () => {
+const UnusualDayCard = () => {
     const [sheetOpen, setSheetOpen] = useState(false);
     const [timeList, setTimeList] = useState<Times[]>([])
     const [openOnDayBarberShop, setOpenOnDayBarberShop] = useState(false)
@@ -87,28 +87,23 @@ const HourCard = () => {
 
     return (
         <div className="items-center flex flex-col">
-            <Card className="min-w-[70%] max-w-[70%] rounded-xl bg-card border-none p-2">
-                <CardContent className="p-0 px-1 pt-1">
-                    <div className="flex flex-col items-center text-center">
-                        <CalendarX2 size={150} className="text-gray-300" />
-                        <p className="font-medium underline">Selecione o dia deseja fechar à barbearia.</p>
-                    </div>
-                    <div className="w-full pt-3">
-                        <Button
-                            className="w-full py-5"
-                            onClick={HandleSheetOpen}
-                        >
-                            Selecionar
-                        </Button>
-                    </div>
-                </CardContent>
-            </Card>
+            <div className="flex items-center flex-col w-full">
+                <button onClick={HandleSheetOpen} className="w-full">
+                    <Card className="w-full p-10 rounded-xl bg-card border-none hover:bg-gray-200 ">
+                        <CardContent className="p-0 px-1 pt-1 ">
+                            <div className="flex flex-col items-center text-center ">
+                                <CalendarX2 size={150} className="text-gray-300" />
+                            </div>
+                        </CardContent>
+                    </Card>
+                </button>
+            </div>
 
             <Sheet open={sheetOpen} onOpenChange={HandleSheetOnOpenChange}>
-                <SheetContent className='flex flex-col'>
+                <SheetContent className='flex flex-col rounded-l-3xl'>
                     <SheetHeader>
                         <SheetTitle className="border-b border-gray-300">
-                            Gerenciar Horários
+                            Gerenciar dias incomuns
                         </SheetTitle>
                     </SheetHeader>
 
@@ -252,4 +247,4 @@ const HourCard = () => {
     );
 };
 
-export default HourCard;
+export default UnusualDayCard;

@@ -14,7 +14,7 @@ import { Times } from "@prisma/client";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import AddTimeForm from "./AddTimeForm";
-import UpdateTimeForm from "./ApdateTimeForm";
+import UpdateTimeForm from "./UpdateTimeForm";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { deleteTimeAvailable } from "@/actions/delete/deleteTimeAvailable";
 import { toast } from "sonner";

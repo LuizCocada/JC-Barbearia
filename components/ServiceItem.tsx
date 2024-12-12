@@ -13,7 +13,7 @@ import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
 import { isAfter } from 'date-fns';
 
-import { format, set, parseISO, isBefore } from "date-fns";
+import { format, set, parseISO } from "date-fns";
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/create/createBooking";
@@ -111,18 +111,13 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         return format(parsedDate, 'H:mm')
     })
 
-
-
-
-    //estudar isto
-
+    //aqui filtra os dias incomuns e retorna horários maiores que o atual.
     const timeListTimeString = timeList.map((time) => time.time);
     const unusualDaysList = unusualDays.map((day) => day.date);
-
     const filterTimeListValidhour = timeListTimeString.map((time) => {
         if (!selectedDay) return null;
     
-        const selectedDayString = format(selectedDay, 'yyyy-MM-dd');
+        const selectedDayString = format(selectedDay, 'yyyy-MM-dd'); 
         const matchingUnusualDay = unusualDaysList.find(day => {
             const dayString = format(day, 'yyyy-MM-dd');
             return dayString === selectedDayString;
@@ -137,7 +132,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
             }
         }
     
-        if (selectedDay.getDay() === 6 && time > "12:00") return null;
+        if (selectedDay.getDay() === 6 && time > "12:00") return null; //caso seja sábado, não retorna horários após 12:00
     
         const dateTimeString = `${selectedDayString}T${time}:00`;
         return parseISO(dateTimeString);

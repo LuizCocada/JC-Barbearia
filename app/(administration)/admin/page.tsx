@@ -9,8 +9,9 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import TimeTable from "../components/TimeTable";
-import HourCard from "../components/HourCard";
+import UnusualDayCard from "../components/UnusualDayCard";
 import { CalendarX2 } from "lucide-react";
+import ListUnusualDayCard from "../components/ListUnusualDayCard";
 
 
 const AdminPage = () => {
@@ -66,11 +67,19 @@ const AdminPage = () => {
                     <TimeTable />
 
 
-                    <div className="grid grid-cols-2 py-10 my-10 border-t border-gray-300">
-                        <HourCard
-                            
-                        />
-                        
+                    <div className="flex gap-20 justify-around py-10 my-10 border-y border-gray-300">
+                        <div className="w-full">
+                            <p className="p-2 uppercase font-medium text-muted-foreground">
+                                Adicionar dias incomuns
+                            </p>
+                            <UnusualDayCard />
+                        </div>
+                        <div className="w-full">
+                            <p className="p-2 uppercase font-medium text-muted-foreground">
+                                Lista de dias incomuns
+                            </p>
+                            <ListUnusualDayCard />
+                        </div>
                     </div>
                 </div>
             </DashboardPageMain>
