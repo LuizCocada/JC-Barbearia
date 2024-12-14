@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${inter.className} antialiased`}>
+      <body className={`${inter.className} antialiased [&::-webkit-scrollbar]:hidden`}>
         <AuthProvider>
           <div className="h-full flex flex-col">
             <div className="flex-1 bg-muted">

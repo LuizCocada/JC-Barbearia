@@ -18,7 +18,6 @@ export const createBooking = async (params: createBookingParams) => {
   if (!user) {
     throw new Error("Usuário não autenticado");
   }
-
   if (params.userId != user.user.id) {
     throw new Error("Error inesperado de autenticação");
   }
@@ -30,31 +29,31 @@ export const createBooking = async (params: createBookingParams) => {
   revalidatePath("/bookings");
   revalidatePath("/");
 
-  // const formattedDate = params.date.toLocaleString("pt-BR", {
-  //   timeZone: "America/Fortaleza",
-  //   day: "2-digit",
-  //   month: "2-digit",
-  //   year: "numeric",
-  //   hour: "2-digit",
-  //   minute: "2-digit",
-  //   hour12: false,
-  // });
+  const formattedDate = params.date.toLocaleString("pt-BR", {
+    timeZone: "America/Fortaleza",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
 
-  // const GZAPPY_API_TOKEN = process.env.GZAPPY_API_TOKEN;
-  // const GZAPPY_INSTANCE_ID = process.env.GZAPPY_INSTANCE_ID;
+  const GZAPPY_API_TOKEN = process.env.GZAPPY_API_TOKEN;
+  const GZAPPY_INSTANCE_ID = process.env.GZAPPY_INSTANCE_ID;
 
-  // const gClient = new gzappy({
-  //   token: GZAPPY_API_TOKEN,
-  //   instanceId: GZAPPY_INSTANCE_ID,
-  // });
+  const gClient = new gzappy({
+    token: GZAPPY_API_TOKEN,
+    instanceId: GZAPPY_INSTANCE_ID,
+  });
 
-  // const messages = [
-  //   `Olá ${user.user.name}, seu agendamento para ${formattedDate} está confirmado! ✅`,
-  // ];
-  // const phones = [`55${user.user.telephone}`];
+  const messages = [
+    `Olá ${user.user.name}, seu agendamento para ${formattedDate} está confirmado! ✅`,
+  ];
+  const phones = [`55${user.user.telephone}`];
 
-  // gClient
-  //   .sendMessage(messages, phones)
-  //   .then((response) => console.log(`resposta ${response}`))
-  //   .catch((error) => console.error(error));
+  gClient
+    .sendMessage(messages, phones)
+    .then((response) => console.log(`resposta ${response}`))
+    .catch((error) => console.error(error));
 };
