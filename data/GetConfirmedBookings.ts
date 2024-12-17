@@ -20,6 +20,7 @@ export const GetConfirmedBookings = async () => {
     },
     include: {
       service: true,
+      user: true,
     },
     orderBy: {
       date: "asc",

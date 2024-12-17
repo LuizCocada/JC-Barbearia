@@ -48,7 +48,12 @@ export const createBooking = async (params: createBookingParams) => {
   });
 
   const messages = [
-    `Olá ${user.user.name}, seu agendamento para ${formattedDate} está confirmado! ✅`,
+    `
+    Agendamento confirmado ✅
+    Nome: ${user.user.name}
+    telefone: ${user.user.telephone}
+    Dia e hora: ${formattedDate}
+    `,
   ];
   const phones = [`55${user.user.telephone}`];
 

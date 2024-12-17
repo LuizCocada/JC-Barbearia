@@ -17,7 +17,8 @@ import { deleteBooking } from "@/actions/delete/deleteBooking"
 interface BookingItemProps {
     booking: Prisma.BookingGetPayload<{
         include: {
-            service: true
+            service: true,
+            user: true,
         },
     }>
 }
@@ -33,7 +34,16 @@ const BookingItem = ({ booking }: BookingItemProps) => {
 
     const handleCancelBooking = async () => {
         try {
-            await deleteBooking(booking.id)
+
+            console.log(booking.user)
+
+            await deleteBooking({
+                data: {
+                    bookingId: booking.id,
+                    date: booking.date,
+                    user: booking.user,
+                },
+            })
             setIsSheetOpen(false)
             toast.success("Reserva cancelada com sucesso!")
         } catch (error) {

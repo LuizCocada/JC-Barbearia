@@ -34,7 +34,13 @@ const BookingItemAdmin = ({ booking }: BookingItemProps) => {
 
     const handleCancelBooking = async () => {
         try {
-            await deleteBooking(booking.id)
+            await deleteBooking({
+                data: {
+                    bookingId: booking.id,
+                    date: booking.date,
+                    user: booking.user,
+                },
+            })
             setIsSheetOpen(false)
             toast.success("Reserva cancelada com sucesso!")
         } catch (error) {
