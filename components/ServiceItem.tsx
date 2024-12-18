@@ -11,9 +11,9 @@ import { useEffect, useMemo, useState } from "react";
 import { getTimes } from "../actions/get/getTimes";
 import { useSession } from "next-auth/react";
 import { Dialog } from "./ui/dialog";
-import { isAfter } from 'date-fns';
-
+import { isAfter, isBefore } from 'date-fns';
 import { format, set, parseISO } from "date-fns";
+
 import { toast } from "sonner"
 import { useRouter } from "next/navigation";
 import { createBooking } from "@/actions/create/createBooking";
@@ -21,6 +21,7 @@ import BookingSummary from "./BookingSummary";
 import { bookingAlreadyMade } from "../actions/get/bookingAlreadyMade";
 import TesteOnlyContentLogin from "./testeOnlyContentLogin";
 import { getUnusualDays } from "@/actions/get/getUnusualDays";
+
 
 interface ServiceItemProps {
     service: Service
@@ -111,46 +112,50 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
         return format(parsedDate, 'H:mm')
     })
 
-    //aqui filtra os dias incomuns e retorna horários maiores que o atual.
+console.log(unusualDays)
+
+
+//estudar isto
     const timeListTimeString = timeList.map((time) => time.time);
-    const unusualDaysList = unusualDays.map((day) => day.date);
-    const filterTimeListValidhour = timeListTimeString.map((time) => {
-        if (!selectedDay) return null;
-    
-        const selectedDayString = format(selectedDay, 'yyyy-MM-dd'); 
-        const matchingUnusualDay = unusualDaysList.find(day => {
-            const dayString = format(day, 'yyyy-MM-dd');
-            return dayString === selectedDayString;
-        });
-    
-        if (matchingUnusualDay) {
-            const unusualDayTime = format(matchingUnusualDay, 'HH:mm:ss');
-            if (unusualDayTime === "00:00:00") {
-                return null; // Não retorna nenhum horário se a hora for 00:00:00
-            } else if (isAfter(parseISO(`${selectedDayString}T${time}:00`), parseISO(`${selectedDayString}T${unusualDayTime}`))) {
-                return null; // Retorna apenas horários anteriores à hora especificada no unusualDay
+    const unusualDaysMap = unusualDays.reduce((acc: { [key: string]: { open: Date, close: Date } }, day) => {
+        const dayString = format(day.open, 'yyyy-MM-dd');
+        acc[dayString] = {
+            open: parseISO(day.open.toISOString()),
+            close: parseISO(day.close.toISOString())
+        };
+        return acc;
+    }, {});
+
+    const filterTimeListValidhour = timeListTimeString
+        .map((time) => {
+            if (!selectedDay) return null;
+
+            const selectedDayString = format(selectedDay, 'yyyy-MM-dd');
+            const matchingUnusualDay = unusualDaysMap[selectedDayString];
+
+            if (matchingUnusualDay) {
+                const timeToCheck = parseISO(`${selectedDayString}T${time}:00`);
+                const { open: openTime, close: closeTime } = matchingUnusualDay;
+
+                if (isBefore(timeToCheck, openTime) || isAfter(timeToCheck, closeTime)) {
+                    return null; // Retorna null se o horário não estiver dentro do intervalo
+                }
             }
-        }
-    
-        if (selectedDay.getDay() === 6 && time > "12:00") return null; //caso seja sábado, não retorna horários após 12:00
-    
-        const dateTimeString = `${selectedDayString}T${time}:00`;
-        return parseISO(dateTimeString);
-    })
-    .filter((date) => date !== null && date.getTime() > new Date().getTime())
-    .map((date) => {
-        if (date) {
-            const hours = date.getHours();
-            const minutes = date.getMinutes().toString().padStart(2, '0');
-            return `${hours}:${minutes}`;
-        }
-        return null;
-    });
 
+            if (selectedDay.getDay() === 6 && time > "12:00") return null;
 
-
-
-
+            const dateTimeString = `${selectedDayString}T${time}:00`;
+            return parseISO(dateTimeString);
+        })
+        .filter((date) => date !== null && date.getTime() > new Date().getTime())
+        .map((date) => {
+            if (date) {
+                const hours = date.getHours();
+                const minutes = date.getMinutes().toString().padStart(2, '0');
+                return `${hours}:${minutes}`;
+            }
+            return null;
+        });
 
 
     // Cria uma nova reserva

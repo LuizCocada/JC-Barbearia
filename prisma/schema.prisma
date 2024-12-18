@@ -82,8 +82,9 @@ model Times {
 }
 
 model UnusualDay {
-  id        String   @id @default(uuid())
-  date      DateTime @unique
+  id    String   @id @default(uuid())
+  open  DateTime
+  close DateTime
   @@map("unusual_times")
 }
 

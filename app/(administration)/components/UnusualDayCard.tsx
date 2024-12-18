@@ -14,13 +14,14 @@ import { useEffect, useMemo, useState } from 'react';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { toast } from 'sonner';
 
-
 const UnusualDayCard = () => {
     const [sheetOpen, setSheetOpen] = useState(false);
     const [timeList, setTimeList] = useState<Times[]>([])
     const [openOnDayBarberShop, setOpenOnDayBarberShop] = useState(false)
     const [selectedDay, setSelectedDay] = useState<Date | undefined>(undefined)
-    const [selectedTime, setSelectedTime] = useState<Times | undefined>(undefined)
+    const [selectedOpenTime, setSelectedOpenTime] = useState<Times | undefined>(undefined)
+    const [selectedCloseTime, setSelectedCloseTime] = useState<Times | undefined>(undefined)
+    const [selectingOpenTime, setSelectingOpenTime] = useState(true)
 
     useEffect(() => {
         const fetch = async () => {
@@ -36,28 +37,35 @@ const UnusualDayCard = () => {
     const HandleSheetOnOpenChange = () => {
         setSheetOpen(false);
         setSelectedDay(undefined);
-        setSelectedTime(undefined);
+        setSelectedOpenTime(undefined);
+        setSelectedCloseTime(undefined);
         setOpenOnDayBarberShop(false);
+        setSelectingOpenTime(true);
     }
 
     const toggleBarbershopOnDayAndTime = () => {
         setOpenOnDayBarberShop(prevState => !prevState);
-        setSelectedTime(undefined);
+        setSelectedOpenTime(undefined);
+        setSelectedCloseTime(undefined);
+        setSelectingOpenTime(true);
     }
 
-
-    //horários e dia.
     const handleSelectDay = (date: Date | undefined) => {
         setSelectedDay(date)
     }
+
     const handleSelectTime = (time: Times) => {
-        setSelectedTime(time)
+        if (selectingOpenTime) {
+            setSelectedOpenTime(time)
+            setSelectingOpenTime(false)
+        } else {
+            setSelectedCloseTime(time)
+        }
     }
 
-    //insere horas escolhidas no dia selecionado; caso sem time, seta 00:00
-    const selectedDate = useMemo(() => {
+    const selectedOpenDate = useMemo(() => {
         if (!selectedDay) return
-        if (selectedDay && !selectedTime) return set(selectedDay, {
+        if (selectedDay && !selectedOpenTime) return set(selectedDay, {
             hours: 0,
             minutes: 0,
             seconds: 0,
@@ -65,25 +73,40 @@ const UnusualDayCard = () => {
         })
 
         return set(selectedDay, {
-            hours: Number(selectedTime?.time.split(':')[0]),
-            minutes: Number(selectedTime?.time.split(':')[1]),
+            hours: Number(selectedOpenTime?.time.split(':')[0]),
+            minutes: Number(selectedOpenTime?.time.split(':')[1]),
         })
-    }, [selectedDay, selectedTime])
+    }, [selectedDay, selectedOpenTime])
+
+    const selectedCloseDate = useMemo(() => {
+        if (!selectedDay) return
+        if (selectedDay && !selectedCloseTime) return set(selectedDay, {
+            hours: 0,
+            minutes: 0,
+            seconds: 0,
+            milliseconds: 0
+        })
+
+        return set(selectedDay, {
+            hours: Number(selectedCloseTime?.time.split(':')[0]),
+            minutes: Number(selectedCloseTime?.time.split(':')[1]),
+        })
+    }, [selectedDay, selectedCloseTime])
 
     const handleCreateUnusualDay = async () => {
-
-        if (!selectedDate) return
+        if (!selectedOpenDate || !selectedCloseDate) return
 
         try {
-            await addUnusualDay({ date: selectedDate })
+            await addUnusualDay({
+                open: selectedOpenDate,
+                close: selectedCloseDate
+            })
             toast.success('Dia incomum criado com sucesso.')
         } catch (err) {
             console.error(err)
             toast.error('Erro ao criar dia incomum.')
         }
     }
-
-    console.log(selectedDate)
 
     return (
         <div className="items-center flex flex-col">
@@ -123,7 +146,7 @@ const UnusualDayCard = () => {
                                     className={`w-full rounded-xl ${openOnDayBarberShop ? 'bg-black text-background' : 'bg-primary'}`}
                                     onClick={toggleBarbershopOnDayAndTime}
                                 >
-                                    Selecione horário de encerramento
+                                    {selectingOpenTime ? 'Selecione horário de abertura' : 'Selecione horário de fechamento'}
                                 </Button>
                                 <div className='border-b border-gray-300 py-2 mx-14'></div>
                             </>
@@ -136,8 +159,7 @@ const UnusualDayCard = () => {
                                 timeList.map((time) =>
                                     <Button
                                         key={time.id}
-                                        className='rounded-xl'
-                                        variant={selectedTime == time ? "default" : "outline"}
+                                        className={`rounded-xl hover:bg-yellow-300 ${selectedOpenTime === time ? 'bg-green-500 text-white' : selectedCloseTime === time ? 'bg-red-500 text-white' : 'default'}`}
                                         onClick={() => handleSelectTime(time)}
                                     >
                                         {time.time}
@@ -151,55 +173,61 @@ const UnusualDayCard = () => {
                         </div>
                     )}
 
-                    {selectedDate && (
-                        <Card className='border-2  border-gray-300'>
+                    {selectedOpenDate && selectedCloseDate && (
+                        <Card className='border-2 border-gray-300'>
                             <CardContent className='p-4 text-sm font-semibold'>
-                                <div>
-                                    {selectedDate && selectedDate.getHours() === 0 && selectedDate.getMinutes() === 0 ? (
-                                        <span>
-                                            Barbearia estará fechada&nbsp;
-                                            <span
-                                                className='underline'>{selectedDate.toLocaleDateString('pt-BR', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                    weekday: 'long',
-                                                })}
-                                            </span>
+                                {selectedOpenTime || selectedCloseTime ? (
+                                    <span>
+                                        Abrirá&nbsp;
+                                        <span className='underline'>
+                                            {selectedOpenDate.toLocaleDateString('pt-BR', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric',
+                                                weekday: 'long',
+                                            })}
                                         </span>
-                                    ) : (
-                                        <span>
-                                            Barbearia ficará aberta&nbsp;
-                                            <span
-                                                className='underline'>{selectedDate.toLocaleDateString('pt-BR', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                    weekday: 'long',
-                                                })}
-                                            </span>
-                                            &nbsp;até as&nbsp;
-                                            <span
-                                                className='underline'>
-                                                {selectedDate.toLocaleTimeString('pt-BR', {
-                                                    hour: 'numeric',
-                                                    minute: 'numeric',
-                                                })}
-                                            </span>
-                                            &nbsp;horas.
+                                        &nbsp;das&nbsp;
+                                        <span className='underline'>
+                                            {selectedOpenDate.toLocaleTimeString('pt-BR', {
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                            })}
                                         </span>
-                                    )}
-                                </div>
+                                        &nbsp;às&nbsp;
+                                        <span className='underline'>
+                                            {selectedCloseDate.toLocaleTimeString('pt-BR', {
+                                                hour: 'numeric',
+                                                minute: 'numeric',
+                                            })}
+                                        </span>
+                                        &nbsp;horas.
+                                    </span>
+                                ) : (
+                                    <span>
+                                        Barbearia estará fechada o dia todo na&nbsp;
+                                        <span className='underline'>
+                                            {selectedOpenDate?.toLocaleDateString('pt-BR', {
+                                                day: 'numeric',
+                                                month: 'long',
+                                                year: 'numeric',
+                                                weekday: 'long',
+                                            })}
+                                        </span>.
+                                    </span>
+                                )}
                             </CardContent>
                         </Card>
                     )}
 
-
-                    {selectedDate && (
+                    {selectedOpenDate && selectedCloseDate && (
                         <div className="mt-auto">
                             <AlertDialog>
                                 <AlertDialogTrigger asChild>
-                                    <Button className="w-full rounded-xl font-semibold bg-green-600 text-background hover:bg-green-700 hover:text-background">
+                                    <Button
+                                        className="w-full rounded-xl font-semibold bg-green-600 text-background hover:bg-green-700 hover:text-background"
+                                        disabled={openOnDayBarberShop ? !selectedOpenTime || !selectedCloseTime : false}
+                                    >
                                         Confirmar
                                     </Button>
                                 </AlertDialogTrigger>
@@ -207,21 +235,32 @@ const UnusualDayCard = () => {
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>Confirmar dia incomum</AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            {selectedDate && selectedDate.getHours() === 0 && selectedDate.getMinutes() === 0 ?
-                                                "Tem certeza que deseja fechar à barbearia " :
-                                                "Tem certeza que deseja abrir à barbearia "
-                                            }
-                                            <span className='underline'>
-                                                {selectedDate.toLocaleDateString('pt-BR', {
-                                                    day: 'numeric',
-                                                    month: 'long',
-                                                    year: 'numeric',
-                                                    weekday: 'long',
-                                                }) + (selectedDate.getHours() !== 0 || selectedDate.getMinutes() !== 0 ? ' até as ' + selectedDate.toLocaleTimeString('pt-BR', {
-                                                    hour: 'numeric',
-                                                    minute: 'numeric',
-                                                }) : '')}
-                                            </span>?
+                                            Tem certeza que deseja abrir à barbearia&nbsp;
+                                            <span>
+                                                <span className='underline'>
+                                                    {selectedOpenDate.toLocaleDateString('pt-BR', {
+                                                        day: 'numeric',
+                                                        month: 'long',
+                                                        year: 'numeric',
+                                                        weekday: 'long',
+                                                    })}
+                                                </span>
+                                                &nbsp;de&nbsp;
+                                                <span className='underline'>
+                                                    {selectedOpenDate.toLocaleTimeString('pt-BR', {
+                                                        hour: 'numeric',
+                                                        minute: 'numeric',
+                                                    })}
+                                                </span>
+                                                &nbsp;às&nbsp;
+                                                <span className='underline'>
+                                                    {selectedCloseDate.toLocaleTimeString('pt-BR', {
+                                                        hour: 'numeric',
+                                                        minute: 'numeric',
+                                                    })}
+                                                </span>
+                                                &nbsp;horas?
+                                            </span>
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>

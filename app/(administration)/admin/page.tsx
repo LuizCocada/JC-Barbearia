@@ -10,7 +10,6 @@ import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
 import TimeTable from "../components/TimeTable";
 import UnusualDayCard from "../components/UnusualDayCard";
-import { CalendarX2 } from "lucide-react";
 import ListUnusualDayCard from "../components/ListUnusualDayCard";
 
 
@@ -78,7 +77,7 @@ const AdminPage = () => {
                             <p className="p-2 uppercase font-medium text-muted-foreground">
                                 Lista de dias incomuns
                             </p>
-                            <ListUnusualDayCard />
+                            {/* <ListUnusualDayCard /> */}
                         </div>
                     </div>
                 </div>
