@@ -9,9 +9,8 @@ import { useEffect, useState } from "react";
 import { Booking, Service, User } from "@prisma/client";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../components/(Dashboard)/DashboardPage";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
+import BookingTable from "../../components/BookingTable";
 const AgendamentosPage = () => {
 
     type BookingWithRelations = Booking & {
@@ -41,6 +40,7 @@ const AgendamentosPage = () => {
         setReloadCount(reloadCount + 1);
     }
 
+
     return (
         <div>
             <DashboardPage>
@@ -66,42 +66,7 @@ const AgendamentosPage = () => {
                                         </div>
                                     ) : (
                                         ConfirmedTodayBookings.length > 0 ? (
-                                            <table className="w-full text-left rounded-xl overflow-hidden">
-                                                <thead className="bg-gray-100">
-                                                    <tr>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Nome</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Telefone</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Serviço</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Valor</th>
-                                                        <th className="p-4">Hora</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {ConfirmedTodayBookings.map((booking, index) => (
-                                                        <tr //abrir shit de cancelamento
-                                                            key={booking.id}
-                                                            className={
-                                                                index === 0
-                                                                    ? 'bg-primary border-t-[0.1px] border-gray-300'
-                                                                    : 'bg-gray-200 border-t-[0.1px] border-gray-300'
-                                                            }
-                                                        >
-                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">{booking.user.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">{booking.user.telephone}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">{booking.service.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-300 font-medium">
-                                                                {Intl.NumberFormat("pt-BR", {
-                                                                    style: "currency",
-                                                                    currency: "BRL",
-                                                                }).format(Number(booking.service.price))}
-                                                            </td>
-                                                            <td className="p-4 font-medium">
-                                                                {format(new Date(booking.date), 'HH:mm', { locale: ptBR })}
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                            <BookingTable bookings={ConfirmedTodayBookings} onDelete={reload}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
                                                 <CircleOff />
