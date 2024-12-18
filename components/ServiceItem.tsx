@@ -259,7 +259,7 @@ console.log(unusualDays)
                                                         {time}
                                                     </Button>
                                                 )
-                                            ) : <p className="text-sm font-semibold text-destructive">{selectedDay.getDay() === 0 ? "Não funcionamos aos Domingos" : "Não há mais horários disponiveis"}</p>
+                                            ) : <p className="text-sm font-semibold text-destructive">{selectedDay.getDay() === 0 ? "Não funcionamos aos Domingos" : "Não há horários disponiveis"}</p>
                                             }
                                         </div>
                                     )}

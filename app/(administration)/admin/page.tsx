@@ -77,7 +77,7 @@ const AdminPage = () => {
                             <p className="p-2 uppercase font-medium text-muted-foreground">
                                 Lista de dias incomuns
                             </p>
-                            {/* <ListUnusualDayCard /> */}
+                            <ListUnusualDayCard />
                         </div>
                     </div>
                 </div>

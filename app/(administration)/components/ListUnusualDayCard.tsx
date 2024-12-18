@@ -97,41 +97,53 @@ const ListUnusualDayCard = () => {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Dias</TableHead>
-                                    <TableHead>Fechar às</TableHead>
+                                    <TableHead>Abre</TableHead>
+                                    <TableHead>Fecha</TableHead>
                                     <TableHead className='pl-8'>
                                         <Trash2 size={17} />
                                     </TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {unusualDays.map((day) => (
-                                    <TableRow key={day.id}>
-                                        <TableCell className="font-medium">
-                                            {day.date.toLocaleDateString('pt-BR', {
-                                                day: 'numeric',
-                                                month: 'long',
-                                                year: 'numeric',
-                                                weekday: 'long',
-                                            })}
-                                        </TableCell>
-                                        <TableCell className='font-medium'>
-                                            {day.date.toLocaleTimeString('pt-BR', {
-                                                hour: 'numeric',
-                                                minute: 'numeric',
-                                            }) === '00:00' ? 'Fechado' : day.date.toLocaleTimeString('pt-BR', {
-                                                hour: 'numeric',
-                                                minute: 'numeric',
-                                            })}
-                                        </TableCell>
-                                        <TableCell>
-                                            <button onClick={() => handleOpenDialogDeleteTime(day.id, day.date)}>
-                                                <p className='text-xs font-bold text-destructive'>
-                                                    Remover
-                                                </p>
-                                            </button>
-                                        </TableCell>
-                                    </TableRow>
-                                ))}
+                                {unusualDays
+                                    .sort((a, b) => new Date(a.open).getTime() - new Date(b.open).getTime())
+                                    .map((day) => (
+                                        <TableRow key={day.id}>
+                                            <TableCell className="font-medium">
+                                                {day.open.toLocaleDateString('pt-BR', {
+                                                    day: 'numeric',
+                                                    month: 'long',
+                                                    year: 'numeric',
+                                                    weekday: 'long',
+                                                })}
+                                            </TableCell>
+                                            <TableCell className='font-medium'>
+                                                {day.close.toLocaleTimeString('pt-BR', {
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                }) === '00:00' ? <span className='text-muted-foreground'>Fechado</span> : day.open.toLocaleTimeString('pt-BR', {
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                })}
+                                            </TableCell>
+                                            <TableCell className='font-medium'>
+                                                {day.close.toLocaleTimeString('pt-BR', {
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                }) === '00:00' ? <span className='text-muted-foreground'>Fechado</span> : day.close.toLocaleTimeString('pt-BR', {
+                                                    hour: 'numeric',
+                                                    minute: 'numeric',
+                                                })}
+                                            </TableCell>
+                                            <TableCell>
+                                                <button onClick={() => handleOpenDialogDeleteTime(day.id, day.open)}>
+                                                    <p className='text-xs font-bold text-destructive'>
+                                                        Remover
+                                                    </p>
+                                                </button>
+                                            </TableCell>
+                                        </TableRow>
+                                    ))}
                             </TableBody>
                         </Table>
                     </div>

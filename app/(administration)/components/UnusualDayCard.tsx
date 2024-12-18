@@ -235,32 +235,46 @@ const UnusualDayCard = () => {
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>Confirmar dia incomum</AlertDialogTitle>
                                         <AlertDialogDescription>
-                                            Tem certeza que deseja abrir à barbearia&nbsp;
-                                            <span>
-                                                <span className='underline'>
-                                                    {selectedOpenDate.toLocaleDateString('pt-BR', {
-                                                        day: 'numeric',
-                                                        month: 'long',
-                                                        year: 'numeric',
-                                                        weekday: 'long',
-                                                    })}
-                                                </span>
-                                                &nbsp;de&nbsp;
-                                                <span className='underline'>
-                                                    {selectedOpenDate.toLocaleTimeString('pt-BR', {
-                                                        hour: 'numeric',
-                                                        minute: 'numeric',
-                                                    })}
-                                                </span>
-                                                &nbsp;às&nbsp;
-                                                <span className='underline'>
-                                                    {selectedCloseDate.toLocaleTimeString('pt-BR', {
-                                                        hour: 'numeric',
-                                                        minute: 'numeric',
-                                                    })}
-                                                </span>
-                                                &nbsp;horas?
-                                            </span>
+                                            {selectedOpenTime && selectedCloseTime ? (
+                                                <>
+                                                    Tem certeza que deseja abrir à barbearia&nbsp;
+                                                    <span className='underline'>
+                                                        {selectedOpenDate.toLocaleDateString('pt-BR', {
+                                                            day: 'numeric',
+                                                            month: 'long',
+                                                            year: 'numeric',
+                                                            weekday: 'long',
+                                                        })}
+                                                    </span>
+                                                    &nbsp;de&nbsp;
+                                                    <span className='underline'>
+                                                        {selectedOpenDate.toLocaleTimeString('pt-BR', {
+                                                            hour: 'numeric',
+                                                            minute: 'numeric',
+                                                        })}
+                                                    </span>
+                                                    &nbsp;às&nbsp;
+                                                    <span className='underline'>
+                                                        {selectedCloseDate.toLocaleTimeString('pt-BR', {
+                                                            hour: 'numeric',
+                                                            minute: 'numeric',
+                                                        })}
+                                                    </span>
+                                                    &nbsp;horas?
+                                                </>
+                                            ) : (
+                                                <>
+                                                    Tem certeza que deseja fechar a barbearia&nbsp;
+                                                    <span className='underline'>
+                                                        {selectedOpenDate?.toLocaleDateString('pt-BR', {
+                                                            day: 'numeric',
+                                                            month: 'long',
+                                                            year: 'numeric',
+                                                            weekday: 'long',
+                                                        })}
+                                                    </span>?
+                                                </>
+                                            )}
                                         </AlertDialogDescription>
                                     </AlertDialogHeader>
                                     <AlertDialogFooter>
