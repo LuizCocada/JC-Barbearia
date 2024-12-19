@@ -1,16 +1,13 @@
 'use client'
 
 import { deleteUnusualDays } from '@/actions/delete/deleteUnusualDays';
-import { getTimes } from '@/actions/get/getTimes';
 import { getUnusualDays } from '@/actions/get/getUnusualDays';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
 import { Button } from '@/components/ui/button';
-import { Calendar } from '@/components/ui/calendar';
 import { Card, CardContent } from '@/components/ui/card';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from '@/components/ui/table';
-import { Times, UnusualDay } from '@prisma/client';
-import { da } from 'date-fns/locale';
+import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { UnusualDay } from '@prisma/client';
 import { List, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';

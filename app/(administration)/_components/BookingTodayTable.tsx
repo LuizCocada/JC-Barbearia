@@ -1,5 +1,4 @@
 import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
-import BookingItemAdmin from "./BookingItemAdmin";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Booking, Prisma, Service, User } from "@prisma/client";

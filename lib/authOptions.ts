@@ -4,7 +4,6 @@ import { Adapter } from "next-auth/adapters";
 import { db } from "./prisma";
 
 import CredentialsProvider from "next-auth/providers/credentials";
-import { te } from "date-fns/locale";
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(db) as Adapter,

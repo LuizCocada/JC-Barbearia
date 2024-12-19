@@ -2,7 +2,6 @@
 
 import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
 import { Card, CardContent } from "@/components/ui/card";
-import { Decimal } from "@prisma/client/runtime/library";
 import { CircleDollarSign, CircleOff } from "lucide-react";
 import { useEffect, useState } from "react";
 
@@ -12,8 +11,6 @@ interface CardTodayBillingProps {
 
 
 const CardTodayBilling = ({ reload }: CardTodayBillingProps) => {
-
-
     const [todayBilling, setTodayBilling] = useState<number>(0);
 
     useEffect(() => {

@@ -7,8 +7,6 @@ import { useEffect, useState } from "react";
 import { Booking, Service, User } from "@prisma/client";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../../_components/(Dashboard)/DashboardPage";
-import { format } from "date-fns";
-import { ptBR } from "date-fns/locale";
 import { GetBookingOfDay } from "@/actions/get/getBookingOfDay";
 import { GetAllBookings } from "@/actions/get/getAllBookings";
 import Link from "next/link";

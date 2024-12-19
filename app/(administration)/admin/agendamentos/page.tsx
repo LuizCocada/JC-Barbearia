@@ -19,7 +19,6 @@ const AgendamentosPage = () => {
     };
 
     const [ConfirmedTodayBookings, setConfirmedTodayBookings] = useState<BookingWithRelations[]>([]);
-    const [todayBilling, setTodayBilling] = useState<number>(0);
     const [loading, setLoading] = useState(true);
     const [reloadCount, setReloadCount] = useState(0);
 
@@ -27,7 +26,6 @@ const AgendamentosPage = () => {
         const fetchBookingsAndInvoicing = async () => {
             const bookings = await GetCurrentBookings();
             setConfirmedTodayBookings(bookings);
-            setTodayBilling(todayBilling);
             setLoading(false);
         };
 
@@ -36,7 +34,7 @@ const AgendamentosPage = () => {
 
     const reload = () => {
         setLoading(true);
-        setReloadCount(reloadCount + 1);
+        setReloadCount(prevCount => prevCount + 1);
     }
 
 

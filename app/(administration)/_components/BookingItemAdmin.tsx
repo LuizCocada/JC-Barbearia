@@ -1,15 +1,13 @@
 "use client"
 
 import { Prisma } from "@prisma/client"
-import { format, isFuture } from "date-fns"
-import { ptBR } from "date-fns/locale"
-
+import { isFuture } from "date-fns"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "../../../components/ui/alert-dialog"
 import { toast } from "sonner"
 import { useState } from "react"
 import BookingSummary from "../../../components/BookingSummary"
 import { deleteBooking } from "@/actions/delete/deleteBooking"
-import { Sheet, SheetClose, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetClose, SheetFooter } from "@/components/ui/sheet"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"

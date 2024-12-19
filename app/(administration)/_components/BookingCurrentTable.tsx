@@ -1,6 +1,5 @@
-import { Sheet, SheetTrigger, SheetContent, SheetClose } from "@/components/ui/sheet";
-import BookingItemAdmin from "./BookingItemAdmin";
-import { format, isFuture, set } from "date-fns";
+import { Sheet, SheetContent, SheetClose } from "@/components/ui/sheet";
+import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { Booking, Prisma, Service, User } from "@prisma/client";
 import { useState } from "react";
@@ -11,8 +10,6 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Button } from "@/components/ui/button";
 import { deleteBooking } from "@/actions/delete/deleteBooking";
 import { toast } from "sonner";
-import { GetCurrentBookings } from "@/actions/get/getCurrentBookings";
-import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
 
 interface BookingTableProps {
     bookings: Prisma.BookingGetPayload<{
