@@ -10,55 +10,53 @@ import { getServerSession } from "next-auth";
 import Link from "next/link";
 
 const Home = async () => {
+  const session = await getServerSession(authOptions);
 
-  const session = await getServerSession(authOptions)
-  const ConfirmedBookings = await GetConfirmedBookings()
-  const categorys = await db.category.findMany({})
-  const services = await db.service.findMany({
-    include: {
-      category: true
-    }
-  })
+  const [ConfirmedBookings, categorys, services] = await Promise.all([
+    GetConfirmedBookings(),
+    db.category.findMany({}),
+    db.service.findMany({
+      include: {
+        category: true,
+      },
+    }),
+  ]);
 
   return (
     <div className="bg-secondary">
       <HeaderInputSearch />
 
-      {session?.user &&
-        (
-          <div className="border-b border-gray-200 pb-1">
-            <div className="mt-2 w-fit">
-              <Link href={"/bookings"}>
-                <h2 className="text-xs font-bold px-5 pt-5 sm:text-sm md:text-xl hover:underline">
-                  AGENDAMENTOS
-                </h2>
-              </Link>
-            </div>
-
-            {ConfirmedBookings.length > 0 ? (
-              <div className="flex overflow-x-auto gap-3 p-5">
-                {ConfirmedBookings.map(booking => (
-                  <BookingItem key={booking.id} booking={JSON.parse(JSON.stringify(booking))} />
-                ))}
-              </div>
-            )
-              :
-              (
-                <div className="p-5">
-                  <p className="text-sm text-gray-400">Não há agendamentos por enquanto...</p>
-                </div>
-              )}
+      {session?.user && (
+        <div className="border-b border-gray-200 pb-1">
+          <div className="mt-2 w-fit">
+            <Link href={"/bookings"}>
+              <h2 className="text-xs font-bold px-5 pt-5 sm:text-sm md:text-xl hover:underline">
+                AGENDAMENTOS
+              </h2>
+            </Link>
           </div>
-        )
-      }
+
+          {ConfirmedBookings.length > 0 ? (
+            <div className="flex overflow-x-auto gap-3 p-5">
+              {ConfirmedBookings.map((booking) => (
+                <BookingItem key={booking.id} booking={booking} />
+              ))}
+            </div>
+          ) : (
+            <div className="p-5">
+              <p className="text-sm text-gray-400">
+                Não há agendamentos por enquanto...
+              </p>
+            </div>
+          )}
+        </div>
+      )}
 
       <div className="flex justify-center px-5">
         <Card className="rounded-3xl border-none m-2 bg-card text-foreground mt-8 min-w-[70%] sm:min-w-[80%] mb-8">
           <CardContent className="p-3 pt-2 mb-2">
             <div className="flex justify-center m-3 pb-3">
-              <p className="text-sm font-bold px-5 md:text-xl">
-                CATEGORIAS
-              </p>
+              <p className="text-sm font-bold px-5 md:text-xl">CATEGORIAS</p>
             </div>
             <div className="flex items-center justify-around">
               {categorys.map((category) => (
@@ -80,7 +78,6 @@ const Home = async () => {
       </div>
     </div>
   );
-}
+};
 
-
-export default Home
+export default Home;
