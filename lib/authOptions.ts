@@ -67,8 +67,13 @@ export const authOptions: AuthOptions = {
         const isValid =
           credentials?.username === process.env.ADMIN_USERNAME &&
           credentials?.password === process.env.ADMIN_PASSWORD;
+          
         if (isValid) {
-          return { id: "1", name: process.env.ADMIN_USERNAME };
+          const adminId = process.env.ID_ADMIN;
+          if (!adminId) {
+            throw new Error("ID_ADMIN não está definido nas variáveis de ambiente");
+          }
+          return { id: adminId, name: process.env.ADMIN_USERNAME };
         }
         return null;
       },

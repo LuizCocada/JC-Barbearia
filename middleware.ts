@@ -14,7 +14,7 @@ export async function middleware(req: NextRequest) {
 
   // Verifica se o usuário está autenticado
   if (pathname.startsWith("/admin")) {
-    if (!token || token.id !== "1") {
+    if (!token || token.id !== process.env.ID_ADMIN) {
       const loginUrl = req.nextUrl.clone();
       loginUrl.pathname = "/syslogin";
       return NextResponse.redirect(loginUrl);
