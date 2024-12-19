@@ -6,12 +6,14 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Booking, Service, User } from "@prisma/client";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../../components/(Dashboard)/DashboardPage";
+import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../../_components/(Dashboard)/DashboardPage";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { GetBookingOfDay } from "@/actions/get/getBookingOfDay";
 import { GetAllBookings } from "@/actions/get/getAllBookings";
 import Link from "next/link";
+import BookingTodayTable from "@/app/(administration)/_components/BookingTodayTable";
+import BookingsTotallyTable from "@/app/(administration)/_components/BookingsTotallyTable";
 const AgendamentosTotaisPage = () => {
 
     type BookingWithRelations = Booking & {
@@ -90,38 +92,7 @@ const AgendamentosTotaisPage = () => {
                                         </div>
                                     ) : (
                                         ConfirmedTodayBookings.length > 0 ? (
-                                            <table className="w-full text-left rounded-xl overflow-hidden">
-                                                <thead className="bg-gray-100">
-                                                    <tr>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Nome</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Telefone</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Serviço</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Valor</th>
-                                                        <th className="p-4">Hora</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {ConfirmedTodayBookings.map((booking) => (
-                                                        <tr //abrir shit de cancelamento
-                                                            key={booking.id}
-                                                            className={'bg-gray-300 border-t-[0.1px] border-gray-600'}
-                                                        >
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">{booking.user.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">{booking.user.telephone}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">{booking.service.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">
-                                                                {Intl.NumberFormat("pt-BR", {
-                                                                    style: "currency",
-                                                                    currency: "BRL",
-                                                                }).format(Number(booking.service.price))}
-                                                            </td>
-                                                            <td className="p-4 font-medium">
-                                                                {format(new Date(booking.date), 'HH:mm', { locale: ptBR })}
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                            <BookingTodayTable bookings={ConfirmedTodayBookings} onDelete={reloadBookingsOfDay}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
                                                 <CircleOff />
@@ -157,42 +128,7 @@ const AgendamentosTotaisPage = () => {
                                         </div>
                                     ) : (
                                         allBookings.length > 0 ? (
-                                            <table className="w-full text-left rounded-xl overflow-hidden">
-                                                <thead className="bg-gray-100">
-                                                    <tr>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Nome</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Telefone</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Serviço</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Valor</th>
-                                                        <th className="p-4 border-r-[0.1px] border-gray-200">Hora</th>
-                                                        <th className="p-4">Data</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {allBookings.map((booking) => (
-                                                        <tr //abrir shit de cancelamento
-                                                            key={booking.id}
-                                                            className={'bg-gray-300 border-t-[0.1px] border-gray-600'}
-                                                        >
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">{booking.user.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">{booking.user.telephone}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">{booking.service.name}</td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600 font-medium">
-                                                                {Intl.NumberFormat("pt-BR", {
-                                                                    style: "currency",
-                                                                    currency: "BRL",
-                                                                }).format(Number(booking.service.price))}
-                                                            </td>
-                                                            <td className="p-4 border-r-[0.1px] border-gray-600  font-medium">
-                                                                {format(new Date(booking.date), 'HH:mm', { locale: ptBR })}
-                                                            </td>
-                                                            <td className="p-4 font-medium">
-                                                                {format(new Date(booking.date), 'dd/MM/yyyy', { locale: ptBR })}
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
+                                            <BookingsTotallyTable bookings={allBookings} onDelete={reloadAllBooking}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
                                                 <CircleOff />

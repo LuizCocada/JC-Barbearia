@@ -1,5 +1,5 @@
 import React, { PropsWithChildren } from "react";
-import { MainSidebar } from "../components/(Dashboard)/MainSidebar";
+import { MainSidebar } from "../_components/(Dashboard)/MainSidebar";
 
 
 

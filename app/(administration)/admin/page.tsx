@@ -1,16 +1,16 @@
 'use client'
 
 import { UpdateState } from "@/actions/put/updateState";
-import { DashboardPage, DashboardPageHeader, DashboardPageHeaderNav, DashboardPageHeaderTitle, DashboardPageMain } from "../components/(Dashboard)/DashboardPage";
+import { DashboardPage, DashboardPageHeader, DashboardPageHeaderNav, DashboardPageHeaderTitle, DashboardPageMain } from "../_components/(Dashboard)/DashboardPage";
 import { Switch } from "@/components/ui/switch";
 import { useEffect, useState } from "react";
 import { GetState } from "@/actions/get/getState";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogFooter, AlertDialogHeader } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { AlertDialogTitle } from "@radix-ui/react-alert-dialog";
-import TimeTable from "../components/TimeTable";
-import UnusualDayCard from "../components/UnusualDayCard";
-import ListUnusualDayCard from "../components/ListUnusualDayCard";
+import TimeTable from "../_components/TimeTable";
+import UnusualDayCard from "../_components/UnusualDayCard";
+import ListUnusualDayCard from "../_components/ListUnusualDayCard";
 
 
 const AdminPage = () => {
@@ -66,7 +66,7 @@ const AdminPage = () => {
                     <TimeTable />
 
 
-                    <div className="flex gap-20 justify-around py-10 my-10 border-y border-gray-300">
+                    <div className="flex gap-20 justify-around py-10 my-10 border-t border-gray-300">
                         <div className="w-full">
                             <p className="p-2 uppercase font-medium text-muted-foreground">
                                 Adicionar dias incomuns

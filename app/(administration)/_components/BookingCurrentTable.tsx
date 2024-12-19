@@ -25,7 +25,7 @@ interface BookingTableProps {
 }
 
 
-const BookingTable = ({ bookings, onDelete }: BookingTableProps) => {
+const BookingCurrentTable = ({ bookings, onDelete }: BookingTableProps) => {
 
     type BookingWithRelations = Booking & {
         user: User;
@@ -68,11 +68,11 @@ const BookingTable = ({ bookings, onDelete }: BookingTableProps) => {
         <table className="w-full text-left rounded-xl overflow-hidden">
             <thead className="bg-gray-100">
                 <tr>
-                    <th className="p-4 border-r-[0.1px] border-gray-200">Nome</th>
-                    <th className="p-4 border-r-[0.1px] border-gray-200">Telefone</th>
-                    <th className="p-4 border-r-[0.1px] border-gray-200">Serviço</th>
-                    <th className="p-4 border-r-[0.1px] border-gray-200">Valor</th>
-                    <th className="p-4">Hora</th>
+                    <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Nome</th>
+                    <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Telefone</th>
+                    <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Serviço</th>
+                    <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Valor</th>
+                    <th className="p-4 px-10 ">Hora</th>
                 </tr>
             </thead>
             <tbody>
@@ -81,21 +81,21 @@ const BookingTable = ({ bookings, onDelete }: BookingTableProps) => {
                         key={booking.id}
                         className={
                             index === 0
-                                ? 'bg-primary border-t-[0.1px] border-gray-300 cursor-pointer'
-                                : 'bg-gray-200 border-t-[0.1px] border-gray-300 cursor-pointer'
+                                ? 'bg-primary border-t-[0.1px] border-gray-300 cursor-pointer hover:scale-105 transition-transform duration-300'
+                                : 'bg-gray-200 border-t-[0.1px] border-gray-300 cursor-pointer hover:bg-primary hover:scale-105 transition-transform duration-300'
                         }
                         onClick={() => handleOpenSheet(booking)}
                     >
-                        <td className="p-4 font-medium">{booking.user.name}</td>
-                        <td className="p-4 font-medium">{booking.user.telephone}</td>
-                        <td className="p-4 font-medium">{booking.service.name}</td>
-                        <td className="p-4 font-medium">
+                        <td className="p-4 px-10 font-medium">{booking.user.name}</td>
+                        <td className="p-4 px-10 font-medium">{booking.user.telephone}</td>
+                        <td className="p-4 px-10 font-medium">{booking.service.name}</td>
+                        <td className="p-4 px-10 font-medium">
                             {Intl.NumberFormat("pt-BR", {
                                 style: "currency",
                                 currency: "BRL",
                             }).format(Number(booking.service.price))}
                         </td>
-                        <td className="p-4 font-medium">
+                        <td className="p-4 px-10 font-medium">
                             {format(new Date(booking.date), 'HH:mm', { locale: ptBR })}
                         </td>
                     </tr>
@@ -167,4 +167,4 @@ const BookingTable = ({ bookings, onDelete }: BookingTableProps) => {
     );
 };
 
-export default BookingTable;
+export default BookingCurrentTable;

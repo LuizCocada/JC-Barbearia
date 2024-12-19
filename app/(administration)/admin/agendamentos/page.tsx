@@ -1,16 +1,16 @@
 'use client'
 
 import { Card, CardContent } from "@/components/ui/card";
-import { BookmarkCheck, CircleDollarSign, CircleOff, Mail } from "lucide-react";
+import { BookmarkCheck, CircleOff } from "lucide-react";
 import { GetCurrentBookings } from "@/actions/get/getCurrentBookings";
 import { Button } from "@/components/ui/button";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { Booking, Service, User } from "@prisma/client";
 import { ReloadIcon } from "@radix-ui/react-icons";
-import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../components/(Dashboard)/DashboardPage";
-import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
-import BookingTable from "../../components/BookingTable";
+import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "../../_components/(Dashboard)/DashboardPage";
+import BookingCurrentTable from "../../_components/BookingCurrentTable";
+import CardTodayBilling from "../../_components/CardTodayBilling";
+import CardTotallyBookings from "../../_components/CardTotallyBookings";
 const AgendamentosPage = () => {
 
     type BookingWithRelations = Booking & {
@@ -26,7 +26,6 @@ const AgendamentosPage = () => {
     useEffect(() => {
         const fetchBookingsAndInvoicing = async () => {
             const bookings = await GetCurrentBookings();
-            const todayBilling = await getBillingOfDay();
             setConfirmedTodayBookings(bookings);
             setTodayBilling(todayBilling);
             setLoading(false);
@@ -49,7 +48,7 @@ const AgendamentosPage = () => {
                         Agendamentos
                     </DashboardPageHeaderTitle>
                 </DashboardPageHeader>
-                <DashboardPageMain>
+                <DashboardPageMain className="pb-20">
                     <div className="pt-10 px-20">
                         <Card className="border-none pt-6">
                             <CardContent>
@@ -66,7 +65,7 @@ const AgendamentosPage = () => {
                                         </div>
                                     ) : (
                                         ConfirmedTodayBookings.length > 0 ? (
-                                            <BookingTable bookings={ConfirmedTodayBookings} onDelete={reload}/>
+                                            <BookingCurrentTable bookings={ConfirmedTodayBookings} onDelete={reload}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
                                                 <CircleOff />
@@ -88,49 +87,8 @@ const AgendamentosPage = () => {
                         <div className="border-b-[0.1px] border-gray-300 pt-10"></div>
 
                         <div className="grid grid-cols-2 gap-10 mt-8">
-                            <Card className="border-none pt-6 ">
-                                <CardContent>
-                                    <div className="flex gap-2 items-center">
-                                        <h3 className="font-semibold text-xl">Agendamentos totais</h3>
-                                        <Mail className="w-[25px] h-[25px] text-background" fill="green" />
-                                    </div>
-
-                                    <div className="pt-3">
-                                        <Button asChild>
-                                            <Link href={"/admin/agendamentos/totais"} className="text-sm font-medium">
-                                                Clique aqui
-                                            </Link>
-                                        </Button>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                            <Card className="border-none pt-6 max-h-36">
-                                <CardContent>
-                                    <div className="space-y-3">
-                                        <div className="flex gap-1 items-center">
-                                            <h3 className="font-semibold text-xl">Faturamento do dia</h3>
-                                            <CircleDollarSign className="w-[25px] h-[25px] text-background" fill="green" />
-                                        </div>
-
-                                        {todayBilling > 0 ? (
-                                            <div className="p-2 flex gap-1 text-lg font-bold">
-                                                <p className="">Total: </p>
-                                                <p className=" underline">
-                                                    {Intl.NumberFormat("pt-BR", {
-                                                        style: "currency",
-                                                        currency: "BRL",
-                                                    }).format(Number(todayBilling))}
-                                                </p>
-                                            </div>
-                                        ) : (
-                                            <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
-                                                <CircleOff />
-                                                <p>Nenhum faturamento para hoje.</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                </CardContent>
-                            </Card>
+                            <CardTotallyBookings />
+                            <CardTodayBilling reload={reload}/>
                         </div>
                     </div>
                 </DashboardPageMain>

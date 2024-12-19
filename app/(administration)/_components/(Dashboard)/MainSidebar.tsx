@@ -1,6 +1,6 @@
 'use client'
 
-import { Sidebar, SidebarFooter, SidebarHeader, SidebarHeaderTitle, SidebarImageHeader, SidebarMain, SidebarNav, SidebarNavHeader, SidebarNavHeaderTitle, SidebarNavLink, SidebarNavLinkBorder, SidebarNavMain } from "../../components/Sidebar";
+import { Sidebar, SidebarFooter, SidebarHeader, SidebarHeaderTitle, SidebarImageHeader, SidebarMain, SidebarNav, SidebarNavHeader, SidebarNavHeaderTitle, SidebarNavLink, SidebarNavLinkBorder, SidebarNavMain } from "../Sidebar";
 import Image from 'next/image';
 import { usePathname } from "next/navigation";
 import { signOut } from "next-auth/react";
@@ -39,12 +39,7 @@ export function MainSidebar() {
                             Agendamentos
                         </SidebarNavLink>
                         <SidebarNavLinkBorder />
-                        {/* <SidebarNavLink className="flex items-center gap-2" href="/admin/faturamento" active={isActive('/admin/faturamento')}>
-                            <CircleDollarSign className="w-[18px] h-[18px]" />
-                            Faturamento
-                        </SidebarNavLink> */}
-                        {/* <SidebarNavLinkBorder /> */}
-                        <SidebarNavLink className="flex items-center gap-2" href="/admin/clientes" active={isActive('/admin/')}>
+                        <SidebarNavLink className="flex items-center gap-2" href="/admin/clients" active={isActive('/admin/clients')}>
                             <PersonIcon className="w-[18px] h-[18px]" />
                             Clientes
                         </SidebarNavLink>
@@ -57,7 +52,7 @@ export function MainSidebar() {
                         <SidebarNavHeaderTitle>Gerenciar</SidebarNavHeaderTitle>
                     </SidebarNavHeader>
                     <SidebarNavMain>
-                        <SidebarNavLink className="flex items-center gap-2 font-medium underline" href="/admin" active={isActive('/admin')}>
+                        <SidebarNavLink className="flex items-center gap-2 mt-2 font-medium underline" href="/admin" active={isActive('/admin')}>
                             <Clock className="w-[18px] h-[18px]" />
                             Horários
                         </SidebarNavLink>
