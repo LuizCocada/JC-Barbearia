@@ -97,5 +97,5 @@ export const authOptions: AuthOptions = {
       return session;
     },
   },
-  secret: process.env.AUTH_SECRET, //assinatura para JWT
+  secret: process.env.AUTH_SECRETT,
 };

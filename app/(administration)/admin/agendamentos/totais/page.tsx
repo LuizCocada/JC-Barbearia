@@ -20,7 +20,6 @@ const AgendamentosTotaisPage = () => {
     };
 
 
-    //agendamentos do dia
     const [loadingTodayBookings, setLoadingTodayBookings] = useState(true);
     const [ConfirmedTodayBookings, setConfirmedTodayBookings] = useState<BookingWithRelations[]>([]);
     const [reloadTodayBookings, setReloadTodayBookings] = useState(0);
