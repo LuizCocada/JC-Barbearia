@@ -1,23 +1,20 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { toDate } from "date-fns-tz";
-import { startOfDay, endOfDay } from "date-fns";
+import { startOfDay, endOfDay, addHours } from "date-fns";
 
 export const GetBookingOfDay = async () => {
-  const timeZone = "America/Fortaleza";
+  const timeZoneOffset = -3; 
 
   const now = new Date();
-  const zonedStartOfToday = startOfDay(now);
-  const zonedEndOfToday = endOfDay(now);
-  const utcStartOfToday = toDate(zonedStartOfToday, { timeZone });
-  const utcEndOfToday = toDate(zonedEndOfToday, { timeZone });
+  const startOfToday = addHours(startOfDay(now), timeZoneOffset);
+  const endOfToday = addHours(endOfDay(now), timeZoneOffset);
 
   return await db.booking.findMany({
     where: {
       date: {
-        gte: utcStartOfToday,
-        lte: utcEndOfToday,
+        gte: startOfToday,
+        lte: endOfToday,
       },
     },
     include: {
