@@ -1,26 +1,23 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { addHours } from "date-fns";
+import { startOfDay, endOfDay, addHours } from "date-fns";
 
 export const GetBookingOfDay = async () => {
-  // Definir a data atual no fuso horário local
-  const now = new Date();
+  // Obtenha a data atual com base no horário local
+  const localNow = new Date();
 
-  // Calcular o desvio em horas do fuso horário local para UTC
-  const timeZoneOffset = now.getTimezoneOffset() / 60;
+  // Ajuste o horário local para UTC
+  const timeZoneOffset = localNow.getTimezoneOffset() / 60;
 
-  // Determinar os limites do dia no horário local
-  const startOfToday = new Date(now);
-  startOfToday.setHours(0, 0, 0, 0);
+  // Calcular início e fim do dia no horário local convertido para UTC
+  const startOfTodayLocal = startOfDay(localNow); // Meia-noite no horário local
+  const endOfTodayLocal = endOfDay(localNow); // 23:59:59 no horário local
 
-  const endOfToday = new Date(now);
-  endOfToday.setHours(23, 59, 59, 999);
+  const startUTC = addHours(startOfTodayLocal, -timeZoneOffset);
+  const endUTC = addHours(endOfTodayLocal, -timeZoneOffset);
 
-  // Converter os limites do dia para UTC
-  const startUTC = addHours(startOfToday, -timeZoneOffset);
-  const endUTC = addHours(endOfToday, -timeZoneOffset);
-
+  // Consulta no banco com datas corrigidas para UTC
   return await db.booking.findMany({
     where: {
       date: {
@@ -37,8 +34,6 @@ export const GetBookingOfDay = async () => {
     },
   });
 };
-
-
 
 
 
