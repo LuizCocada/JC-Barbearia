@@ -1,24 +1,22 @@
 "use server";
 
 import { db } from "@/lib/prisma";
+import { startOfDay, endOfDay } from "date-fns";
 import { toZonedTime, fromZonedTime } from "date-fns-tz";
 
 export const GetBookingOfDay = async () => {
-  const timeZone = "America/Sao_Paulo"; // Ajuste para o fuso horário desejado
+  const timeZone = "America/Fortaleza"; // Ajuste para o fuso horário desejado
 
-  const startOfToday = new Date();
-  startOfToday.setHours(0, 0, 0, 0);
-  const startOfTodayUTC = fromZonedTime(startOfToday, timeZone);
-
-  const endOfToday = new Date();
-  endOfToday.setHours(23, 59, 59, 999);
-  const endOfTodayUTC = fromZonedTime(endOfToday, timeZone);
+  // Obtém o início e o fim do dia atual no fuso horário local
+  const now = new Date();
+  const startOfToday = fromZonedTime(startOfDay(now), timeZone);
+  const endOfToday = fromZonedTime(endOfDay(now), timeZone);
 
   const bookings = await db.booking.findMany({
     where: {
       date: {
-        gte: startOfTodayUTC,
-        lte: endOfTodayUTC,
+        gte: startOfToday,
+        lte: endOfToday,
       },
     },
     include: {
