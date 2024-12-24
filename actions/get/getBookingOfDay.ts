@@ -7,7 +7,7 @@ import { add, startOfDay, endOfDay } from "date-fns";
 
 export const GetBookingOfDay = async () => {
   const now = new Date();
-  const timeZoneOffset = now.getTimezoneOffset() * 60000;// Fuso horário em relação ao UTC (Brasil: -3h)
+  const timeZoneOffset = 3;// Fuso horário em relação ao UTC (Brasil: -3h)
 
   // Calcula início e fim do dia no horário local
   const startOfToday = add(startOfDay(now), { hours: timeZoneOffset });
