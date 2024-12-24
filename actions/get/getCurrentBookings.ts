@@ -1,20 +1,33 @@
-"use server";
-
 import { db } from "@/lib/prisma";
 
 export const GetCurrentBookings = async () => {
   const now = new Date();
 
-  // Ajusta agora e o final do dia para UTC
-  const currentUTC = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-  const endOfTodayUTC = new Date(currentUTC);
-  endOfTodayUTC.setUTCHours(23, 59, 59, 999);
+  // Obtém o início do dia e o final do dia no horário local
+  const startOfNowLocal = new Date(now);
+  const endOfTodayLocal = new Date(
+    now.getFullYear(),
+    now.getMonth(),
+    now.getDate(),
+    23,
+    59,
+    59,
+    999
+  );
+
+  // Converte início e final do dia para UTC
+  const startOfNowUTC = new Date(
+    startOfNowLocal.getTime() - now.getTimezoneOffset() * 60000
+  );
+  const endOfTodayUTC = new Date(
+    endOfTodayLocal.getTime() - now.getTimezoneOffset() * 60000
+  );
 
   return await db.booking.findMany({
     where: {
       date: {
-        gte: currentUTC, // Agora em UTC
-        lte: endOfTodayUTC, // Final do dia em UTC
+        gte: startOfNowUTC, // Agora ajustado para UTC
+        lte: endOfTodayUTC, // Final do dia ajustado para UTC
       },
     },
     include: {
