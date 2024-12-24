@@ -1,23 +1,23 @@
-'use server';
+"use server";
 
 import { db } from "@/lib/prisma";
-import { add, startOfDay, endOfDay } from "date-fns";
-
-//este bloco em producao. em desenvolvimento, usar o bloco abaixo
 
 export const GetBookingOfDay = async () => {
   const now = new Date();
-  const timeZoneOffset = 3;// Fuso horário em relação ao UTC (Brasil: -3h)
 
-  // Calcula início e fim do dia no horário local
-  const startOfToday = add(startOfDay(now), { hours: timeZoneOffset });
-  const endOfToday = add(endOfDay(now), { hours: timeZoneOffset });
+  // Calcula o início e fim do dia em UTC
+  const startOfTodayUTC = new Date(now.getTime() - now.getTimezoneOffset() * 60000); 
+  startOfTodayUTC.setUTCHours(0, 0, 0, 0); 
 
-  return await db.booking.findMany({
+  const endOfTodayUTC = new Date(now.getTime() - now.getTimezoneOffset() * 60000); 
+  endOfTodayUTC.setUTCHours(23, 59, 59, 999); 
+
+  // Fazer a consulta no banco com base em UTC
+  const bookings = await db.booking.findMany({
     where: {
       date: {
-        gte: startOfToday,
-        lte: endOfToday,
+        gte: startOfTodayUTC,
+        lte: endOfTodayUTC,
       },
     },
     include: {
@@ -28,7 +28,11 @@ export const GetBookingOfDay = async () => {
       date: "asc",
     },
   });
+
+  return bookings;
 };
+
+
 
 
 
