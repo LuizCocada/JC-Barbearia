@@ -23,21 +23,4 @@ export const GetCurrentBookings = async () => {
     },
   });
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //retorna apenas os agendamentos de HOJE e MAIORES que a hora atual.
