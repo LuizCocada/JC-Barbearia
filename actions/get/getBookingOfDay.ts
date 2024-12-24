@@ -3,9 +3,11 @@
 import { db } from "@/lib/prisma";
 import { add, startOfDay, endOfDay } from "date-fns";
 
+//este bloco em producao. em desenvolvimento, usar o bloco abaixo
+
 export const GetBookingOfDay = async () => {
   const now = new Date();
-  const timeZoneOffset = 3; // Fuso horário em relação ao UTC (Brasil: -3h)
+  const timeZoneOffset = now.getTimezoneOffset() * 60000;// Fuso horário em relação ao UTC (Brasil: -3h)
 
   // Calcula início e fim do dia no horário local
   const startOfToday = add(startOfDay(now), { hours: timeZoneOffset });

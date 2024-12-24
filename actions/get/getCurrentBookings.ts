@@ -3,15 +3,18 @@
 import { db } from "@/lib/prisma";
 
 export const GetCurrentBookings = async () => {
-  
-  const endOfToday = new Date();
-  endOfToday.setHours(23, 59, 59, 999);
+  const now = new Date();
+
+  // Ajusta agora e o final do dia para UTC
+  const currentUTC = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  const endOfTodayUTC = new Date(currentUTC);
+  endOfTodayUTC.setUTCHours(23, 59, 59, 999);
 
   return await db.booking.findMany({
     where: {
       date: {
-        gte: new Date(),
-        lte: endOfToday,
+        gte: currentUTC, // Agora em UTC
+        lte: endOfTodayUTC, // Final do dia em UTC
       },
     },
     include: {
@@ -36,26 +39,23 @@ export const GetCurrentBookings = async () => {
 
 
 
+
+
+
 // "use server";
 
 // import { db } from "@/lib/prisma";
-// import { toDate } from "date-fns-tz";
-// import { endOfDay } from "date-fns";
 
 // export const GetCurrentBookings = async () => {
-//   const timeZone = "America/Brasilia";
-
-//   const now = new Date();
-//   const zonedNow = new Date(now.toLocaleString("en-US", { timeZone }));
-//   const zonedEndOfToday = endOfDay(zonedNow);
-//   const utcNow = toDate(zonedNow, { timeZone });
-//   const utcEndOfToday = toDate(zonedEndOfToday, { timeZone });
+  
+//   const endOfToday = new Date();
+//   endOfToday.setHours(23, 59, 59, 999);
 
 //   return await db.booking.findMany({
 //     where: {
 //       date: {
-//         gte: utcNow,
-//         lte: utcEndOfToday,
+//         gte: new Date(),
+//         lte: endOfToday,
 //       },
 //     },
 //     include: {
@@ -67,8 +67,6 @@ export const GetCurrentBookings = async () => {
 //     },
 //   });
 // };
-
-
 
 
 
