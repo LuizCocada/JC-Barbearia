@@ -3,20 +3,24 @@
 import { db } from "@/lib/prisma";
 
 export const GetBookingOfDay = async () => {
-  // Data e hora atual em UTC
-  const nowUTC = new Date();
+  // Define o fuso horário local
+  const localTimezoneOffset = new Date().getTimezoneOffset(); // Diferença em minutos entre local e UTC
 
-  // Definir início do dia em UTC
-  const startOfTodayUTC = new Date(Date.UTC(nowUTC.getUTCFullYear(), nowUTC.getUTCMonth(), nowUTC.getUTCDate(), 0, 0, 0));
+  // Obtendo o início do dia no horário local e convertendo para UTC
+  const startOfTodayLocal = new Date();
+  startOfTodayLocal.setHours(0, 0, 0, 0);
+  const startOfTodayUTC = new Date(startOfTodayLocal.getTime() - localTimezoneOffset * 60 * 1000);
 
-  // Definir final do dia em UTC
-  const endOfTodayUTC = new Date(Date.UTC(nowUTC.getUTCFullYear(), nowUTC.getUTCMonth(), nowUTC.getUTCDate(), 23, 59, 59, 999));
+  // Obtendo o final do dia no horário local e convertendo para UTC
+  const endOfTodayLocal = new Date();
+  endOfTodayLocal.setHours(23, 59, 59, 999);
+  const endOfTodayUTC = new Date(endOfTodayLocal.getTime() - localTimezoneOffset * 60 * 1000);
 
   return await db.booking.findMany({
     where: {
       date: {
-        gte: startOfTodayUTC, // A partir do início do dia UTC
-        lte: endOfTodayUTC,   // Até o final do dia UTC
+        gte: startOfTodayUTC, // Início do dia em UTC
+        lte: endOfTodayUTC,   // Final do dia em UTC
       },
     },
     include: {
@@ -28,6 +32,7 @@ export const GetBookingOfDay = async () => {
     },
   });
 };
+
 
 
 
