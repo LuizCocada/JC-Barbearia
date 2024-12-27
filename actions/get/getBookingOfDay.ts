@@ -35,11 +35,17 @@ export const GetBookingOfDay = async () => {
     },
   });
 
+  // Convertendo as datas dos agendamentos de UTC para o fuso horário local
+  const bookingsInLocalTime = bookings.map(booking => ({
+    ...booking,
+    date: toZonedTime(booking.date, timeZone),
+  }));
+
   console.log(`data atual: ${now}`);
   console.log(`começo do dia (UTC): ${startOfTodayUtc}`);
   console.log(`fim do dia (UTC): ${endOfTodayUtc}`);
-  console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
-  return bookings;
+  console.log(`agendamentos retornados: ${JSON.stringify(bookingsInLocalTime, null, 2)}`);
+  return bookingsInLocalTime;
 };
 
 
