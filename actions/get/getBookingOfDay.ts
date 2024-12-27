@@ -4,13 +4,15 @@ import { db } from "@/lib/prisma";
 
 export const GetBookingOfDay = async () => {
 
+  const now = new Date();
+
   const startOfToday = new Date();
   startOfToday.setHours(0, 0, 0, 0);
 
   const endOfToday = new Date();
   endOfToday.setHours(23, 59, 59, 999);
 
-  return await db.booking.findMany({
+   const bookings = await db.booking.findMany({
     where: {
       date: {
         gte: startOfToday,
@@ -24,7 +26,14 @@ export const GetBookingOfDay = async () => {
     orderBy: {
       date: "asc",
     },
-  });
+  }); 
+  
+  console.log(`data atual: ${now}`);
+  console.log(`começo do dia: ${startOfToday}`);
+  console.log(`fim do dia: ${endOfToday}`);
+  console.log(`agendamentos retornados: ${bookings}`);
+  return bookings;  
+  
 };
 
 
