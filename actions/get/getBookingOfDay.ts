@@ -10,14 +10,17 @@ export const GetBookingOfDay = async () => {
   const month = now.getUTCMonth();
   const day = now.getUTCDate();
 
-  const startOfToday = new Date(Date.UTC(year, month, day, 0, 0, 0, 0)); // Início do dia em UTC
-  const endOfToday = new Date(Date.UTC(year, month, day, 23, 59, 59, 999)); // Fim do dia em UTC
+  // Início do dia local (00:00 UTC-3) em UTC
+  const startOfTodayUTC = new Date(Date.UTC(year, month, day, 3, 0, 0, 0));
+
+  // Fim do dia local (23:59:59.999 UTC-3) em UTC
+  const endOfTodayUTC = new Date(startOfTodayUTC.getTime() + (24 * 60 * 60 * 1000) - 1);
 
   const bookings = await db.booking.findMany({
     where: {
       date: {
-        gte: startOfToday,
-        lte: endOfToday,
+        gte: startOfTodayUTC,
+        lte: endOfTodayUTC,
       },
     },
     include: {
@@ -30,8 +33,8 @@ export const GetBookingOfDay = async () => {
   }); 
 
   console.log(`data atual: ${now.toISOString()}`);
-  console.log(`começo do dia: ${startOfToday.toISOString()}`);
-  console.log(`fim do dia: ${endOfToday.toISOString()}`);
+  console.log(`começo do dia (UTC): ${startOfTodayUTC.toISOString()}`);
+  console.log(`fim do dia (UTC): ${endOfTodayUTC.toISOString()}`);
   console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
   return bookings;  
 };
