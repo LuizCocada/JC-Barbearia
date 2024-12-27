@@ -31,7 +31,7 @@ export const GetBookingOfDay = async () => {
   console.log(`data atual: ${now.toISOString()}`);
   console.log(`começo do dia: ${startOfToday.toISOString()}`);
   console.log(`fim do dia: ${endOfToday.toISOString()}`);
-  console.log(`agendamentos retornados: ${bookings}`);
+  console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
   return bookings;  
 };
 
