@@ -1,31 +1,28 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { formatInTimeZone, toDate } from 'date-fns-tz';
-import { startOfDay, endOfDay } from 'date-fns';
+import { startOfDay, endOfDay, subHours } from 'date-fns';
 
 export const GetBookingOfDay = async () => {
-  const timeZone = 'America/Sao_Paulo';
-
   const now = new Date();
 
-  // Ajustando o início e o fim do dia no fuso horário "America/Sao_Paulo"
+  // Ajustando o início e o fim do dia no fuso horário local
   const startOfToday = startOfDay(now);
   const endOfToday = endOfDay(now);
 
-  // Convertendo para UTC
-  const startOfTodayUtc = toDate(formatInTimeZone(startOfToday, timeZone, 'yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX'));
-  const endOfTodayUtc = toDate(formatInTimeZone(endOfToday, timeZone, 'yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX'));
+  // Diminuindo 3 horas manualmente
+  const startOfTodayAdjusted = subHours(startOfToday, 3);
+  const endOfTodayAdjusted = subHours(endOfToday, 3);
 
   console.log(`data atual: ${now}`);
-  console.log(`começo do dia (UTC): ${startOfTodayUtc}`);
-  console.log(`fim do dia (UTC): ${endOfTodayUtc}`);
+  console.log(`começo do dia ajustado: ${startOfTodayAdjusted}`);
+  console.log(`fim do dia ajustado: ${endOfTodayAdjusted}`);
 
   const bookings = await db.booking.findMany({
     where: {
       date: {
-        gte: startOfTodayUtc,
-        lte: endOfTodayUtc,
+        gte: startOfTodayAdjusted,
+        lte: endOfTodayAdjusted,
       },
     },
     include: {
@@ -39,7 +36,7 @@ export const GetBookingOfDay = async () => {
 
   console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
   return bookings;
-};
+};  
 
 
 
