@@ -6,11 +6,12 @@ export const GetBookingOfDay = async () => {
 
   const now = new Date();
 
-  const startOfToday = new Date();
-  startOfToday.setUTCHours(0, 0, 0, 0); // Define início do dia em UTC
+  const year = now.getUTCFullYear();
+  const month = now.getUTCMonth();
+  const day = now.getUTCDate();
 
-  const endOfToday = new Date();
-  endOfToday.setUTCHours(23, 59, 59, 999); // Define fim do dia em UTC
+  const startOfToday = new Date(Date.UTC(year, month, day, 0, 0, 0, 0)); // Início do dia em UTC
+  const endOfToday = new Date(Date.UTC(year, month, day, 23, 59, 59, 999)); // Fim do dia em UTC
 
   const bookings = await db.booking.findMany({
     where: {
