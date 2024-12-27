@@ -1,7 +1,8 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { toZonedTime, fromZonedTime } from 'date-fns-tz';
+import { toDate, formatInTimeZone } from 'date-fns-tz';
+import { startOfDay, endOfDay } from 'date-fns';
 
 export const GetBookingOfDay = async () => {
   const timeZone = 'America/Sao_Paulo';
@@ -9,15 +10,12 @@ export const GetBookingOfDay = async () => {
   const now = new Date();
 
   // Ajustando o início e o fim do dia no fuso horário "America/Sao_Paulo"
-  const startOfToday = new Date(now.setHours(0, 0, 0, 0));
-  const endOfToday = new Date(now.setHours(23, 59, 59, 999));
-
-  const startOfTodayZoned = toZonedTime(startOfToday, timeZone);
-  const endOfTodayZoned = toZonedTime(endOfToday, timeZone);
+  const startOfToday = startOfDay(now);
+  const endOfToday = endOfDay(now);
 
   // Convertendo para UTC
-  const startOfTodayUtc = fromZonedTime(startOfTodayZoned, timeZone);
-  const endOfTodayUtc = fromZonedTime(endOfTodayZoned, timeZone);
+  const startOfTodayUtc = toDate(formatInTimeZone(startOfToday, timeZone, 'yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX'));
+  const endOfTodayUtc = toDate(formatInTimeZone(endOfToday, timeZone, 'yyyy-MM-dd\'T\'HH:mm:ss.SSSXXX'));
 
   const bookings = await db.booking.findMany({
     where: {
@@ -35,17 +33,12 @@ export const GetBookingOfDay = async () => {
     },
   });
 
-  // Convertendo as datas dos agendamentos de UTC para o fuso horário local
-  const bookingsInLocalTime = bookings.map(booking => ({
-    ...booking,
-    date: toZonedTime(booking.date, timeZone),
-  }));
 
   console.log(`data atual: ${now}`);
   console.log(`começo do dia (UTC): ${startOfTodayUtc}`);
   console.log(`fim do dia (UTC): ${endOfTodayUtc}`);
-  console.log(`agendamentos retornados: ${JSON.stringify(bookingsInLocalTime, null, 2)}`);
-  return bookingsInLocalTime;
+  console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
+  return bookings;
 };
 
 
