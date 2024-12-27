@@ -7,9 +7,15 @@ export const GetBookingOfDay = async () => {
   const timeZone = 'America/Sao_Paulo';
 
   const now = new Date();
-  const startOfTodayZoned = toZonedTime(new Date(now.setHours(0, 0, 0, 0)), timeZone);
-  const endOfTodayZoned = toZonedTime(new Date(now.setHours(23, 59, 59, 999)), timeZone);
 
+  // Ajustando o início e o fim do dia no fuso horário "America/Sao_Paulo"
+  const startOfToday = new Date(now.setHours(0, 0, 0, 0));
+  const endOfToday = new Date(now.setHours(23, 59, 59, 999));
+
+  const startOfTodayZoned = toZonedTime(startOfToday, timeZone);
+  const endOfTodayZoned = toZonedTime(endOfToday, timeZone);
+
+  // Convertendo para UTC
   const startOfTodayUtc = fromZonedTime(startOfTodayZoned, timeZone);
   const endOfTodayUtc = fromZonedTime(endOfTodayZoned, timeZone);
 
@@ -32,7 +38,7 @@ export const GetBookingOfDay = async () => {
   console.log(`data atual: ${now}`);
   console.log(`começo do dia (UTC): ${startOfTodayUtc}`);
   console.log(`fim do dia (UTC): ${endOfTodayUtc}`);
-  console.log(`agendamentos retornados: ${bookings}`);
+  console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
   return bookings;
 };
 
