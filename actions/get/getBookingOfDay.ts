@@ -1,28 +1,22 @@
 "use server";
 
 import { db } from "@/lib/prisma";
-import { startOfDay, endOfDay, subHours } from 'date-fns';
 
 export const GetBookingOfDay = async () => {
+
   const now = new Date();
 
-  // Ajustando o início e o fim do dia no fuso horário local
-  const startOfToday = startOfDay(now);
-  const endOfToday = endOfDay(now);
+  const startOfToday = new Date();
+  startOfToday.setUTCHours(0, 0, 0, 0); // Define início do dia em UTC
 
-  // Diminuindo 3 horas manualmente
-  const startOfTodayAdjusted = subHours(startOfToday, 3);
-  const endOfTodayAdjusted = subHours(endOfToday, 3);
-
-  console.log(`data atual: ${now}`);
-  console.log(`começo do dia ajustado: ${startOfTodayAdjusted}`);
-  console.log(`fim do dia ajustado: ${endOfTodayAdjusted}`);
+  const endOfToday = new Date();
+  endOfToday.setUTCHours(23, 59, 59, 999); // Define fim do dia em UTC
 
   const bookings = await db.booking.findMany({
     where: {
       date: {
-        gte: startOfTodayAdjusted,
-        lte: endOfTodayAdjusted,
+        gte: startOfToday,
+        lte: endOfToday,
       },
     },
     include: {
@@ -32,21 +26,14 @@ export const GetBookingOfDay = async () => {
     orderBy: {
       date: "asc",
     },
-  });
+  }); 
 
-  console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
-  return bookings;
-};  
-
-
-
-
-
-
-
-
-
-
+  console.log(`data atual: ${now.toISOString()}`);
+  console.log(`começo do dia: ${startOfToday.toISOString()}`);
+  console.log(`fim do dia: ${endOfToday.toISOString()}`);
+  console.log(`agendamentos retornados: ${bookings}`);
+  return bookings;  
+};
 
 
 // "use server";
@@ -55,7 +42,8 @@ export const GetBookingOfDay = async () => {
 
 // export const GetBookingOfDay = async () => {
 
-//   const nowUtc = new Date();
+//   const now = new Date();
+
 //   const startOfToday = new Date();
 //   startOfToday.setHours(0, 0, 0, 0);
 
@@ -78,10 +66,9 @@ export const GetBookingOfDay = async () => {
 //     },
 //   }); 
 
-//   console.log(`data atual: ${nowUtc}`);
+//   console.log(`data atual: ${now}`);
 //   console.log(`começo do dia: ${startOfToday}`);
 //   console.log(`fim do dia: ${endOfToday}`);
 //   console.log(`agendamentos retornados: ${bookings}`);
 //   return bookings;  
-  
 // };
