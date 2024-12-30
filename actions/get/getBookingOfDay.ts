@@ -10,10 +10,10 @@ export const GetBookingOfDay = async () => {
   const month = now.getUTCMonth();
   const day = now.getUTCDate();
 
-  // Início do dia local (00:00 UTC-3) em UTC
+  // Define o início do dia atual em UTC, ajustando para 03:00 UTC (convertido = 00:00 BRT)
   const startOfTodayUTC = new Date(Date.UTC(year, month, day, 3, 0, 0, 0));
 
-  // Fim do dia local (23:59:59.999 UTC-3) em UTC
+  // Define o final do dia atual em UTC, adicionando 24 horas menos 1 milissegundo ao início do dia
   const endOfTodayUTC = new Date(startOfTodayUTC.getTime() + (24 * 60 * 60 * 1000) - 1);
 
   const bookings = await db.booking.findMany({
