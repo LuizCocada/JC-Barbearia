@@ -99,7 +99,7 @@ const ServiceItem = ({ service }: ServiceItemProps) => {
     useEffect(() => {
         const fetch = async () => {
             if (!selectedDay) return
-            const bookings = await bookingAlreadyMade({ date: selectedDay })
+            const bookings = await bookingAlreadyMade({ dateProp: selectedDay })
             setbookingsAlreadyMade(bookings)
         }
         fetch()
