@@ -10,7 +10,7 @@ export const GetBookingOfDay = async () => {
   const month = now.getUTCMonth();
   const day = now.getUTCDate();
 
-  // Define o início do dia atual em UTC, ajustando para 03:00 UTC (convertido = 00:00 BRT)
+  // Define o início do dia atual em UTC, ajustando para 03:00 UTC para considerar o fuso horário do Brasil
   const startOfTodayUTC = new Date(Date.UTC(year, month, day, 3, 0, 0, 0));
 
   // Define o final do dia atual em UTC, adicionando 24 horas menos 1 milissegundo ao início do dia
