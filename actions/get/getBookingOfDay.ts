@@ -3,7 +3,6 @@
 import { db } from "@/lib/prisma";
 
 export const GetBookingOfDay = async () => {
-
   const now = new Date();
 
   const year = now.getUTCFullYear();
@@ -14,7 +13,9 @@ export const GetBookingOfDay = async () => {
   const startOfTodayUTC = new Date(Date.UTC(year, month, day, 3, 0, 0, 0));
 
   // Define o final do dia atual em UTC, adicionando 24 horas menos 1 milissegundo ao início do dia
-  const endOfTodayUTC = new Date(startOfTodayUTC.getTime() + (24 * 60 * 60 * 1000) - 1);
+  const endOfTodayUTC = new Date(
+    startOfTodayUTC.getTime() + 24 * 60 * 60 * 1000 - 1
+  );
 
   const bookings = await db.booking.findMany({
     where: {
@@ -30,15 +31,14 @@ export const GetBookingOfDay = async () => {
     orderBy: {
       date: "asc",
     },
-  }); 
+  });
 
   console.log(`data atual: ${now.toISOString()}`);
   console.log(`começo do dia (UTC): ${startOfTodayUTC.toISOString()}`);
   console.log(`fim do dia (UTC): ${endOfTodayUTC.toISOString()}`);
   console.log(`agendamentos retornados: ${JSON.stringify(bookings, null, 2)}`);
-  return bookings;  
+  return bookings;
 };
-
 
 // "use server";
 
@@ -68,11 +68,11 @@ export const GetBookingOfDay = async () => {
 //     orderBy: {
 //       date: "asc",
 //     },
-//   }); 
+//   });
 
 //   console.log(`data atual: ${now}`);
 //   console.log(`começo do dia: ${startOfToday}`);
 //   console.log(`fim do dia: ${endOfToday}`);
 //   console.log(`agendamentos retornados: ${bookings}`);
-//   return bookings;  
+//   return bookings;
 // };

@@ -12,6 +12,7 @@ const Layout = ({ children }: PropsWithChildren) => {
                 <MainSidebar />
                 <main className="overflow-auto [&::-webkit-scrollbar]:hidden">
                     {children}
+                    
                 </main>
             </div>
         </div>
