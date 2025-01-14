@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from "@/components/ui/card";
-import { BookmarkCheck, ChevronLeft, CircleOff, Mail } from "lucide-react";
+import { BookmarkCheck, ChevronLeft, Mail } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { Booking, Service, User } from "@prisma/client";
@@ -73,12 +73,12 @@ const AgendamentosTotaisPage = () => {
                     </DashboardPageHeaderTitle>
                 </DashboardPageHeader>
                 <DashboardPageMain>
-                    <div className="p-10 px-20">
+                    <div className="p-10 px-5 lg:px-20">
                         <Card className="border-none pt-6">
                             <CardContent>
                                 <div className="space-y-6">
                                     <div className="flex gap-1 items-center border-b-[0.1px] border-gray-300">
-                                        <h3 className="font-semibold text-xl">Agendamentos totais de hoje</h3>
+                                        <h3 className="font-bold md:text-xl md:font-semibold">Agendamentos totais de hoje</h3>
                                         <BookmarkCheck className="w-[25px] h-[25px] text-background" fill="green" />
                                     </div>
 
@@ -92,8 +92,7 @@ const AgendamentosTotaisPage = () => {
                                             <BookingTodayTable bookings={ConfirmedTodayBookings} onDelete={reloadBookingsOfDay}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
-                                                <CircleOff />
-                                                <p>Nenhum agendamento para hoje.</p>
+                                                <p>Não há agendamento para hoje.</p>
                                             </div>
                                         )
                                     )}
@@ -114,7 +113,7 @@ const AgendamentosTotaisPage = () => {
                             <CardContent>
                                 <div className="space-y-6">
                                     <div className="flex gap-1 items-center border-b-[0.1px] border-gray-300">
-                                        <h3 className="font-semibold text-xl">Agendamentos totais</h3>
+                                        <h3 className="font-bold md:text-xl md:font-semibold">Agendamentos totais</h3>
                                         <Mail className="w-[25px] h-[25px] text-background" fill="green" />
                                     </div>
 
@@ -128,7 +127,6 @@ const AgendamentosTotaisPage = () => {
                                             <BookingsTotallyTable bookings={allBookings} onDelete={reloadAllBooking}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
-                                                <CircleOff />
                                                 <p>Não há agendamentos</p>
                                             </div>
                                         )

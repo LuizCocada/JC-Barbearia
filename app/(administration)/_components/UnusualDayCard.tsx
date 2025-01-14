@@ -123,9 +123,9 @@ const UnusualDayCard = () => {
             </div>
 
             <Sheet open={sheetOpen} onOpenChange={HandleSheetOnOpenChange}>
-                <SheetContent className='flex flex-col rounded-l-3xl'>
+                <SheetContent className='flex flex-col rounded-l-3xl overflow-auto [&::-webkit-scrollbar]:hidden'>
                     <SheetHeader>
-                        <SheetTitle className="border-b border-gray-300">
+                        <SheetTitle className="border-b border-gray-300 ">
                             Gerenciar dias incomuns
                         </SheetTitle>
                     </SheetHeader>

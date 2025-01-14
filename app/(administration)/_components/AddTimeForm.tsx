@@ -42,26 +42,26 @@ const AddTimeForm = ({ onSuccessAddTime }: { onSuccessAddTime: () => void }) => 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="flex flex-col items-center gap-2">
-                <FormField
-                    control={form.control}
-                    name="time"
-                    render={({ field }) => (
-                        <InputOTP maxLength={4} {...field}>
-                            <InputOTPGroup>
-                                <InputOTPSlot index={0} />
-                                <InputOTPSlot index={1} />
-                            </InputOTPGroup>
-                            <InputOTPSeparator />
-                            <InputOTPGroup>
-                                <InputOTPSlot index={2} />
-                                <InputOTPSlot index={3} />
-                            </InputOTPGroup>
-                        </InputOTP>
-                    )}
-                />
-                <Button type="submit" className="w-full p-5 mt-5">
-                    Adicionar
-                </Button>
+            <FormField
+                control={form.control}
+                name="time"
+                render={({ field }) => (
+                <InputOTP maxLength={4} {...field} className="px-2 md:px-0">
+                    <InputOTPGroup>
+                    <InputOTPSlot index={0} className="w-20 md:w-30" />
+                    <InputOTPSlot index={1} className="w-20 md:w-30" />
+                    </InputOTPGroup>
+                    <InputOTPSeparator />
+                    <InputOTPGroup>
+                    <InputOTPSlot index={2} className="w-20 md:w-30" />
+                    <InputOTPSlot index={3} className="w-20 md:w-30" />
+                    </InputOTPGroup>
+                </InputOTP>
+                )}
+            />
+            <Button type="submit" className="w-full p-5 mt-5">
+                Adicionar
+            </Button>
             </form>
         </Form>
     );

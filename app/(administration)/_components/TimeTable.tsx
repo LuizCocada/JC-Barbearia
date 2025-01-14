@@ -142,7 +142,7 @@ const TimeTable = () => {
                         </SheetTitle>
                     </SheetHeader>
 
-                    <div className="p-5">
+                    <div className="pt-5">
                         <AddTimeForm onSuccessAddTime={handleAddTime} />
                     </div>
                 </SheetContent>

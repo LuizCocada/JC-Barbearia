@@ -61,12 +61,10 @@ const AdminPage = () => {
                 </DashboardPageHeaderNav>
             </DashboardPageHeader>
             <DashboardPageMain>
-                <div className="p-10 px-20">
+                <div className="pt-10 px-5 lg:px-20">
                     {/* tabela de horarios fixos */}
                     <TimeTable />
-
-
-                    <div className="flex gap-20 justify-around py-10 my-10 border-t border-gray-300">
+                    <div className="flex flex-col md:flex-row gap-8 md:gap-20 justify-around py-10 my-10 border-t border-gray-300">
                         <div className="w-full">
                             <p className="p-2 uppercase font-medium text-muted-foreground">
                                 Adicionar dias incomuns

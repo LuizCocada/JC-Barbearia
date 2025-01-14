@@ -14,6 +14,11 @@ import { signOut } from 'next-auth/react';
 export function MainSidebar() {
     const [open, setOpen] = useState(false);
     const toggleSidebar = () => setOpen(!open);
+    const handleNavLinkClick = () => {
+        if(open) {
+            toggleSidebar();
+        }
+    }
 
     const pasthname = usePathname();
     const isActive = (path: string) => {
@@ -49,12 +54,12 @@ export function MainSidebar() {
 
                     <SidebarNav>
                         <SidebarNavMain>
-                            <SidebarNavLink handleClick={toggleSidebar} className="flex items-center gap-2" href="/admin/agendamentos" active={isActive('/admin/agendamentos') || isActive('/admin/agendamentos/totais')}>
+                            <SidebarNavLink handleClick={handleNavLinkClick} className="flex items-center gap-2" href="/admin/agendamentos" active={isActive('/admin/agendamentos') || isActive('/admin/agendamentos/totais')}>
                                 <BookmarkCheck className="w-[18px] h-[18px]" />
                                 Agendamentos
                             </SidebarNavLink>
                             <SidebarNavLinkBorder />
-                            <SidebarNavLink handleClick={toggleSidebar} className="flex items-center gap-2" href="/admin/clients" active={isActive('/admin/clients')}>
+                            <SidebarNavLink handleClick={handleNavLinkClick} className="flex items-center gap-2" href="/admin/clients" active={isActive('/admin/clients')}>
                                 <PersonIcon className="w-[18px] h-[18px]" />
                                 Clientes
                             </SidebarNavLink>
@@ -67,7 +72,7 @@ export function MainSidebar() {
                             <SidebarNavHeaderTitle>Gerenciar</SidebarNavHeaderTitle>
                         </SidebarNavHeader>
                         <SidebarNavMain>
-                            <SidebarNavLink handleClick={toggleSidebar} className="flex items-center gap-2 mt-2 font-medium underline" href="/admin" active={isActive('/admin')}>
+                            <SidebarNavLink handleClick={handleNavLinkClick} className="flex items-center gap-2 mt-2 font-medium underline" href="/admin" active={isActive('/admin')}>
                                 <Clock className="w-[18px] h-[18px]" />
                                 Horários
                             </SidebarNavLink>
@@ -82,14 +87,14 @@ export function MainSidebar() {
                             <SidebarNavHeaderTitle>Site</SidebarNavHeaderTitle>
                         </SidebarNavHeader>
                         <SidebarNavMain className="underline text-sm mb-3">
-                            <SidebarNavLink handleClick={toggleSidebar} href="/">Barbearia</SidebarNavLink>
+                            <SidebarNavLink handleClick={handleNavLinkClick} href="/">Barbearia</SidebarNavLink>
                         </SidebarNavMain>
 
                         <SidebarNavHeader>
                             <SidebarNavHeaderTitle>Suporte</SidebarNavHeaderTitle>
                         </SidebarNavHeader>
                         <SidebarNavMain className="underline text-sm">
-                            <SidebarNavLink handleClick={toggleSidebar} href="/admin">Precisa de ajuda?</SidebarNavLink> {/* //link para página de suporte */}
+                            <SidebarNavLink handleClick={handleNavLinkClick} href="/admin">Precisa de ajuda?</SidebarNavLink> {/* //link para página de suporte */}
                         </SidebarNavMain>
                     </SidebarNav>
 

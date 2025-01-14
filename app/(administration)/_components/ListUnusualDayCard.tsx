@@ -84,11 +84,11 @@ const ListUnusualDayCard = () => {
             <Sheet open={sheetOpen} onOpenChange={setSheetOpen}>
                 <SheetContent className='flex flex-col rounded-t-3xl h-[90%]' side={'bottom'}>
                     <SheetHeader className='border-b border-gray-300'>
-                        <SheetTitle>
+                        <SheetTitle className='md:text-2xl'>
                             Dias incomuns
                         </SheetTitle>
                     </SheetHeader>
-                    <div className="p-10">
+                    <div className="p-0 pt-5">
                         <Table>
                             <TableCaption>Lista de dias incomuns</TableCaption>
                             <TableHeader>
@@ -106,7 +106,7 @@ const ListUnusualDayCard = () => {
                                     .sort((a, b) => new Date(a.open).getTime() - new Date(b.open).getTime())
                                     .map((day) => (
                                         <TableRow key={day.id}>
-                                            <TableCell className="font-medium">
+                                            <TableCell className="font-medium md:text-xl md:font-normal">
                                                 {day.open.toLocaleDateString('pt-BR', {
                                                     day: 'numeric',
                                                     month: 'long',
@@ -114,7 +114,7 @@ const ListUnusualDayCard = () => {
                                                     weekday: 'long',
                                                 })}
                                             </TableCell>
-                                            <TableCell className='font-medium'>
+                                            <TableCell className='font-medium md:text-xl md:font-normal'>
                                                 {day.close.toLocaleTimeString('pt-BR', {
                                                     hour: 'numeric',
                                                     minute: 'numeric',
@@ -123,7 +123,7 @@ const ListUnusualDayCard = () => {
                                                     minute: 'numeric',
                                                 })}
                                             </TableCell>
-                                            <TableCell className='font-medium'>
+                                            <TableCell className='font-medium md:text-xl md:font-normal'>
                                                 {day.close.toLocaleTimeString('pt-BR', {
                                                     hour: 'numeric',
                                                     minute: 'numeric',
@@ -134,7 +134,7 @@ const ListUnusualDayCard = () => {
                                             </TableCell>
                                             <TableCell>
                                                 <button onClick={() => handleOpenDialogDeleteTime(day.id, day.open)}>
-                                                    <p className='text-xs font-bold text-destructive'>
+                                                    <p className='text-xs font-bold text-destructive md:text-xl'>
                                                         Remover
                                                     </p>
                                                 </button>
@@ -148,7 +148,7 @@ const ListUnusualDayCard = () => {
                         <Button
                             onClick={HandleSheetOnOpenChange}
                             variant={"destructive"}
-                            className='w-full font-semibold'
+                            className='w-full font-medium md:text-xl'
                         >
                             Fechar
                         </Button>

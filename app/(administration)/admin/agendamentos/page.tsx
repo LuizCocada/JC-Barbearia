@@ -47,12 +47,12 @@ const AgendamentosPage = () => {
                     </DashboardPageHeaderTitle>
                 </DashboardPageHeader>
                 <DashboardPageMain className="pb-20">
-                    <div className="pt-10 px-20">
+                    <div className="pt-10 px-5 lg:px-20">
                         <Card className="border-none pt-6">
                             <CardContent>
                                 <div className="space-y-6">
                                     <div className="flex gap-1 items-center border-b-[0.1px] border-gray-300">
-                                        <h3 className="font-semibold text-xl">Agendamentos confirmados</h3>
+                                        <h3 className="font-bold md:text-xl md:font-semibold">Agendamentos confirmados</h3>
                                         <BookmarkCheck className="w-[25px] h-[25px] text-background" fill="green" />
                                     </div>
 
@@ -66,8 +66,7 @@ const AgendamentosPage = () => {
                                             <BookingCurrentTable bookings={ConfirmedTodayBookings} onDelete={reload}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
-                                                <CircleOff />
-                                                <p>Nenhum agendamento para hoje.</p>
+                                                <p>Não há agendamento para hoje.</p>
                                             </div>
                                         )
                                     )}
@@ -84,9 +83,9 @@ const AgendamentosPage = () => {
 
                         <div className="border-b-[0.1px] border-gray-300 pt-10"></div>
 
-                        <div className="grid grid-cols-2 gap-10 mt-8">
-                            <CardTotallyBookings />
+                        <div className="flex flex-col gap-10 mt-8 md:grid grid-cols-2">
                             <CardTodayBilling reload={reload}/>
+                            <CardTotallyBookings />
                         </div>
                     </div>
                 </DashboardPageMain>

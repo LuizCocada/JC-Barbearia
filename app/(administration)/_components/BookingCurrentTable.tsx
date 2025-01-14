@@ -69,7 +69,7 @@ const BookingCurrentTable = ({ bookings, onDelete }: BookingTableProps) => {
                     <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Telefone</th>
                     <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Serviço</th>
                     <th className="p-4 px-10 border-r-[0.1px] border-gray-200">Valor</th>
-                    <th className="p-4 px-10 ">Hora</th>
+                    <th className="p-4 px-10">Hora</th>
                 </tr>
             </thead>
             <tbody>

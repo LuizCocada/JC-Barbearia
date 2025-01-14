@@ -63,15 +63,15 @@ const UpdateTimeForm = ({ id, placeholder, onSuccessUpdateTime }: UpdateTimeForm
                     control={form.control}
                     name="time"
                     render={({ field }) => (
-                        <InputOTP maxLength={4} {...field}>
+                        <InputOTP maxLength={4} {...field} className="px-2 md:px-0">
                             <InputOTPGroup>
-                                <InputOTPSlot index={0} />
-                                <InputOTPSlot index={1} />
+                                <InputOTPSlot index={0} className="w-20 md:w-30" />
+                                <InputOTPSlot index={1} className="w-20 md:w-30" />
                             </InputOTPGroup>
                             <InputOTPSeparator />
                             <InputOTPGroup>
-                                <InputOTPSlot index={2} />
-                                <InputOTPSlot index={3} />
+                                <InputOTPSlot index={2} className="w-20 md:w-30" />
+                                <InputOTPSlot index={3} className="w-20 md:w-30" />
                             </InputOTPGroup>
                         </InputOTP>
                     )}

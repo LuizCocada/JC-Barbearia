@@ -27,7 +27,7 @@ const CardTodayBilling = ({ reload }: CardTodayBillingProps) => {
             <CardContent>
                 <div className="space-y-3">
                     <div className="flex gap-1 items-center">
-                        <h3 className="font-semibold text-xl">Faturamento do dia</h3>
+                        <h3 className="font-bold md:text-xl md:font-semibold">Faturamento do dia</h3>
                         <CircleDollarSign className="w-[25px] h-[25px] text-background" fill="green" />
                     </div>
 
@@ -43,8 +43,7 @@ const CardTodayBilling = ({ reload }: CardTodayBillingProps) => {
                         </div>
                     ) : (
                         <div className="flex items-center gap-2 px-5 py-4 text-muted-foreground">
-                            <CircleOff />
-                            <p>Nenhum faturamento para hoje.</p>
+                            <p>Não há faturamentos para hoje.</p>
                         </div>
                     )}
                 </div>
