@@ -1,10 +1,17 @@
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { MenuIcon } from "lucide-react";
+import { MainSidebar } from "./MainSidebar";
 
 
 export type DashboardPageGenericProps<T = unknown> = {
     children: React.ReactNode;
     className?: string;
 } & T;
+
+function handleClick() {
+    console.log('clicked');
+}
 
 
 export function DashboardPage({ children, className }: DashboardPageGenericProps) {
@@ -25,7 +32,7 @@ export function DashboardPageHeader({ children, className }: DashboardPageGeneri
 
 export function DashboardPageHeaderTitle({ children, className }: DashboardPageGenericProps) {
     return (
-        <h1 className={cn(['text-muted-foreground uppercase', className])}>
+        <h1 className={cn(['pl-2 text-muted-foreground uppercase', className])}>
             {children}
         </h1>
     );

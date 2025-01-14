@@ -91,11 +91,15 @@ export function SidebarNavMain({ children, className }: SidebarGenericProps) {
 type SidebarNavLinkProps = {
     href: string;
     active?: boolean;
+    handleClick?: () => void;
 }
 
-export function SidebarNavLink({ children, className, href, active }: SidebarGenericProps<SidebarNavLinkProps>) {
+
+
+export function SidebarNavLink({ children, className, href, active, handleClick }: SidebarGenericProps<SidebarNavLinkProps>) {
+
     return (
-        <Link href={href} className={cn([
+        <Link onClick={handleClick} href={href} className={cn([
             'px-3 py-1 hover:bg-gray-200 rounded-xl',
             active && 'bg-primary hover:bg-primary',
             className
