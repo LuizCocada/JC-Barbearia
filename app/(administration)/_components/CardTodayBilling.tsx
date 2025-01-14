@@ -2,7 +2,7 @@
 
 import { getBillingOfDay } from "@/actions/get/getBillingOfDay";
 import { Card, CardContent } from "@/components/ui/card";
-import { CircleDollarSign, CircleOff } from "lucide-react";
+import { CircleDollarSign } from "lucide-react";
 import { useEffect, useState } from "react";
 
 interface CardTodayBillingProps {

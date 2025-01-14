@@ -1,7 +1,7 @@
 'use client'
 
 import { Card, CardContent } from "@/components/ui/card";
-import { BookmarkCheck, CircleOff } from "lucide-react";
+import { BookmarkCheck } from "lucide-react";
 import { GetCurrentBookings } from "@/actions/get/getCurrentBookings";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";

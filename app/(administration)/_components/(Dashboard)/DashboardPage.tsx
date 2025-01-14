@@ -1,7 +1,5 @@
-import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { MenuIcon } from "lucide-react";
-import { MainSidebar } from "./MainSidebar";
+
 
 
 export type DashboardPageGenericProps<T = unknown> = {
@@ -9,9 +7,6 @@ export type DashboardPageGenericProps<T = unknown> = {
     className?: string;
 } & T;
 
-function handleClick() {
-    console.log('clicked');
-}
 
 
 export function DashboardPage({ children, className }: DashboardPageGenericProps) {
