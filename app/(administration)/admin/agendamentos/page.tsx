@@ -66,7 +66,7 @@ const AgendamentosPage = () => {
                                             <BookingCurrentTable bookings={ConfirmedTodayBookings} onDelete={reload}/>
                                         ) : (
                                             <div className="flex items-center gap-2 py-8 px-5 text-muted-foreground">
-                                                <p>Não há agendamento para hoje.</p>
+                                                <p>Não há agendamento confirmados.</p>
                                             </div>
                                         )
                                     )}
