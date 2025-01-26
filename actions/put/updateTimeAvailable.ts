@@ -22,6 +22,7 @@ export const updateTimeAvailable = async ({time, id}: TimeAvailableProps) => {
         });
 
         revalidatePath("/admin");
+        revalidatePath("/");
     } catch (error) {
         if (error instanceof PrismaClientKnownRequestError && error.code === 'P2002') {
             throw new Error("UNIQUE_CONSTRAINT_VIOLATION");

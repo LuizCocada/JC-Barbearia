@@ -7,7 +7,7 @@ interface GetBookingProps {
   dateProp: Date;
 }
 
-export const bookingAlreadyMade = ({ dateProp }: GetBookingProps) => {
+export const bookingAlreadyMade = async ({ dateProp }: GetBookingProps) => {
 
   const date  = new Date(dateProp);
 
@@ -28,7 +28,7 @@ export const bookingAlreadyMade = ({ dateProp }: GetBookingProps) => {
 
 
 
-  return db.booking.findMany({
+  return await db.booking.findMany({
     where: {
       date: {
         gte: startOfTodayUTC, 
